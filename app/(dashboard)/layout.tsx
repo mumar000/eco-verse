@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </div>
       </header>
       <div className="mx-auto flex w-full max-w-6xl flex-col md:flex-row">
-        <DashboardSidebar />
+        {/* <DashboardSidebar /> */}
         <main className="flex-1 px-6 py-10">{children}</main>
       </div>
     </div>
