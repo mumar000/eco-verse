@@ -1,11 +1,11 @@
-import Hero from "@/components/home/Hero";
-import Navbar from "@/components/home/Navbar";
+import Home from "@/app/Home/Home"
 
-export default function Home() {
+const page = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <Hero />
+    <div>
+      <Home />
     </div>
-  );
+  )
 }
+
+export default page
