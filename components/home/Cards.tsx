@@ -3,7 +3,6 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-// Interface for floating items (emojis/icons)
 type FloatingItem = {
   src: string;
   top?: string;
@@ -22,21 +21,21 @@ type CardItem = {
   z: number;
   width: number;
   height: number;
-  floatingItems?: FloatingItem[]; // Har card ke apne floating icons honge
+  floatingItems?: FloatingItem[];
 };
 
 const items: CardItem[] = [
   {
     id: 'card-left',
     src: 'https://www.agencefoudre.com/media/site/b89fc535d3-1764264576/agence-foudre-3-1440x-q80.avif',
-    baseX: -220, // Positioned further left
-    baseY: 10,   // Slightly lower
-    baseRot: -2, // More tilt for "human" feel
+    baseX: -220,
+    baseY: 10,
+    baseRot: -2,
     z: 10,
     width: 220,
     height: 320,
     floatingItems: [
-      { src: "💻 ⚡ 🎧", left: "-40px", bottom: "80px", rotation: -5 } // Left card badge
+      { src: "💻 ⚡ 🎧", left: "-40px", bottom: "80px", rotation: -5 }
     ]
   },
   {
@@ -45,11 +44,11 @@ const items: CardItem[] = [
     baseX: 0,
     baseY: 0,
     baseRot: 0,
-    z: 30, // Middle card sab se upar hogi
+    z: 30,
     width: 280,
-    height: 420, // Middle card is taller
+    height: 420,
     floatingItems: [
-      { src: "⚡", top: "30px", left: "25%", rotation: 10 } // Center lightning
+      { src: "⚡", top: "30px", left: "25%", rotation: 10 }
     ]
   },
   {
@@ -62,7 +61,7 @@ const items: CardItem[] = [
     width: 220,
     height: 320,
     floatingItems: [
-      { src: "🎥 ⚡ 🤜", right: "-80px", top: "160px", rotation: 5 } // Right card badge
+      { src: "🎥 ⚡ 🤜", right: "-80px", top: "160px", rotation: 5 }
     ]
   },
 ];
@@ -70,9 +69,22 @@ const items: CardItem[] = [
 const Cards = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const elementsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const floatingRef = useRef<(HTMLDivElement | null)[]>([]); // Ref for floating items
 
   useEffect(() => {
-    // Initial Setup - GSAP se positions set karein
+    // Floating Animation Logic (Gently moving up and down)
+    // Isse badges hamesha hawa mein move karte rahenge
+    floatingRef.current.forEach((el) => {
+      if (!el) return;
+      gsap.to(el, {
+        y: -12,
+        duration: 1.5 + Math.random(),
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    });
+
     elementsRef.current.forEach((el, index) => {
       if (!el) return;
       const item = items[index];
@@ -104,27 +116,28 @@ const Cards = () => {
         const dy = elCenterY - clientY;
         const dist = Math.sqrt(dx * dx + dy * dy) || 1;
 
-        const maxDist = 450;
+        const maxDist = 500;
         let pushX = 0;
         let pushY = 0;
 
-        // Mouse repelling logic (Logic unchanged as requested)
         if (dist < maxDist) {
           const force = Math.pow((maxDist - dist) / maxDist, 2);
-          const pushFactor = 80;
+          // Hover movement increased (pushFactor: 80 -> 130)
+          const pushFactor = 150;
           pushX = (dx / dist) * force * pushFactor;
           pushY = (dy / dist) * force * pushFactor;
         }
 
         const mouseNormX = (clientX - centerX) / (bounds.width / 2 || 1);
         const mouseNormY = (clientY - centerY) / (bounds.height / 2 || 1);
-        const parallaxFactor = 15;
+        // Parallax increased (parallaxFactor: 15 -> 40)
+        const parallaxFactor = 40;
 
         gsap.to(el, {
           x: item.baseX + pushX - mouseNormX * parallaxFactor,
           y: item.baseY + pushY - mouseNormY * parallaxFactor,
-          rotation: item.baseRot + (pushX * 0.04), // Dynamic tilt on hover
-          duration: 0.7,
+          rotation: item.baseRot + (pushX * 0.08), // Increased tilt intensity
+          duration: 0.8,
           ease: 'power2.out',
           overwrite: 'auto',
         });
@@ -139,8 +152,8 @@ const Cards = () => {
           x: item.baseX,
           y: item.baseY,
           rotation: item.baseRot,
-          duration: 1.2,
-          ease: 'elastic.out(1, 0.5)', // Smooth bounce back
+          duration: 1.5,
+          ease: 'elastic.out(1, 0.4)',
           overwrite: 'auto',
         });
       });
@@ -158,7 +171,7 @@ const Cards = () => {
   return (
     <div
       ref={containerRef}
-      className="relative mx-auto h-[500px] w-full max-w-[1100px] overflow-visible md:h-[600px]"
+      className="relative mx-auto h-[500px] w-full max-w-[1500px] overflow-visible md:h-[600px]"
     >
       <div className="relative h-full w-full pointer-events-none">
         {items.map((item, index) => (
@@ -167,14 +180,13 @@ const Cards = () => {
             ref={(el) => {
               elementsRef.current[index] = el;
             }}
-            className="absolute left-1/2 top-1/2 pointer-events-auto"
+            className="absolute left-1/2 top-[45%] pointer-events-auto"
             style={{
               width: `${item.width}px`,
               height: `${item.height}px`,
               zIndex: item.z,
             }}
           >
-            {/* Main Card Image */}
             <div className="h-full w-full overflow-hidden rounded-2xl">
               <img
                 loading="lazy"
@@ -185,11 +197,14 @@ const Cards = () => {
               />
             </div>
 
-            {/* Floating Items (Emojis/Badges) */}
             {item.floatingItems?.map((float, i) => (
               <div
                 key={i}
-                className="absolute flex items-center justify-center bg-orange-100 px-4 py-4 rounded-xl shadow-sm text-3xl"
+                // Floating items linked to floatingRef
+                ref={(el) => {
+                  floatingRef.current[index * 10 + i] = el;
+                }}
+                className="absolute flex items-center justify-center bg-orange-100 p-4 rounded-xl shadow-sm text-3xl"
                 style={{
                   top: float.top,
                   bottom: float.bottom,
