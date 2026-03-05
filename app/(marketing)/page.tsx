@@ -1,7 +1,11 @@
-export default function Home() {
+import Home from "@/app/Home/Home";
+
+const page = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Hero />
+    <div>
+      <Home />
     </div>
   );
-}
+};
+
+export default page;

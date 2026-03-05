@@ -3,9 +3,9 @@
 :root {
   --background: #fff8f6;
   --foreground: #1f2937;
-  --color-primary: #fb923c;
+  --color-primary: #fdba74;
   --color-secondary: #3b82f6;
-  --color-green: #16a34a;
+  --color-green: #15803d;
   --color-white: #ffffff;
 }
 
@@ -28,4 +28,12 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
 }
