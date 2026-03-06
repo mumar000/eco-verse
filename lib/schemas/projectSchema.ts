@@ -8,7 +8,7 @@ export const projectCreateSchema = z.object({
   description: z.string().optional(),
   tags: z.array(z.string()).optional().default([]),
   galleryImages: z.array(z.string()).optional().default([]),
-  content: z.unknown().optional(),
+  content: z.string().optional(),
 });
 
 export const projectUpdateSchema = projectCreateSchema.partial().extend({

@@ -1,28 +1,134 @@
-import Link from "next/link";
+"use client";
 
-const dashboardLinks = [
-  { href: "/dashboard", label: "Overview" },
-  { href: "/dashboard/blogs", label: "Blogs" },
-  { href: "/dashboard/projects", label: "Projects" },
-  { href: "/dashboard/inquiries", label: "Inquiries" },
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  FileText,
+  FolderKanban,
+  LayoutDashboard,
+  MessageSquare,
+  NotebookText,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import type { ComponentType } from "react";
+
+type DashboardNavItem = {
+  id: string;
+  label: string;
+  href: string;
+  icon: ComponentType<{ className?: string }>;
+  description: string;
+  count?: number;
+};
+
+const dashboardLinks: DashboardNavItem[] = [
+  {
+    id: "overview",
+    label: "Overview",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+    description: "Workspace pulse & quick actions",
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    href: "/dashboard/projects",
+    icon: FolderKanban,
+    description: "Manage portfolio entries",
+  },
+  {
+    id: "blogs",
+    label: "Blogs",
+    href: "/dashboard/blogs",
+    icon: NotebookText,
+    description: "Publish and schedule posts",
+  },
+  {
+    id: "inquiries",
+    label: "Inquiries",
+    href: "/dashboard/inquiries",
+    icon: MessageSquare,
+    description: "Review inbound leads",
+  },
+  {
+    id: "assets",
+    label: "Assets",
+    href: "/dashboard/assets",
+    icon: FileText,
+    description: "Upload media & references",
+  },
 ];
 
 const DashboardSidebar = () => {
+  const pathname = usePathname();
+
+  const activeRoute = (href: string) => {
+    if (href === "/dashboard") {
+      return pathname === "/dashboard";
+    }
+    return pathname.startsWith(href);
+  };
+
   return (
-    <aside className="w-full border-r border-foreground/10 bg-white/90 px-6 py-8 md:w-64">
-      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-foreground/50">
-        Admin
-      </p>
-      <nav className="mt-6 space-y-3 text-sm">
-        {dashboardLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className="block rounded-lg px-3 py-2 text-foreground/70 transition-colors hover:bg-primary/10 hover:text-foreground"
-          >
-            {link.label}
-          </Link>
-        ))}
+    <aside className="sticky top-0 z-30 h-screen w-[18rem] border-r border-[var(--color-primary)]/20 bg-white p-4 backdrop-blur-sm">
+      <header className="mb-6 flex items-center">
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center gap-3 text-sm font-black uppercase tracking-[0.16em] text-[var(--foreground)]"
+        >
+          <span className="grid size-8 place-items-center rounded-full border border-[var(--color-primary)]/40 bg-[var(--color-primary)]/10 text-xs text-[var(--foreground)]">
+            CE
+          </span>
+          <span>Control Center</span>
+        </Link>
+      </header>
+
+      <nav className="space-y-2">
+        {dashboardLinks.map((link) => {
+          const isActive = activeRoute(link.href);
+          const Icon = link.icon;
+          return (
+            <motion.div
+              key={link.id}
+              whileHover={{ y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 320, damping: 24 }}
+              className="w-full"
+            >
+              <Link
+                href={link.href}
+                className={`group relative flex items-center gap-3 rounded-xl border px-3 py-3 transition ${
+                  isActive
+                    ? "border-[var(--color-green)]/35 bg-[var(--color-green)]/10 text-[var(--foreground)]"
+                    : "border-[var(--color-primary)]/15 text-[var(--foreground)]/80 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/6 hover:text-[var(--foreground)]"
+                }`}
+              >
+                <span
+                  className={`grid size-9 place-items-center rounded-lg border ${
+                    isActive
+                      ? "border-[var(--color-green)]/35 bg-[var(--color-green)]/12 text-[var(--foreground)]"
+                      : "border-[var(--color-primary)]/20 bg-white"
+                  }`}
+                >
+                  <Icon className="size-4" />
+                </span>
+                <span className="flex min-w-0 flex-col">
+                  <span className="truncate text-sm font-semibold">
+                    {link.label}
+                  </span>
+                  <span className="truncate text-xs text-[var(--foreground)]/55">
+                    {link.description}
+                  </span>
+                </span>
+                {link.count !== undefined ? (
+                  <span className="ml-auto text-xs font-semibold text-[var(--foreground)]/60">
+                    {link.count}
+                  </span>
+                ) : null}
+              </Link>
+            </motion.div>
+          );
+        })}
       </nav>
     </aside>
   );

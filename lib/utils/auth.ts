@@ -1,13 +1,14 @@
 import { headers } from "next/headers";
 
-export const enforceDashboardAuth = () => {
+export const enforceDashboardAuth = async () => {
   const requiredToken = process.env.DASHBOARD_ACCESS_TOKEN;
 
   if (!requiredToken) {
     return;
   }
 
-  const token = headers().get("x-admin-token");
+  const requestHeaders = await headers();
+  const token = requestHeaders.get("x-admin-token");
 
   if (token !== requiredToken) {
     throw new Error("Unauthorized");
