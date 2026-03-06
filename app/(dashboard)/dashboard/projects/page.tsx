@@ -1,5 +1,5 @@
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
-import ProjectsClient from "@/components/dashboard/ProjectsClient";
+import ProjectsManager from "@/components/dashboard/ProjectsManager";
 import { projectKeys } from "@/lib/hooks/useProjects";
 import { getProjects } from "@/lib/services/projectService";
 
@@ -11,14 +11,8 @@ export default async function ProjectsPage() {
 
   return (
     <section className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-foreground">Projects</h1>
-        <p className="text-foreground/70">
-          Manage case studies, galleries, and portfolio content.
-        </p>
-      </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
-        <ProjectsClient />
+        <ProjectsManager />
       </HydrationBoundary>
     </section>
   );
