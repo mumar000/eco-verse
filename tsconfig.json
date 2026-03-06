@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "components/home/Expertise.jsx"  ],
+, "components/home/Expertise.jsx", "components/home/FAQS.jsx"  ],
   "exclude": ["node_modules"]
 }
