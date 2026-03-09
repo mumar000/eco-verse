@@ -34,6 +34,25 @@ type ProjectPayload = {
   galleryImages: string[];
 };
 
+type CaseStudyMetric = {
+  value: string;
+  label: string;
+};
+
+type CaseStudyTimeline = {
+  phase: string;
+  date: string;
+};
+
+type CaseStudyContent = {
+  overviewNote: string;
+  metrics: CaseStudyMetric[];
+  challenge: string;
+  strategy: string;
+  impact: string;
+  timeline: CaseStudyTimeline[];
+};
+
 const emptyProjectPayload: ProjectPayload = {
   title: "",
   shortDescription: "",
@@ -43,13 +62,45 @@ const emptyProjectPayload: ProjectPayload = {
   galleryImages: [],
 };
 
-const toEditForm = (project: ProjectPayload) => ({
+const defaultCaseStudyContent = (
+  createdDate: string,
+  updatedDate: string,
+): CaseStudyContent => ({
+  overviewNote:
+    "This page now uses the same TanStack Query data flow as project cards.",
+  metrics: [
+    { value: "+38%", label: "Qualified Leads" },
+    { value: "4.7x", label: "Campaign ROAS" },
+    { value: "-29%", label: "Cost Per Conversion" },
+    { value: createdDate, label: "Launch Window" },
+  ],
+  challenge: "Repositioned the narrative for stronger buyer intent.",
+  strategy: "Built audience-led channel sequencing and creative testing.",
+  impact: "Improved efficiency, conversion quality, and recall.",
+  timeline: [
+    { phase: "Brief & Insight", date: createdDate },
+    { phase: "Creative Sprint", date: "Week 2" },
+    { phase: "Channel Launch", date: "Week 4" },
+    { phase: "Optimization", date: updatedDate },
+  ],
+});
+
+const toEditForm = (
+  project: ProjectPayload,
+  content: CaseStudyContent,
+) => ({
   title: project.title,
   shortDescription: project.shortDescription,
   description: project.description,
   tags: project.tags.join(", "),
   coverImage: project.coverImage,
   galleryImages: project.galleryImages.join(", "),
+  overviewNote: content.overviewNote,
+  metrics: content.metrics,
+  challenge: content.challenge,
+  strategy: content.strategy,
+  impact: content.impact,
+  timeline: content.timeline,
 });
 
 const asProjectPayload = (project: Project): ProjectPayload => ({
@@ -82,32 +133,91 @@ const normalizeContent = (content: Project["content"]) => {
   return content as Record<string, unknown>;
 };
 
+const asCaseStudyContent = (
+  raw: Record<string, unknown>,
+  createdDate: string,
+  updatedDate: string,
+  description: string,
+): CaseStudyContent => {
+  const defaults = defaultCaseStudyContent(createdDate, updatedDate);
+  const paragraphs = description
+    .split(/\n\n+/)
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  const rawMetrics = Array.isArray(raw.metrics) ? raw.metrics : [];
+  const metrics = defaults.metrics.map((metric, index) => {
+    const current = rawMetrics[index];
+    if (
+      current &&
+      typeof current === "object" &&
+      "value" in current &&
+      "label" in current
+    ) {
+      const typed = current as { value?: unknown; label?: unknown };
+      return {
+        value:
+          typeof typed.value === "string" && typed.value.trim()
+            ? typed.value
+            : metric.value,
+        label:
+          typeof typed.label === "string" && typed.label.trim()
+            ? typed.label
+            : metric.label,
+      };
+    }
+    return metric;
+  });
+
+  const rawTimeline = Array.isArray(raw.timeline) ? raw.timeline : [];
+  const timeline = defaults.timeline.map((step, index) => {
+    const current = rawTimeline[index];
+    if (
+      current &&
+      typeof current === "object" &&
+      "phase" in current &&
+      "date" in current
+    ) {
+      const typed = current as { phase?: unknown; date?: unknown };
+      return {
+        phase:
+          typeof typed.phase === "string" && typed.phase.trim()
+            ? typed.phase
+            : step.phase,
+        date:
+          typeof typed.date === "string" && typed.date.trim()
+            ? typed.date
+            : step.date,
+      };
+    }
+    return step;
+  });
+
+  return {
+    overviewNote:
+      typeof raw.overviewNote === "string" && raw.overviewNote.trim()
+        ? raw.overviewNote
+        : defaults.overviewNote,
+    metrics,
+    challenge:
+      typeof raw.challenge === "string" && raw.challenge.trim()
+        ? raw.challenge
+        : (paragraphs[0] ?? defaults.challenge),
+    strategy:
+      typeof raw.strategy === "string" && raw.strategy.trim()
+        ? raw.strategy
+        : (paragraphs[1] ?? defaults.strategy),
+    impact:
+      typeof raw.impact === "string" && raw.impact.trim()
+        ? raw.impact
+        : (paragraphs[2] ?? defaults.impact),
+    timeline,
+  };
+};
+
 export default function ProjectDetailView({ projectId }: Props) {
   const { data: project, isLoading, error } = useProject(projectId);
   const updateProject = useUpdateProject();
-
-  const [projectState, setProjectState] = useState<ProjectPayload>(
-    emptyProjectPayload,
-  );
-  const [contentState, setContentState] = useState<Record<string, unknown>>({});
-  const [editForm, setEditForm] = useState(() => toEditForm(emptyProjectPayload));
-  const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [isPublishing, setIsPublishing] = useState(false);
-  const [actionError, setActionError] = useState("");
-
-  useEffect(() => {
-    if (!project) {
-      return;
-    }
-
-    const nextProjectState = asProjectPayload(project);
-    setProjectState(nextProjectState);
-    setEditForm(toEditForm(nextProjectState));
-    setContentState(normalizeContent(project.content));
-  }, [project]);
 
   const createdDate = project
     ? new Date(project.createdAt).toLocaleDateString("en-US", {
@@ -123,13 +233,55 @@ export default function ProjectDetailView({ projectId }: Props) {
       })
     : "—";
 
-  const descriptionParagraphs = useMemo(
+  const [projectState, setProjectState] = useState<ProjectPayload>(
+    emptyProjectPayload,
+  );
+  const [contentState, setContentState] = useState<Record<string, unknown>>({});
+  const [editForm, setEditForm] = useState(() =>
+    toEditForm(emptyProjectPayload, defaultCaseStudyContent("—", "—")),
+  );
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [actionError, setActionError] = useState("");
+
+  useEffect(() => {
+    if (!project) {
+      return;
+    }
+
+    const nextProjectState = asProjectPayload(project);
+    const normalizedContent = normalizeContent(project.content);
+    const nextCaseStudy = asCaseStudyContent(
+      normalizedContent,
+      new Date(project.createdAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+      }),
+      new Date(project.updatedAt).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      }),
+      nextProjectState.description,
+    );
+
+    setProjectState(nextProjectState);
+    setEditForm(toEditForm(nextProjectState, nextCaseStudy));
+    setContentState(normalizedContent);
+  }, [project]);
+
+  const caseStudyContent = useMemo(
     () =>
-      (projectState.description ?? "")
-        .split(/\n\n+/)
-        .map((value) => value.trim())
-        .filter(Boolean),
-    [projectState.description],
+      asCaseStudyContent(
+        contentState,
+        createdDate,
+        updatedDate,
+        projectState.description,
+      ),
+    [contentState, createdDate, updatedDate, projectState.description],
   );
 
   const gallery = projectState.galleryImages;
@@ -148,6 +300,30 @@ export default function ProjectDetailView({ projectId }: Props) {
     (field: keyof typeof editForm) =>
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setEditForm((previous) => ({ ...previous, [field]: event.target.value }));
+    };
+
+  const onMetricChange =
+    (index: number, field: keyof CaseStudyMetric) =>
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setEditForm((previous) => {
+        const metrics = previous.metrics.map((metric, metricIndex) =>
+          metricIndex === index ? { ...metric, [field]: value } : metric,
+        );
+        return { ...previous, metrics };
+      });
+    };
+
+  const onTimelineChange =
+    (index: number, field: keyof CaseStudyTimeline) =>
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setEditForm((previous) => {
+        const timeline = previous.timeline.map((step, stepIndex) =>
+          stepIndex === index ? { ...step, [field]: value } : step,
+        );
+        return { ...previous, timeline };
+      });
     };
 
   const saveEdits = async () => {
@@ -172,8 +348,29 @@ export default function ProjectDetailView({ projectId }: Props) {
           .filter(Boolean),
       };
 
-      await updateProject.mutateAsync({ id: project.id, ...payload });
+      const nextContent = {
+        ...contentState,
+        overviewNote: editForm.overviewNote.trim(),
+        challenge: editForm.challenge.trim(),
+        strategy: editForm.strategy.trim(),
+        impact: editForm.impact.trim(),
+        metrics: editForm.metrics.map((metric) => ({
+          value: metric.value.trim(),
+          label: metric.label.trim(),
+        })),
+        timeline: editForm.timeline.map((step) => ({
+          phase: step.phase.trim(),
+          date: step.date.trim(),
+        })),
+      };
+
+      await updateProject.mutateAsync({
+        id: project.id,
+        ...payload,
+        content: JSON.stringify(nextContent),
+      });
       setProjectState(payload);
+      setContentState(nextContent);
       setIsEditOpen(false);
     } catch {
       setActionError("Could not save changes. Please try again.");
@@ -269,7 +466,7 @@ export default function ProjectDetailView({ projectId }: Props) {
               <button
                 type="button"
                 onClick={() => {
-                  setEditForm(toEditForm(projectState));
+                  setEditForm(toEditForm(projectState, caseStudyContent));
                   setIsEditOpen((previous) => !previous);
                 }}
                 className="inline-flex items-center gap-1.5 rounded-full bg-white/85 px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-zinc-700 backdrop-blur hover:bg-white"
@@ -319,6 +516,28 @@ export default function ProjectDetailView({ projectId }: Props) {
                   <input value={editForm.tags} onChange={onEditChange("tags")} placeholder="Tags (comma separated)" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring" />
                   <input value={editForm.galleryImages} onChange={onEditChange("galleryImages")} placeholder="Gallery image URLs (comma separated)" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring md:col-span-2" />
                   <textarea value={editForm.description} onChange={onEditChange("description")} rows={5} placeholder="Case study description" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring md:col-span-2" />
+                  <textarea value={editForm.overviewNote} onChange={onEditChange("overviewNote")} rows={2} placeholder="Overview note" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring md:col-span-2" />
+                  <textarea value={editForm.challenge} onChange={onEditChange("challenge")} rows={3} placeholder="Challenge" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring" />
+                  <textarea value={editForm.strategy} onChange={onEditChange("strategy")} rows={3} placeholder="Strategy" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring" />
+                  <textarea value={editForm.impact} onChange={onEditChange("impact")} rows={3} placeholder="Impact" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring md:col-span-2" />
+                  {editForm.metrics.map((metric, index) => (
+                    <div key={`metric-${index}`} className="grid gap-2 rounded-xl border border-zinc-200 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500">
+                        Metric {index + 1}
+                      </p>
+                      <input value={metric.value} onChange={onMetricChange(index, "value")} placeholder="Value" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring" />
+                      <input value={metric.label} onChange={onMetricChange(index, "label")} placeholder="Label" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring" />
+                    </div>
+                  ))}
+                  {editForm.timeline.map((step, index) => (
+                    <div key={`timeline-${index}`} className="grid gap-2 rounded-xl border border-zinc-200 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500">
+                        Timeline Step {index + 1}
+                      </p>
+                      <input value={step.phase} onChange={onTimelineChange(index, "phase")} placeholder="Phase" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring" />
+                      <input value={step.date} onChange={onTimelineChange(index, "date")} placeholder="Date" className="rounded-xl border border-zinc-200 px-3 py-2.5 text-sm outline-none ring-orange-300 focus:ring" />
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             )}
@@ -330,15 +549,12 @@ export default function ProjectDetailView({ projectId }: Props) {
               <p className="text-lg leading-relaxed text-zinc-700">
                 {projectState.shortDescription || "A full-funnel campaign designed to turn category attention into measurable revenue growth."}
               </p>
-              <p className="mt-4 text-sm leading-relaxed text-zinc-500">This page now uses the same TanStack Query data flow as project cards.</p>
+              <p className="mt-4 text-sm leading-relaxed text-zinc-500">
+                {caseStudyContent.overviewNote}
+              </p>
             </div>
             <div className="col-span-12 grid grid-cols-2 gap-4 lg:col-span-5">
-              {[
-                { value: "+38%", label: "Qualified Leads" },
-                { value: "4.7x", label: "Campaign ROAS" },
-                { value: "-29%", label: "Cost Per Conversion" },
-                { value: createdDate, label: "Launch Window" },
-              ].map(({ value, label }) => (
+              {caseStudyContent.metrics.map(({ value, label }) => (
                 <div key={label} className="flex flex-col justify-between rounded-2xl bg-white p-5 shadow-sm">
                   <p className="text-3xl font-black text-zinc-900">{value}</p>
                   <p className="text-xs uppercase tracking-[0.15em] text-zinc-400">{label}</p>
@@ -349,9 +565,9 @@ export default function ProjectDetailView({ projectId }: Props) {
 
           <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {[
-              { title: "Challenge", copy: descriptionParagraphs[0] ?? "Repositioned the narrative for stronger buyer intent.", icon: Megaphone },
-              { title: "Strategy", copy: descriptionParagraphs[1] ?? "Built audience-led channel sequencing and creative testing.", icon: Sparkles },
-              { title: "Impact", copy: descriptionParagraphs[2] ?? "Improved efficiency, conversion quality, and recall.", icon: TrendingUp },
+              { title: "Challenge", copy: caseStudyContent.challenge, icon: Megaphone },
+              { title: "Strategy", copy: caseStudyContent.strategy, icon: Sparkles },
+              { title: "Impact", copy: caseStudyContent.impact, icon: TrendingUp },
             ].map(({ title, copy, icon: Icon }) => (
               <div key={title} className="rounded-2xl border-t-4 border-orange-400 bg-white p-5 shadow-sm">
                 <Icon className="mb-3 size-5 text-orange-500" />
@@ -395,12 +611,7 @@ export default function ProjectDetailView({ projectId }: Props) {
           <div className="rounded-3xl bg-white p-8 shadow-sm">
             <h2 className="mb-6 text-sm font-black uppercase tracking-[0.2em] text-zinc-700">Campaign Timeline</h2>
             <div className="grid gap-3 md:grid-cols-4">
-              {[
-                { phase: "Brief & Insight", date: createdDate },
-                { phase: "Creative Sprint", date: "Week 2" },
-                { phase: "Channel Launch", date: "Week 4" },
-                { phase: "Optimization", date: updatedDate },
-              ].map(({ phase, date }, index) => (
+              {caseStudyContent.timeline.map(({ phase, date }, index) => (
                 <div key={phase} className="rounded-2xl border border-zinc-100 bg-zinc-50 p-4">
                   <p className="text-xs uppercase tracking-[0.15em] text-zinc-400">Step {index + 1}</p>
                   <p className="mt-1 text-sm font-bold text-zinc-800">{phase}</p>

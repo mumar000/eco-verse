@@ -4,12 +4,14 @@ import { useMemo, useRef, useState } from "react";
 import {
   Check,
   Eye,
+  ImageIcon,
   Pencil,
   PlusCircle,
   RotateCcw,
   Save,
   Trash2,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Project } from "@/app/generated/prisma/client";
@@ -292,6 +294,22 @@ export default function ProjectsManager() {
                         : "border-zinc-200 bg-white hover:border-[var(--color-primary)]/60"
                     }`}
                   >
+                    <div className="relative mb-3 h-40 overflow-hidden rounded-xl bg-zinc-100">
+                      {project.coverImage ? (
+                        <Image
+                          src={project.coverImage}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition duration-500 group-hover:scale-105"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center bg-zinc-100 text-zinc-400">
+                          <ImageIcon className="size-10" />
+                        </div>
+                      )}
+                    </div>
+
                     <div className="flex items-start justify-between gap-4">
                       <div>
                         <p className="text-xl font-black text-[var(--foreground)]">
