@@ -4,16 +4,17 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MenuIcon, X } from "lucide-react";
 import { FaWhatsapp, FaInstagram, FaTiktok, FaPinterestP, FaLinkedinIn } from "react-icons/fa";
-import qrImage from "@/public/assets/qr.avif"
+import qrImage from "@/public/assets/qr.avif";
 import Image from "next/image";
+
+import echoLogo from "@/public/assets/echoLogo.svg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false); // New state for WhatsApp popup
+  const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
-  // Lock scroll when menu OR WhatsApp popup is open
   useEffect(() => {
     if (isOpen || isWhatsAppOpen) {
       document.body.style.overflow = "hidden";
@@ -40,6 +41,22 @@ const Navbar = () => {
     exit: { x: "100%", transition: { duration: 0.8, ease: slideEase } }
   };
 
+  const logoVariants = {
+    hidden: { x: "-100%", opacity: 0, scale: 0.8 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.8, ease: slideEase }
+    },
+    exit: {
+      x: "-100%",
+      opacity: 0,
+      scale: 0.8,
+      transition: { duration: 0.6, ease: slideEase }
+    }
+  };
+
   const menuLinks = [
     { name: "HOME", active: false },
     { name: "AGENCY", active: true },
@@ -52,7 +69,7 @@ const Navbar = () => {
   return (
     <>
       {/* HEADER BUTTONS */}
-      <div className="fixed left-0 top-0 z-[100] w-full bg-transparent p-7 pointer-events-none">
+      <div className="fixed left-0 top-0 z-[100] w-full bg-transparent p-4 sm:p-5 md:p-7 pointer-events-none">
         <div className="flex items-center justify-between pointer-events-auto">
 
           {/* MENU BUTTON */}
@@ -63,15 +80,12 @@ const Navbar = () => {
             type="button"
             aria-label={isOpen ? "Close menu" : "Open menu"}
           >
-            <motion.div
-              animate={{ rotate: isOpen ? 180 : 0 }}
-              transition={{ duration: 0.4 }}
-            >
+            <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.4 }}>
               {isOpen ? <X size={18} strokeWidth={2} /> : <MenuIcon size={18} strokeWidth={2} />}
             </motion.div>
           </button>
 
-          {/* WHATSAPP BUTTON (Hides when menu or popup is open) */}
+          {/* WHATSAPP BUTTON */}
           {!isOpen && !isWhatsAppOpen && (
             <button
               onClick={() => setIsWhatsAppOpen(true)}
@@ -89,6 +103,17 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-[60] flex overflow-hidden">
+
+            {/* CENTER LOGO (slides with left panel) */}
+            <motion.div
+              variants={logoVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              className="absolute inset-0 flex items-center justify-center pointer-events-none z-[70]"
+            >
+              <Image src={echoLogo} alt="Echo Logo" className="w-[420px]" priority />
+            </motion.div>
 
             {/* LEFT PANEL */}
             <motion.div
@@ -134,10 +159,8 @@ const Navbar = () => {
               exit="exit"
               className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center items-center px-8"
             >
-              {/* QR CODE */}
-              <Image src={qrImage} alt="QR Image" className="" />
+              <Image src={qrImage} alt="QR Image" />
 
-              {/* TEXT */}
               <h2 className="font-beni font-black text-[80px] leading-[0.7] text-white text-center uppercase">
                 <span className="block">SHALL WE</span>
                 <span className="block">CONNECT ON</span>
@@ -149,7 +172,6 @@ const Navbar = () => {
                 Scan the QR code, send your message, and we'll reply (very quickly).
               </p>
 
-              {/* CTA */}
               <button className="mt-10 bg-orange-500 transition-all duration-300 text-white font-clash font-semibold text-sm px-6 py-4 rounded-lg cursor-pointer hover:scale-95">
                 Chat with Margaux
               </button>
@@ -159,35 +181,27 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* WHATSAPP BUBBLE POPUP */}
+      {/* WHATSAPP POPUP */}
       <AnimatePresence>
         {isWhatsAppOpen && (
           <>
-            {/* Optional invisible backdrop to close when clicking outside */}
-            <div
-              className="fixed inset-0 z-[105]"
-              onClick={() => setIsWhatsAppOpen(false)}
-            />
+            <div className="fixed inset-0 z-[105]" onClick={() => setIsWhatsAppOpen(false)} />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.5, y: -20, x: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
               exit={{ opacity: 0, scale: 0.5, y: -20, x: 20 }}
-              // Animates out directly from the top-right corner where the button was
               style={{ transformOrigin: "top right" }}
               transition={{ type: "spring", stiffness: 260, damping: 25 }}
               className="fixed top-7 right-7 z-[110] w-[380px] bg-[#00522D] rounded-[2.5rem] p-8 flex flex-col items-center overflow-hidden"
             >
-              {/* Close Button Inside Popup */}
               <button
                 onClick={() => setIsWhatsAppOpen(false)}
                 className="absolute top-5 right-5 bg-orange-200 text-[#00522D] p-3 rounded-full hover:scale-110 transition-transform duration-300 shadow-sm cursor-pointer"
-                aria-label="Close WhatsApp Popup"
               >
                 <X size={20} strokeWidth={2} />
               </button>
 
-              {/* Content Inside Popup */}
               <div className="mt-6 mb-6">
                 <Image src={qrImage} alt="QR Image" className="w-30 h-30" />
               </div>
