@@ -1,7 +1,18 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { Check, Pencil, PlusCircle, RotateCcw, Save, Trash2 } from "lucide-react";
+import {
+  Check,
+  Eye,
+  ImageIcon,
+  Pencil,
+  PlusCircle,
+  RotateCcw,
+  Save,
+  Trash2,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Project } from "@/app/generated/prisma/client";
 import {
@@ -50,7 +61,8 @@ export default function ProjectsManager() {
 
   const [panelOpen, setPanelOpen] = useState(false);
   const [editingProjectId, setEditingProjectId] = useState<number | null>(null);
-  const [formState, setFormState] = useState<ProjectFormState>(defaultFormState);
+  const [formState, setFormState] =
+    useState<ProjectFormState>(defaultFormState);
   const [formError, setFormError] = useState<string>("");
   const [isUploadingCover, setIsUploadingCover] = useState(false);
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
@@ -58,12 +70,14 @@ export default function ProjectsManager() {
   const galleryFileInputRef = useRef<HTMLInputElement | null>(null);
 
   const isMutationPending =
-    createProject.isPending || updateProject.isPending || deleteProject.isPending;
-  const isFormBusy = isMutationPending || isUploadingCover || isUploadingGallery;
+    createProject.isPending ||
+    updateProject.isPending ||
+    deleteProject.isPending;
+  const isFormBusy =
+    isMutationPending || isUploadingCover || isUploadingGallery;
 
   const selectedProject = useMemo(
-    () =>
-      projects.find((project) => project.id === editingProjectId) ?? null,
+    () => projects.find((project) => project.id === editingProjectId) ?? null,
     [projects, editingProjectId],
   );
 
@@ -148,13 +162,12 @@ export default function ProjectsManager() {
     });
   };
 
-  const updateField =
-    (field: keyof ProjectFormState) => (value: string) => {
-      setFormState((previous) => ({
-        ...previous,
-        [field]: value,
-      }));
-    };
+  const updateField = (field: keyof ProjectFormState) => (value: string) => {
+    setFormState((previous) => ({
+      ...previous,
+      [field]: value,
+    }));
+  };
 
   const onCoverUpload = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -168,7 +181,9 @@ export default function ProjectsManager() {
       const secureUrl = await uploadImageToCloudinary(file);
       updateField("coverImage")(secureUrl);
     } catch {
-      setFormError("Image upload failed. Please check Cloudinary configuration.");
+      setFormError(
+        "Image upload failed. Please check Cloudinary configuration.",
+      );
     } finally {
       setIsUploadingCover(false);
       event.target.value = "";
@@ -209,7 +224,9 @@ export default function ProjectsManager() {
     <section className="space-y-6">
       <div className="flex flex-col gap-3 border-b border-[var(--color-primary)]/20 pb-4 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">Projects</p>
+          <p className="text-xs uppercase tracking-[0.2em] text-zinc-500">
+            Projects
+          </p>
           <h2 className="text-3xl font-black uppercase tracking-tight text-[var(--foreground)]">
             Portfolio Hub
           </h2>
@@ -247,7 +264,9 @@ export default function ProjectsManager() {
 
           {projects.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-10 text-center text-zinc-500">
-              No projects yet. Click <span className="font-semibold">Add Project</span> to create your first item.
+              No projects yet. Click{" "}
+              <span className="font-semibold">Add Project</span> to create your
+              first item.
             </div>
           ) : (
             <motion.div
@@ -275,18 +294,39 @@ export default function ProjectsManager() {
                         : "border-zinc-200 bg-white hover:border-[var(--color-primary)]/60"
                     }`}
                   >
+                    <div className="relative mb-3 h-40 overflow-hidden rounded-xl bg-zinc-100">
+                      {project.coverImage ? (
+                        <Image
+                          src={project.coverImage}
+                          alt={project.title}
+                          fill
+                          className="object-cover transition duration-500 group-hover:scale-105"
+                          unoptimized
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center bg-zinc-100 text-zinc-400">
+                          <ImageIcon className="size-10" />
+                        </div>
+                      )}
+                    </div>
+
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <p className="text-xl font-black text-[var(--foreground)]">{project.title}</p>
+                        <p className="text-xl font-black text-[var(--foreground)]">
+                          {project.title}
+                        </p>
                         <p className="text-xs font-semibold uppercase tracking-[0.15em] text-zinc-500">
                           {project.slug}
                         </p>
                       </div>
                       <span className="inline-flex items-center gap-1 rounded-full border border-[var(--color-primary)]/25 px-2 py-1 text-xs text-[var(--foreground)]/60">
-                        {new Date(project.updatedAt).toLocaleDateString(undefined, {
-                          month: "short",
-                          day: "numeric",
-                        })}
+                        {new Date(project.updatedAt).toLocaleDateString(
+                          undefined,
+                          {
+                            month: "short",
+                            day: "numeric",
+                          },
+                        )}
                       </span>
                     </div>
 
@@ -306,6 +346,12 @@ export default function ProjectsManager() {
                     </div>
 
                     <div className="mt-4 flex gap-2">
+                      <Link
+                        href={`/dashboard/projects/${project.id}`}
+                        className="inline-flex flex-1 items-center justify-center rounded-lg border border-[var(--color-green)]/30 bg-[var(--color-green)]/8 py-2 text-sm font-semibold text-[var(--color-green)] transition hover:border-[var(--color-green)] hover:bg-[var(--color-green)]/15"
+                      >
+                        <Eye className="mr-2 size-4" /> View
+                      </Link>
                       <button
                         onClick={() => startEdit(project)}
                         type="button"
@@ -362,10 +408,14 @@ export default function ProjectsManager() {
               </div>
             </div>
 
-            {formError ? <p className="text-sm text-red-600">{formError}</p> : null}
+            {formError ? (
+              <p className="text-sm text-red-600">{formError}</p>
+            ) : null}
 
             <label className="grid gap-1 text-sm">
-              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">Title</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                Title
+              </span>
               <input
                 value={formState.title}
                 onChange={(event) => {
@@ -383,7 +433,9 @@ export default function ProjectsManager() {
             </label>
 
             <label className="grid gap-1 text-sm">
-              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">Slug</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                Slug
+              </span>
               <input
                 value={formState.slug}
                 onChange={(event) => updateField("slug")(event.target.value)}
@@ -394,31 +446,43 @@ export default function ProjectsManager() {
             </label>
 
             <label className="grid gap-1 text-sm">
-              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">Short Description</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                Short Description
+              </span>
               <input
                 value={formState.shortDescription}
-                onChange={(event) => updateField("shortDescription")(event.target.value)}
+                onChange={(event) =>
+                  updateField("shortDescription")(event.target.value)
+                }
                 className="w-full border border-zinc-300 bg-zinc-50 px-3 py-2 outline-none transition focus:border-[var(--color-green)] focus:ring-2 focus:ring-[var(--color-green)]/30"
                 placeholder="One-liner for cards"
               />
             </label>
 
             <label className="grid gap-1 text-sm">
-              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">Description</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                Description
+              </span>
               <textarea
                 value={formState.description}
-                onChange={(event) => updateField("description")(event.target.value)}
+                onChange={(event) =>
+                  updateField("description")(event.target.value)
+                }
                 className="min-h-24 border border-zinc-300 bg-zinc-50 px-3 py-2 outline-none transition focus:border-[var(--color-green)] focus:ring-2 focus:ring-[var(--color-green)]/30"
                 placeholder="Project details"
               />
             </label>
 
             <label className="grid gap-1 text-sm">
-              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">Cover Image</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                Cover Image
+              </span>
               <div className="flex gap-2">
                 <input
                   value={formState.coverImage}
-                  onChange={(event) => updateField("coverImage")(event.target.value)}
+                  onChange={(event) =>
+                    updateField("coverImage")(event.target.value)
+                  }
                   className="w-full border border-zinc-300 bg-zinc-50 px-3 py-2 outline-none transition focus:border-[var(--color-green)] focus:ring-2 focus:ring-[var(--color-green)]/30"
                   placeholder="https://..."
                 />
@@ -441,7 +505,9 @@ export default function ProjectsManager() {
             </label>
 
             <label className="grid gap-1 text-sm">
-              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">Tags (comma separated)</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                Tags (comma separated)
+              </span>
               <input
                 value={formState.tags}
                 onChange={(event) => updateField("tags")(event.target.value)}
@@ -451,11 +517,15 @@ export default function ProjectsManager() {
             </label>
 
             <label className="grid gap-1 text-sm">
-              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">Gallery Images (comma separated)</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500">
+                Gallery Images (comma separated)
+              </span>
               <div className="flex gap-2">
                 <input
                   value={formState.galleryImages}
-                  onChange={(event) => updateField("galleryImages")(event.target.value)}
+                  onChange={(event) =>
+                    updateField("galleryImages")(event.target.value)
+                  }
                   className="w-full border border-zinc-300 bg-zinc-50 px-3 py-2 outline-none transition focus:border-[var(--color-green)] focus:ring-2 focus:ring-[var(--color-green)]/30"
                   placeholder="https://... , https://..."
                 />

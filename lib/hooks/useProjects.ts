@@ -8,7 +8,7 @@ import type {
 
 export const projectKeys = {
   all: ["projects"] as const,
-  detail: (slug: string) => ["projects", slug] as const,
+  detail: (id: number) => ["projects", "detail", id] as const,
 };
 
 const fetchProjects = async () => {
@@ -16,6 +16,16 @@ const fetchProjects = async () => {
 
   if (!response.ok) {
     throw new Error("Failed to fetch projects");
+  }
+
+  return response.json();
+};
+
+const fetchProjectById = async (id: number) => {
+  const response = await fetch(`/api/projects/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch project");
   }
 
   return response.json();
@@ -71,6 +81,13 @@ export const useProjects = () =>
     queryFn: fetchProjects,
   });
 
+export const useProject = (id: number) =>
+  useQuery({
+    queryKey: projectKeys.detail(id),
+    queryFn: () => fetchProjectById(id),
+    enabled: Number.isFinite(id) && id > 0,
+  });
+
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
 
@@ -87,8 +104,11 @@ export const useUpdateProject = () => {
 
   return useMutation({
     mutationFn: updateProject,
-    onSuccess: () => {
+    onSuccess: (updatedProject) => {
       queryClient.invalidateQueries({ queryKey: projectKeys.all });
+      queryClient.invalidateQueries({
+        queryKey: projectKeys.detail(updatedProject.id),
+      });
     },
   });
 };
