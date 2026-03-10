@@ -13,7 +13,7 @@ const logos = [
 
 const Hero = () => {
   return (
-    <section className="relative overflow-visible pt-8 min-h-[600px] h-screen">
+    <section className="relative overflow-visible pt-8 min-h-[600px]">
       {/* Logos Container */}
       <div className="relative z-10 mx-auto flex w-full items-center justify-center -mt-8 sm:-mt-10 md:-mt-20 lg:-mt-24">
         {/* {logos.map((logo) => (
@@ -44,7 +44,7 @@ const Hero = () => {
       </div>
 
       {/* Cards Container */}
-      <div className="absolute left-0 right-0 z-30 px-4 sm:top-30 md:top-15 lg:top-0">
+      <div className="absolute left-0 right-0 z-30 px-4 top-30 sm:top-30 md:top-15 lg:top-0">
         <Cards />
       </div>
     </section>
