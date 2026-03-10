@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { Eye } from 'lucide-react';
 
 const Social = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -157,7 +158,7 @@ const Social = () => {
 
                                 {/* Bottom Footer Elements */}
                                 <div className="absolute bottom-3 left-4 right-4 flex z-20">
-                                    <p className="font-clash font-medium bg-orange-500 text-white px-4 py-1 cursor-pointer hover:bg-orange-600 transition-colors duration-300 rounded-lg text-sm">View Blog</p>
+                                    <p className="font-clash font-medium bg-orange-500 text-white px-4 py-1 cursor-pointer hover:bg-orange-600 transition-colors duration-300 rounded-lg text-sm flex items-center gap-2">View Blog <Eye size={18}/></p>
                                 </div>
                             </div>
                         ))}
