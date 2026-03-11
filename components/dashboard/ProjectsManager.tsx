@@ -270,6 +270,15 @@ export default function ProjectsManager() {
                   className="hidden"
                 />
               </div>
+              {formState.coverImage.trim() ? (
+                <div className="mt-2 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50">
+                  <img
+                    src={formState.coverImage}
+                    alt="Project cover preview"
+                    className="aspect-video w-full object-cover"
+                  />
+                </div>
+              ) : null}
             </label>
 
             <label className="grid gap-1 text-sm">
@@ -486,6 +495,15 @@ export default function ProjectsManager() {
                     className="hidden"
                   />
                 </div>
+                {formState.coverImage.trim() ? (
+                  <div className="mt-2 overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50">
+                    <img
+                      src={formState.coverImage}
+                      alt="Project cover preview"
+                      className="aspect-video w-full object-cover"
+                    />
+                  </div>
+                ) : null}
               </label>
 
               <label className="grid gap-1 text-sm">
