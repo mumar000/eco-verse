@@ -8,6 +8,7 @@ import qrImage from "@/public/assets/qr.avif";
 import Image from "next/image";
 
 import echoLogo from "@/public/assets/echoverse-logo.png";
+import Link from "next/link";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,13 +70,15 @@ const Navbar = () => {
   return (
     <>
       {/* HEADER BUTTONS */}
-      <div className="fixed left-0 top-0 z-[100] w-full bg-transparent p-4 sm:p-5 md:p-7 pointer-events-none">
-        <div className="flex items-center justify-between pointer-events-auto">
-
+      <div className="fixed left-0 top-0 z-[100] w-full bg-transparent -mt-20 pointer-events-none">
+        <div className="flex items-center justify-between pointer-events-auto mt-5">
+          <Link href={"/"}>
+            <Image className="w-60 h-full" src={echoLogo} alt="Echo Verse Logo"/>
+          </Link>
           {/* MENU BUTTON */}
           <button
             onClick={toggleMenu}
-            className={`rounded-full p-6 transition-all duration-300 cursor-pointer hover:scale-110 ${isOpen ? "bg-orange-300 text-[#00522D]" : "bg-orange-200 text-black"
+            className={`rounded-full p-6 transition-all duration-300 mr-7 cursor-pointer hover:scale-110 ${isOpen ? "bg-orange-300 text-[#00522D]" : "bg-orange-200 text-black"
               }`}
             type="button"
             aria-label={isOpen ? "Close menu" : "Open menu"}
@@ -84,18 +87,6 @@ const Navbar = () => {
               {isOpen ? <X size={18} strokeWidth={2} /> : <MenuIcon size={18} strokeWidth={2} />}
             </motion.div>
           </button>
-
-          {/* WHATSAPP BUTTON */}
-          {!isOpen && !isWhatsAppOpen && (
-            <button
-              onClick={() => setIsWhatsAppOpen(true)}
-              className="rounded-full bg-orange-200 p-5 text-[#00522D] transition-transform duration-300 cursor-pointer hover:scale-110"
-              type="button"
-              aria-label="Open WhatsApp"
-            >
-              <FaWhatsapp size={24} />
-            </button>
-          )}
         </div>
       </div>
 
@@ -181,6 +172,18 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
+      {/* FLOATING WHATSAPP BUTTON */}
+      {!isOpen && !isWhatsAppOpen && (
+        <button
+          onClick={() => setIsWhatsAppOpen(true)}
+          className="fixed bottom-7 right-7 z-[100] rounded-full bg-orange-200 p-5 text-[#00522D] transition-transform duration-300 cursor-pointer hover:scale-110"
+          type="button"
+          aria-label="Open WhatsApp"
+        >
+          <FaWhatsapp size={24} />
+        </button>
+      )}
+
       {/* WHATSAPP POPUP */}
       <AnimatePresence>
         {isWhatsAppOpen && (
@@ -188,12 +191,12 @@ const Navbar = () => {
             <div className="fixed inset-0 z-[105]" onClick={() => setIsWhatsAppOpen(false)} />
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.5, y: -20, x: 20 }}
+              initial={{ opacity: 0, scale: 0.5, y: 20, x: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
-              exit={{ opacity: 0, scale: 0.5, y: -20, x: 20 }}
-              style={{ transformOrigin: "top right" }}
+              exit={{ opacity: 0, scale: 0.5, y: 20, x: 20 }}
+              style={{ transformOrigin: "bottom right" }}
               transition={{ type: "spring", stiffness: 260, damping: 25 }}
-              className="fixed top-7 right-7 z-[110] w-[380px] bg-[#00522D] rounded-[2.5rem] p-8 flex flex-col items-center overflow-hidden"
+              className="fixed bottom-7 right-7 z-[110] w-[380px] bg-[#00522D] rounded-[2.5rem] p-8 flex flex-col items-center overflow-hidden"
             >
               <button
                 onClick={() => setIsWhatsAppOpen(false)}
