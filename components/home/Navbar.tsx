@@ -35,8 +35,6 @@ const Navbar = () => {
 
   const slideEase = [0.76, 0, 0.24, 1] as const;
 
-  // Smaller social icons configuration
-  // x and y are distances from the center of the main button
   const socialIcons = [
     { id: 1, icon: <FaInstagram size={18} />, x: 25, y: -60, delay: 0.05 },
     { id: 2, icon: <FaLinkedinIn size={18} />, x: -30, y: -60, delay: 0.1 },
@@ -123,7 +121,6 @@ const Navbar = () => {
                 ))}
               </nav>
 
-              {/* SOCIAL ICONS */}
               <div className="flex items-center gap-2">
                 {[FaInstagram, FaTiktok, FaPinterestP, FaLinkedinIn].map(
                   (Icon, idx) => (
@@ -146,19 +143,14 @@ const Navbar = () => {
               className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center items-center px-8 pl-[12%] pt-10"
             >
               <Image src={qrImage} alt="QR Image" />
-
               <h2 className="font-beni font-black text-[80px] leading-[0.7] text-white text-center uppercase">
                 <span className="block">SHALL WE</span>
                 <span className="block">CONNECT ON</span>
                 <span className="block">WHATSAPP?</span>
               </h2>
-
               <p className="font-clash font-bold text-white text-center text-xl leading-snug w-full max-w-[350px] mt-6">
                 Because we prefer genuine, quick, and straightforward exchanges.
-                Scan the QR code, send your message, and we&apos;ll reply (very
-                quickly).
               </p>
-
               <button className="mt-10 bg-orange-500 transition-all duration-300 text-white font-clash font-semibold text-sm px-6 py-4 rounded-lg cursor-pointer hover:scale-95">
                 Chat With Us
               </button>
@@ -175,24 +167,26 @@ const Navbar = () => {
               <motion.a
                 key={item.id}
                 href="#"
-                // SLIDING LOGIC: Start from 0 (center of button) and slide to target x/y
-                initial={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
+                // SLIDING LOGIC: Start from 0,0 and slide back to 0,0 on exit
+                initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
                 animate={{ x: item.x, y: item.y, opacity: 1, scale: 1 }}
-                exit={{ x: 0, y: 0, opacity: 0, scale: 0.5 }}
+                exit={{ x: 0, y: 0, opacity: 0, scale: 0 }}
                 transition={{
                   type: "spring",
-                  stiffness: 200,
-                  damping: 20,
-                  delay: isSocialOpen ? item.delay : 0, // Delay on open, fast on close
+                  stiffness: 300,
+                  damping: 25,
+                  // Faster return: all icons fly back together instantly when closing
+                  delay: isSocialOpen ? item.delay : 0, 
                 }}
-                className="absolute w-11 h-11 bg-[#00522D] rounded-full flex items-center justify-center text-white shadow-sm hover:scale-110 transition-all duration-300"
+                // REMOVED 'transition-all duration-300' to prevent conflict with Framer Motion
+                className="absolute w-11 h-11 bg-[#00522D] rounded-full flex items-center justify-center text-white shadow-sm hover:scale-110"
               >
                 {item.icon}
               </motion.a>
             ))}
         </AnimatePresence>
 
-        {/* MAIN BUTTON (Smaller & Compact) */}
+        {/* MAIN BUTTON */}
         <button
           onClick={() => setIsSocialOpen(!isSocialOpen)}
           className="relative z-[130] p-6 rounded-full bg-orange-300 text-[#00522D] flex items-center justify-center transition-transform duration-300 cursor-pointer hover:scale-105 active:scale-95"
@@ -212,13 +206,6 @@ const Navbar = () => {
           </motion.div>
         </button>
       </div>
-
-      {/* WHATSAPP POPUP - COMMENTED OUT AS REQUESTED */}
-      {/* 
-      <AnimatePresence>
-        {isWhatsAppOpen && ( ... )}
-      </AnimatePresence> 
-      */}
     </>
   );
 };
