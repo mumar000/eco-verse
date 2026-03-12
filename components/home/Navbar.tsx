@@ -3,7 +3,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MenuIcon, X } from "lucide-react";
-import { FaWhatsapp, FaInstagram, FaTiktok, FaPinterestP, FaLinkedinIn } from "react-icons/fa";
+import {
+  FaWhatsapp,
+  FaInstagram,
+  FaTiktok,
+  FaPinterestP,
+  FaLinkedinIn,
+} from "react-icons/fa";
 import qrImage from "@/public/assets/qr.avif";
 import Image from "next/image";
 
@@ -33,13 +39,13 @@ const Navbar = () => {
   const leftPanelVariants = {
     hidden: { x: "-100%" },
     visible: { x: 0, transition: { duration: 0.8, ease: slideEase } },
-    exit: { x: "-100%", transition: { duration: 0.8, ease: slideEase } }
+    exit: { x: "-100%", transition: { duration: 0.8, ease: slideEase } },
   };
 
   const rightPanelVariants = {
     hidden: { x: "100%" },
     visible: { x: 0, transition: { duration: 0.8, ease: slideEase } },
-    exit: { x: "100%", transition: { duration: 0.8, ease: slideEase } }
+    exit: { x: "100%", transition: { duration: 0.8, ease: slideEase } },
   };
 
   const logoVariants = {
@@ -48,14 +54,14 @@ const Navbar = () => {
       x: 0,
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.8, ease: slideEase }
+      transition: { duration: 0.8, ease: slideEase },
     },
     exit: {
       x: "-100%",
       opacity: 0,
       scale: 0.8,
-      transition: { duration: 0.6, ease: slideEase }
-    }
+      transition: { duration: 0.6, ease: slideEase },
+    },
   };
 
   const menuLinks = [
@@ -64,7 +70,7 @@ const Navbar = () => {
     { name: "PROJECTS", active: false },
     { name: "EXPERTISE", active: false },
     { name: "FAQ", active: false },
-    { name: "CONTACT", active: false }
+    { name: "CONTACT", active: false },
   ];
 
   return (
@@ -72,19 +78,35 @@ const Navbar = () => {
       {/* HEADER BUTTONS */}
       <div className="fixed left-0 top-0 z-[100] w-full bg-transparent -mt-20 pointer-events-none">
         <div className="flex items-center justify-between pointer-events-auto mt-5">
-          <Link href={"/"}>
-            <Image className="w-60 h-full" src={echoLogo} alt="Echo Verse Logo"/>
-          </Link>
+          <div>
+            <Link href={"/"}>
+              <Image
+                className="w-60 h-full"
+                src={echoLogo}
+                alt="Echo Verse Logo"
+              />
+            </Link>
+          </div>
           {/* MENU BUTTON */}
           <button
             onClick={toggleMenu}
-            className={`rounded-full p-6 transition-all duration-300 mr-7 cursor-pointer hover:scale-110 ${isOpen ? "bg-orange-300 text-[#00522D]" : "bg-orange-200 text-black"
-              }`}
+            className={`rounded-full p-6 transition-all duration-300 mr-7 cursor-pointer hover:scale-110 ${
+              isOpen
+                ? "bg-orange-300 text-[#00522D]"
+                : "bg-orange-200 text-black"
+            }`}
             type="button"
             aria-label={isOpen ? "Close menu" : "Open menu"}
           >
-            <motion.div animate={{ rotate: isOpen ? 180 : 0 }} transition={{ duration: 0.4 }}>
-              {isOpen ? <X size={18} strokeWidth={2} /> : <MenuIcon size={18} strokeWidth={2} />}
+            <motion.div
+              animate={{ rotate: isOpen ? 180 : 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              {isOpen ? (
+                <X size={18} strokeWidth={2} />
+              ) : (
+                <MenuIcon size={18} strokeWidth={2} />
+              )}
             </motion.div>
           </button>
         </div>
@@ -94,7 +116,6 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-[60] flex overflow-hidden">
-
             {/* CENTER LOGO (slides with left panel) */}
             <motion.div
               variants={logoVariants}
@@ -103,7 +124,12 @@ const Navbar = () => {
               exit="exit"
               className="absolute inset-0 flex items-center justify-center pointer-events-none z-[70]"
             >
-              <Image src={echoLogo} alt="Echo Logo" className="w-[600px]" priority />
+              <Image
+                src={echoLogo}
+                alt="Echo Logo"
+                className="w-[600px]"
+                priority
+              />
             </motion.div>
 
             {/* LEFT PANEL */}
@@ -112,7 +138,7 @@ const Navbar = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center pl-[8%] lg:pl-[10%]"
+              className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center pl-[8%] lg:pl-[10%] pt-20"
             >
               <nav className="flex flex-col mb-6">
                 {menuLinks.map((link, idx) => (
@@ -120,8 +146,9 @@ const Navbar = () => {
                     key={idx}
                     href={`#${link.name.toLowerCase()}`}
                     onClick={toggleMenu}
-                    className={`font-beni font-black text-[4rem] lg:text-[5.5rem] leading-[0.8] uppercase transition-colors duration-300 hover:text-orange-400 ${link.active ? "text-orange-400" : "text-white"
-                      }`}
+                    className={`font-beni font-black text-[4rem] lg:text-[5.5rem] leading-[0.8] uppercase transition-colors duration-300 hover:text-orange-400 ${
+                      link.active ? "text-orange-400" : "text-white"
+                    }`}
                   >
                     {link.name}
                   </a>
@@ -130,15 +157,17 @@ const Navbar = () => {
 
               {/* SOCIAL ICONS */}
               <div className="flex items-center gap-2">
-                {[FaInstagram, FaTiktok, FaPinterestP, FaLinkedinIn].map((Icon, idx) => (
-                  <a
-                    key={idx}
-                    href="#"
-                    className="text-white border-2 border-white rounded-full p-1.5 lg:p-2.5 hover:bg-white hover:text-[#00522D] transition-colors duration-300"
-                  >
-                    <Icon size={22} />
-                  </a>
-                ))}
+                {[FaInstagram, FaTiktok, FaPinterestP, FaLinkedinIn].map(
+                  (Icon, idx) => (
+                    <a
+                      key={idx}
+                      href="#"
+                      className="text-white border-2 border-white rounded-full p-1.5 lg:p-2.5 hover:bg-white hover:text-[#00522D] transition-colors duration-300"
+                    >
+                      <Icon size={22} />
+                    </a>
+                  ),
+                )}
               </div>
             </motion.div>
 
@@ -148,7 +177,7 @@ const Navbar = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center items-center px-8 pl-[12%]"
+              className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center items-center px-8 pl-[12%] pt-10"
             >
               <Image src={qrImage} alt="QR Image" />
 
@@ -160,14 +189,14 @@ const Navbar = () => {
 
               <p className="font-clash font-bold text-white text-center text-xl leading-snug w-full max-w-[350px] mt-6">
                 Because we prefer genuine, quick, and straightforward exchanges.
-                Scan the QR code, send your message, and we&apos;ll reply (very quickly).
+                Scan the QR code, send your message, and we&apos;ll reply (very
+                quickly).
               </p>
 
               <button className="mt-10 bg-orange-500 transition-all duration-300 text-white font-clash font-semibold text-sm px-6 py-4 rounded-lg cursor-pointer hover:scale-95">
                 Chat With Us
               </button>
             </motion.div>
-
           </div>
         )}
       </AnimatePresence>
@@ -188,7 +217,10 @@ const Navbar = () => {
       <AnimatePresence>
         {isWhatsAppOpen && (
           <>
-            <div className="fixed inset-0 z-[105]" onClick={() => setIsWhatsAppOpen(false)} />
+            <div
+              className="fixed inset-0 z-[105]"
+              onClick={() => setIsWhatsAppOpen(false)}
+            />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.5, y: 20, x: 20 }}
@@ -217,7 +249,8 @@ const Navbar = () => {
 
               <p className="font-clash font-medium text-white text-center text-base leading-snug w-full mt-4">
                 Because we prefer genuine, quick, and straightforward exchanges.
-                Scan the QR code, send your message, and we&apos;ll reply (very quickly).
+                Scan the QR code, send your message, and we&apos;ll reply (very
+                quickly).
               </p>
 
               <button className="mt-6 bg-orange-500 transition-all duration-300 text-white font-clash font-semibold text-base px-8 py-3 rounded-lg shadow-sm w-full hover:scale-95 cursor-pointer">
