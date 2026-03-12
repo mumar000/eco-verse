@@ -38,7 +38,7 @@ const Navbar = () => {
   const socialIcons = [
     { id: 1, icon: <FaInstagram size={18} />, x: 25, y: -60, delay: 0.05 },
     { id: 2, icon: <FaLinkedinIn size={18} />, x: -30, y: -60, delay: 0.1 },
-    { id: 3, icon: <Phone size={18} />, x: -65, y: -20, delay: 0.15 },
+    { id: 3, icon: <FaWhatsapp size={18} />, x: -65, y: -20, delay: 0.15 },
     { id: 4, icon: <Mail size={18} />, x: -55, y: 30, delay: 0.2 },
   ];
 
@@ -201,7 +201,7 @@ const Navbar = () => {
             {isSocialOpen ? (
               <X size={22} strokeWidth={2} />
             ) : (
-              <FaWhatsapp size={20} />
+              <Phone size={20} />
             )}
           </motion.div>
         </button>
