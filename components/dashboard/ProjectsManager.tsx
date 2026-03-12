@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ImageIcon, Pencil, PlusCircle, RotateCcw, Save, Trash2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Project } from "@/app/generated/prisma/client";
 import { useCreateProject, useDeleteProject, useProjects, useUpdateProject } from "@/lib/hooks/useProjects";
@@ -397,6 +398,12 @@ export default function ProjectsManager() {
                     </div>
 
                     <div className="mt-3 flex gap-1.5">
+                      <Link
+                        href={`/dashboard/projects/${project.id}`}
+                        className="inline-flex flex-1 items-center justify-center rounded-md border border-[var(--color-primary)]/30 bg-[var(--color-primary)]/8 py-1.5 text-xs font-semibold text-[var(--foreground)] transition hover:border-[var(--color-primary)]/60"
+                      >
+                        Case Study
+                      </Link>
                       <button
                         onClick={() => startEdit(project)}
                         type="button"

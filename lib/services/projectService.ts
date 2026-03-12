@@ -1,6 +1,18 @@
 import prisma from "@/lib/prisma";
 import type { ProjectCreateInput, ProjectUpdateInput } from "@/lib/schemas/projectSchema";
 
+const serializeProjectContent = (content: ProjectCreateInput["content"] | ProjectUpdateInput["content"]) => {
+  if (typeof content === "string") {
+    return content;
+  }
+
+  if (!content) {
+    return undefined;
+  }
+
+  return JSON.stringify(content);
+};
+
 export const getProjects = async () => {
   try {
     return await prisma.project.findMany({
@@ -34,6 +46,7 @@ export const createProject = async (data: ProjectCreateInput) => {
         ...data,
         tags: data.tags ?? [],
         galleryImages: data.galleryImages ?? [],
+        content: serializeProjectContent(data.content),
       },
     });
   } catch (error) {
@@ -49,7 +62,10 @@ export const updateProject = async (data: ProjectUpdateInput) => {
       where: {
         id,
       },
-      data: payload,
+      data: {
+        ...payload,
+        content: serializeProjectContent(payload.content),
+      },
     });
   } catch (error) {
     console.error("Error updating project:", error);

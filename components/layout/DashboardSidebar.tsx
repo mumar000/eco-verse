@@ -12,6 +12,10 @@ import {
 import { motion } from "framer-motion";
 import type { ComponentType } from "react";
 
+type DashboardSidebarProps = {
+  collapsed?: boolean;
+};
+
 type DashboardNavItem = {
   id: string;
   label: string;
@@ -59,7 +63,7 @@ const dashboardLinks: DashboardNavItem[] = [
   },
 ];
 
-const DashboardSidebar = () => {
+const DashboardSidebar = ({ collapsed = false }: DashboardSidebarProps) => {
   const pathname = usePathname();
 
   const activeRoute = (href: string) => {
@@ -70,16 +74,22 @@ const DashboardSidebar = () => {
   };
 
   return (
-    <aside className="sticky top-0 z-30 h-screen w-[18rem] border-r border-[var(--color-primary)]/20 bg-white p-4 backdrop-blur-sm">
-      <header className="mb-6 flex items-center">
+    <aside
+      className={`sticky top-0 z-30 h-screen border-r border-[var(--color-primary)]/20 bg-white p-4 backdrop-blur-sm transition-all duration-200 ${
+        collapsed ? "w-[5.25rem]" : "w-[18rem]"
+      }`}
+    >
+      <header className={`mb-6 flex items-center ${collapsed ? "justify-center" : ""}`}>
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-3 text-sm font-black uppercase tracking-[0.16em] text-[var(--foreground)]"
+          className={`inline-flex items-center text-sm font-black uppercase tracking-[0.16em] text-[var(--foreground)] ${
+            collapsed ? "justify-center" : "gap-3"
+          }`}
         >
           <span className="grid size-8 place-items-center rounded-full border border-[var(--color-primary)]/40 bg-[var(--color-primary)]/10 text-xs text-[var(--foreground)]">
             CE
           </span>
-          <span>Control Center</span>
+          {!collapsed ? <span>Control Center</span> : null}
         </Link>
       </header>
 
@@ -101,7 +111,7 @@ const DashboardSidebar = () => {
                   isActive
                     ? "border-[var(--color-green)]/35 bg-[var(--color-green)]/10 text-[var(--foreground)]"
                     : "border-[var(--color-primary)]/15 text-[var(--foreground)]/80 hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/6 hover:text-[var(--foreground)]"
-                }`}
+                } ${collapsed ? "justify-center" : ""}`}
               >
                 <span
                   className={`grid size-9 place-items-center rounded-lg border ${
@@ -112,16 +122,18 @@ const DashboardSidebar = () => {
                 >
                   <Icon className="size-4" />
                 </span>
-                <span className="flex min-w-0 flex-col">
-                  <span className="truncate text-sm font-semibold">
-                    {link.label}
+                {!collapsed ? (
+                  <span className="flex min-w-0 flex-col">
+                    <span className="truncate text-sm font-semibold">
+                      {link.label}
+                    </span>
+                    <span className="truncate text-xs text-[var(--foreground)]/55">
+                      {link.description}
+                    </span>
                   </span>
-                  <span className="truncate text-xs text-[var(--foreground)]/55">
-                    {link.description}
-                  </span>
-                </span>
+                ) : null}
                 {link.count !== undefined ? (
-                  <span className="ml-auto text-xs font-semibold text-[var(--foreground)]/60">
+                  <span className={`text-xs font-semibold text-[var(--foreground)]/60 ${collapsed ? "" : "ml-auto"}`}>
                     {link.count}
                   </span>
                 ) : null}
