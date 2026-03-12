@@ -75,17 +75,17 @@ const Navbar = () => {
 
   return (
     <>
-      {/* HEADER BUTTONS */}
-      <div className="fixed left-0 top-0 z-[100] w-full bg-transparent -mt-20 pointer-events-none">
+      {/* HEADER BUTTONS - Changed to absolute and removed -mt-20 to make it scroll with the page */}
+      <div className="absolute left-0 top-0 z-[100] w-full bg-transparent pointer-events-none -mt-20">
         <div className="flex items-center justify-between pointer-events-auto mt-5">
           <div>
-            <Link href={"/"}>
-              <Image
-                className="w-60 h-full"
-                src={echoLogo}
-                alt="Echo Verse Logo"
-              />
-            </Link>
+              <Link href={"/"}>
+                <Image
+                  className="w-60 h-full"
+                  src={echoLogo}
+                  alt="Echo Verse Logo"
+                />
+              </Link>
           </div>
           {/* MENU BUTTON */}
           <button
@@ -112,7 +112,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* FULLSCREEN MENU */}
+      {/* FULLSCREEN MENU - Remains fixed so it covers the screen when opened */}
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-[60] flex overflow-hidden">
