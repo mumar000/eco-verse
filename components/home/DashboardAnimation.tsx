@@ -67,13 +67,13 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
       className="relative z-20 w-full min-h-screen py-10 overflow-visible flex justify-center items-center bg-[#154238]"
     >
       {/* Background Subtle Grid */}
-      <div 
+      {/* <div 
         className="absolute inset-0 pointer-events-none opacity-20" 
         style={{
           backgroundImage: `linear-gradient(rgba(255,255,255,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.2) 1px, transparent 1px)`,
           backgroundSize: `50px 50px`
         }} 
-      />
+      /> */}
 
       {/* Main Dashboard Wrapper */}
       <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 flex flex-col gap-5 md:gap-6">
