@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import DashboardAnimation from "@/components/home/DashboardAnimation";
 
-// Image imports (using the paths you provided)
+// Image imports
 import smileImg from "@/public/assets/smile.svg";
 import bulbImg from "@/public/assets/bulb.svg";
 import blackTag from "@/public/assets/blackTag.svg";
@@ -22,7 +22,7 @@ const Hero2 = () => {
       const repelElement = (
         el: HTMLElement | null,
         maxDist: number,
-        pushStrength: number
+        pushStrength: number,
       ) => {
         if (!el) return;
 
@@ -35,7 +35,6 @@ const Hero2 = () => {
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         if (distance < maxDist) {
-          // Calculate how far to push based on how close the cursor is
           const force = (maxDist - distance) / maxDist;
           const moveX = (deltaX / distance) * pushStrength * force;
           const moveY = (deltaY / distance) * pushStrength * force;
@@ -47,7 +46,6 @@ const Hero2 = () => {
             ease: "power2.out",
           });
         } else {
-          // Return to original position smoothly
           gsap.to(el, {
             x: 0,
             y: 0,
@@ -57,28 +55,24 @@ const Hero2 = () => {
         }
       };
 
-      // Apply the repel effect to both images (element, interaction distance, move strength)
       repelElement(smileRef.current, 200, 60);
       repelElement(bulbRef.current, 200, 60);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  },[]);
+  }, []);
 
   return (
     <section ref={sectionRef}>
       <div className="relative flex flex-col items-center justify-center h-screen w-full bg-white text-orange-500 overflow-hidden px-4 pt-10">
-        {/* Container for Heading and Floating Images */}
         <div className="relative flex flex-col items-center justify-center z-10 w-full max-w-6xl">
-          {/* Main Heading */}
           <h1 className="font-bue text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
             Creator <span className="text-orange-300">Marketing</span>
             <br />
             Systemized
           </h1>
 
-          {/* Floating Bulb Image */}
           <div className="absolute left-[-5%] sm:left-[13%] bottom-[-5%] sm:bottom-10 -rotate-10 z-30">
             <Image
               ref={bulbRef}
@@ -91,7 +85,6 @@ const Hero2 = () => {
             />
           </div>
 
-          {/* Floating Smile Image */}
           <div className="absolute right-[-5%] sm:right-[12%] top-[-5%] sm:top-[15%] z-30">
             <Image
               ref={smileRef}
@@ -99,30 +92,48 @@ const Hero2 = () => {
               alt="Smile"
               width={160}
               height={160}
-              className="w-24 sm:w-28 md:w-30 lg:w-32h-auto"
+              className="w-24 sm:w-28 md:w-30 lg:w-32 h-auto"
               priority
             />
           </div>
         </div>
 
-        {/* Subheading */}
         <div className="z-10 mt-4 text-center max-w-2xl">
           <p className="text-[22px] leading-6 font-medium font-clash">
-            Powering brands to launch and manage creator campaigns <br /> with speed and measurable performance
+            Powering brands to launch and manage creator campaigns <br /> with
+            speed and measurable performance
           </p>
         </div>
 
-        {/* Ticket Button */}
-        <button className="z-10 mt-10 flex items-center bg-orange-500 cursor-pointer text-white font-medium font-clash uppercase text-base rounded-md overflow-hidden transition-all hover:scale-105 active:scale-95">
-          <span className="px-6 py-4">Book Tickets</span>
-          <div className="border-l-2 border-dashed border-orange-300 px-4 py-4 flex items-center justify-center bg-orange-500">
-            <Image
-              src={whiteTag}
-              alt="Ticket Icon"
-              width={20}
-              height={20}
-              className="w-5 h-5"
-            />
+        {/* Updated Dividing Ticket Button */}
+        <button className="group z-10 mt-10 flex items-center bg-transparent cursor-pointer overflow-visible transition-all">
+          {/* Left Half: Text */}
+          <div className="bg-orange-500 group-hover:bg-[#154238] text-white px-6 py-4 rounded-l-md font-medium font-clash uppercase text-base transition-all duration-500 ease-out group-hover:-translate-x-4 group-hover:-translate-y-3 group-hover:-rotate-6">
+            Book Tickets
+          </div>
+
+          {/* Right Half: Icon */}
+          <div className="bg-orange-500 group-hover:bg-[#154238] border-l-2 border-dashed border-orange-300 group-hover:border-transparent px-4 py-4 rounded-r-md transition-all duration-500 ease-out group-hover:translate-x-4 group-hover:-translate-y-3.5 group-hover:rotate-6 relative flex items-center justify-center w-[54px] h-[56px]">
+            {/* Black Tag (Visible by default) */}
+            <div className="absolute transition-opacity duration-300 group-hover:opacity-0">
+              <Image
+                src={whiteTag}
+                alt="Ticket Icon"
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
+            </div>
+            {/* White Tag (Visible on hover) */}
+            <div className="absolute opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <Image
+                src={whiteTag}
+                alt="Ticket Icon"
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
+            </div>
           </div>
         </button>
       </div>
