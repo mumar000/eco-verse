@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import DashboardSidebar from "@/components/layout/DashboardSidebar";
 
 type DashboardLayoutProps = {
@@ -7,8 +7,11 @@ type DashboardLayoutProps = {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      <div className="flex min-h-screen bg-[radial-gradient(circle_at_1px_1px,_rgba(21,128,61,0.14)_1px,_transparent_0)] bg-[length:24px_24px]">
+    <div
+      className="min-h-screen bg-[var(--background)] text-[var(--foreground)]"
+      style={{ "--color-green": "#ea580c" } as CSSProperties}
+    >
+      <div className="flex min-h-screen bg-[radial-gradient(circle_at_1px_1px,_rgba(234,88,12,0.14)_1px,_transparent_0)] bg-[length:24px_24px]">
         <DashboardSidebar />
         <div className="min-h-screen flex-1">
           <header className="sticky top-0 z-20 border-b border-zinc-200/80 bg-white/80 backdrop-blur">
