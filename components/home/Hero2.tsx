@@ -72,14 +72,14 @@ const Hero2 = () => {
         {/* Container for Heading and Floating Images */}
         <div className="relative flex flex-col items-center justify-center z-10 w-full max-w-6xl">
           {/* Main Heading */}
-          <h1 className="font-bue text-[172px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
-            Get To Know
+          <h1 className="font-bue text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
+            Creator Marketing
             <br />
-            Your Dough
+            Systemized
           </h1>
 
           {/* Floating Bulb Image */}
-          <div className="absolute left-[-5%] sm:left-[11%] bottom-[-5%] sm:-bottom-8 -rotate-10 z-30">
+          <div className="absolute left-[-5%] sm:left-[13%] bottom-[-5%] sm:bottom-10 -rotate-10 z-30">
             <Image
               ref={bulbRef}
               src={bulbImg}
@@ -106,11 +106,9 @@ const Hero2 = () => {
         </div>
 
         {/* Subheading */}
-        <div className="z-10 mt-8 text-center max-w-2xl">
+        <div className="z-10 mt-4 text-center max-w-2xl">
           <p className="text-[22px] leading-snug font-medium font-clash">
-            Money: it&apos;s all about change. Discover its story
-            <br />
-            at MoMoney, the interactive Museum of Money.
+            Powering brands to launch and manage creator campaigns
           </p>
         </div>
 

@@ -51,10 +51,10 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
       });
 
       // Scattered at the TOP of the section initially, then coming downwards on scroll
-      tl.from(".animated-card-1", { x: "75vw", y: "-170vh", rotation: -20, scale: 1, ease: "none" }, 0) // Lime Card
+      tl.from(".animated-card-1", { x: "75vw", y: "-170vh", rotation: -15, scale: 1, ease: "none" }, 0) // Lime Card
         .from(".animated-card-2", { x: "-20vw", y: "-155vh", rotation: -10, scale: 1, ease: "none" }, 0) // Pink Card
-        .from(".animated-card-3", { x: "15vw", y: "-165vh", rotation: 0, scale: 1, ease: "none" }, 0)  // Dark Blue Card
-        .from(".animated-card-4", { x: "55vw", y: "-170vh", rotation: 25, scale: 1, ease: "none" }, 0); // Light Blue Card
+        .from(".animated-card-3", { x: "15vw", y: "-163vh", rotation: 0, scale: 1, ease: "none" }, 0)  // Dark Blue Card
+        .from(".animated-card-4", { x: "55vw", y: "-165vh", rotation: 15, scale: 1, ease: "none" }, 0); // Light Blue Card
         
     }, sectionRef);
 
