@@ -57,10 +57,12 @@ const fallbackCards: SocialBlog[] = [
   },
 ];
 
-const Social = ({ blogs }: { blogs: SocialBlog[] }) => {
+const Social = ({ blogs = [] }: { blogs?: SocialBlog[] }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const cards = blogs.length > 0 ? blogs : fallbackCards;
   const totalTrackCards = cards.length + 1;
+  
+  // Logic remains untouched for desktop, works as a base for mobile
   const shiftPercent =
     totalTrackCards > 3 ? ((totalTrackCards - 3) / totalTrackCards) * 100 : 0;
 
@@ -69,14 +71,12 @@ const Social = ({ blogs }: { blogs: SocialBlog[] }) => {
     offset: ["start start", "end end"],
   });
 
-  // Soft spring for buttery-smooth horizontal scrolling
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 80,
     damping: 25,
     restDelta: 0.001,
   });
 
-  // Translate track based on card count so the final cards are fully visible at scroll end.
   const x = useTransform(smoothProgress, [0, 1], ["0%", `-${shiftPercent}%`]);
 
   const avatars = [
@@ -87,76 +87,72 @@ const Social = ({ blogs }: { blogs: SocialBlog[] }) => {
   ];
 
   return (
-    // Main wrapper pinned to 400vh to create scroll depth.
     <div ref={containerRef} className="relative h-[400vh] bg-orange-500">
-      {/* Sticky Wrapper - Pins to the screen while scrolling */}
       <div className="sticky top-0 h-screen w-full flex flex-col lg:flex-row items-center overflow-hidden">
-        {/* --- LEFT SECTION (40% Width) --- */}
-        {/* z-20 keeps it strictly above the right section boundary if needed, though they don't overlap now */}
-        <div className="w-full lg:w-[35%] h-full flex flex-col justify-center px-6 lg:px-8 z-20 relative">
-          {/* Slide Up Entrance Animation */}
+        
+        {/* --- LEFT SECTION --- */}
+        <div className="w-full lg:w-[35%] h-[40%] lg:h-full flex flex-col justify-center px-6 sm:px-10 lg:px-8 z-20 relative pt-10 lg:pt-0">
           <motion.div
-            initial={{ y: 150, opacity: 0 }}
+            initial={{ y: 100, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} // Custom smooth ease-out
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             className="relative"
           >
-            {/* Floating Emoji Bubble */}
+            {/* Floating Emoji Bubble - Responsive position/size */}
             <motion.div
               animate={{ y: [-5, 5, -5] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-10 left-20 lg:left-40 bg-orange-200 rounded-2xl p-4 flex items-center shadow-sm rotate-[-6deg] z-20"
+              className="absolute left-10 sm:left-20 lg:left-40 bg-orange-200 rounded-2xl p-2 sm:p-4 flex items-center shadow-sm rotate-[-6deg] z-20"
             >
-              <span className="text-3xl drop-shadow-sm">📱</span>
-              <span className="text-3xl drop-shadow-sm">❤️</span>
-              <span className="text-3xl drop-shadow-sm">😎</span>
+              <span className="text-xl sm:text-2xl lg:text-3xl drop-shadow-sm">📱</span>
+              <span className="text-xl sm:text-2xl lg:text-3xl drop-shadow-sm">❤️</span>
+              <span className="text-xl sm:text-2xl lg:text-3xl drop-shadow-sm">😎</span>
             </motion.div>
 
-            {/* Huge Title */}
-            <h2 className="text-[94px] text-white leading-16 font-beni uppercase font-black z-10 relative">
+            {/* Huge Title - Scaled for mobile */}
+            <h2 className="text-[52px] sm:text-[80px] lg:text-[94px] text-white leading-[0.7] lg:leading-16 font-beni uppercase font-black z-10 relative">
               <span className="block">WE</span>
               <span className="block">TELL</span>
               <span className="block">STORIES</span>
             </h2>
 
             {/* Avatars Row */}
-            <div className="flex items-center mt-6">
+            <div className="flex items-center mt-4 sm:mt-6">
               {avatars.map((src, idx) => (
                 <img
+                  loading="lazy"
                   key={idx}
                   src={src}
                   alt={`Avatar ${idx}`}
-                  className={`w-12 h-12 lg:w-14 lg:h-14 rounded-full border-3 border-white object-cover first:ml-0 ml-1 ${idx !== 0 ? "" : ""} z-[${10 - idx}]`}
+                  className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full border-2 sm:border-3 border-white object-cover ml-[-8px] first:ml-0 z-10"
                 />
               ))}
-              <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-3 border-white bg-[#00522D] flex items-center justify-center text-white font-clash font-bold text-lg ml-1 z-0">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full border-2 sm:border-3 border-white bg-[#00522D] flex items-center justify-center text-white font-clash font-bold text-sm sm:text-lg ml-[-8px] z-0">
                 +1
               </div>
             </div>
           </motion.div>
 
-          {/* Bottom Left Label */}
-          <div className="absolute bottom-8 left-9 z-50">
+          {/* Label hidden on mobile for cleaner look, as per standard UI patterns */}
+          <div className="absolute lg:block hidden bottom-8 left-9 z-50">
             <span className="text-white font-clash font-regular uppercase text-sm border-b border-white">
               Blogs
             </span>
           </div>
         </div>
 
-        {/* --- RIGHT SECTION (60% Width) --- */}
-        {/* overflow-hidden IS KEY HERE: It acts as a hard boundary. Cards sliding left will disappear exactly at the 40/60 split line */}
-        <div className="w-full lg:w-[65%] h-[60vh] lg:h-[75vh] flex items-center overflow-hidden">
+        {/* --- RIGHT SECTION (CARDS) --- */}
+        <div className="w-full lg:w-[65%] h-[60%] lg:h-[75vh] flex items-center overflow-hidden">
           <motion.div
             style={{ x }}
-            className="flex gap-3 w-max items-center h-full pl-2 pr-12"
+            className="flex gap-4 sm:gap-6 lg:gap-3 w-max items-center h-full pl-6 lg:pl-2 pr-12 pt-8 lg:pt-0"
           >
-            {/* Image Cards (1 to 5) */}
             {cards.map((card) => (
               <div
                 key={card.id}
-                // width is exactly 1/3 of the 60vw right-side section minus gap (20vw - 1.25rem), ensuring 3 cards fit perfectly!
-                className="relative w-[80vw] lg:w-[calc(20vw-1.25rem)] h-[50vh] lg:h-[70vh] rounded-3xl overflow-hidden shrink-0 group"
+                // Mobile: 85vw width for a partial peek of the next card. Tablet: 45vw. Desktop: Original logic.
+                className="relative w-[85vw] sm:w-[45vw] lg:w-[calc(20vw-1.25rem)] h-[50vh] lg:h-[70vh] rounded-2xl overflow-hidden shrink-0 group"
               >
                 <Image
                   loading="lazy"
@@ -165,22 +161,19 @@ const Social = ({ blogs }: { blogs: SocialBlog[] }) => {
                   alt={card.title}
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                {/* Dark overlay for text readability */}
                 <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-500"></div>
 
-                {/* Centered Title */}
-                <div className="absolute bottom-[-10px] -translate-y-20 left-0 right-0 p-6 text-left">
-                  <h3 className="font-beni font-bold text-4xl lg:text-4xl 2xl:text-5xl text-white uppercase leading-[0.86] drop-shadow-lg">
+                <div className="absolute bottom-6 sm:bottom-10 left-0 right-0 p-6 text-left">
+                  <h3 className="font-beni font-bold text-3xl sm:text-4xl lg:text-4xl 2xl:text-5xl text-white uppercase leading-[0.86] drop-shadow-lg">
                     {card.title}
                   </h3>
                 </div>
 
-                {/* Bottom Footer Elements */}
                 <div className="absolute top-4 left-4 right-4 flex flex-wrap gap-2 z-20">
                   {card.tags.slice(0, 2).map((tag) => (
                     <span
                       key={`${card.id}-${tag}`}
-                      className="rounded-full bg-black/45 px-3 py-1 text-xs font-clash font-medium capitalize text-white"
+                      className="rounded-full bg-black/45 px-3 py-1 text-[10px] sm:text-xs font-clash font-medium capitalize text-white"
                     >
                       {tag}
                     </span>
@@ -190,8 +183,7 @@ const Social = ({ blogs }: { blogs: SocialBlog[] }) => {
                 <div className="absolute bottom-4 right-4 z-20">
                   <Link
                     href={`/blog/${card.slug}`}
-                    aria-label={`Open ${card.title}`}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/20 text-white backdrop-blur-sm transition hover:scale-95 hover:bg-white/30"
+                    className="inline-flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-white/80 bg-white/20 text-white backdrop-blur-sm transition hover:scale-95"
                   >
                     <Eye size={18} />
                   </Link>
@@ -199,15 +191,16 @@ const Social = ({ blogs }: { blogs: SocialBlog[] }) => {
               </div>
             ))}
 
-            <div className="relative w-[80vw] lg:w-[calc(20vw-1.25rem)] h-[50vh] lg:h-[70vh] rounded-3xl bg-[#00522D] flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
-              <h3 className="font-beni font-black text-[80px] text-white uppercase leading-[0.7] mb-8">
+            {/* End Card */}
+            <div className="relative w-[85vw] sm:w-[45vw] lg:w-[calc(20vw-1.25rem)] h-[45vh] lg:h-[70vh] rounded-2xl bg-[#00522D] flex-shrink-0 flex flex-col items-center justify-center p-8 text-center">
+              <h3 className="font-beni font-black text-[50px] sm:text-[60px] lg:text-[80px] text-white uppercase leading-[0.7] mb-6 sm:mb-8">
                 MORE
                 <br />
                 BLOGS?
               </h3>
               <Link
                 href="/blog"
-                className="bg-orange-500 transition-all duration-300 text-white font-clash font-semibold text-sm hover:scale-95 px-8 py-3 rounded-lg cursor-pointer uppercase"
+                className="bg-orange-500 transition-all duration-300 text-white font-clash font-semibold text-xs sm:text-sm hover:scale-95 px-6 sm:px-8 py-3 rounded-lg cursor-pointer uppercase"
               >
                 Explore
               </Link>

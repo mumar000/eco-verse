@@ -31,34 +31,34 @@ const LogoAnimation: React.FC = () => {
 
   const cards: IntegrationCard[] = [
     {
-      icon: <Mail className="w-8 h-8 mb-2" />,
+      icon: <Mail className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
       title: "Email newsletter",
-      pos: "top-[15%] left-[10%]",
+      pos: "top-[15%] md:left-[5%] lg:left-[10%]",
     },
     {
-      icon: <Megaphone className="w-8 h-8 mb-2" />,
+      icon: <Megaphone className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
       title: "Advertising",
       pos: "bottom-[10%] left-[5%]",
     },
     {
-      icon: <User className="w-8 h-8 mb-2" />,
+      icon: <User className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
       title: "Social networks",
-      pos: "bottom-[25%] left-[25%]",
+      pos: "bottom-[25%] md:left-[20%] lg:left-[25%]",
     },
     {
-      icon: <LayoutDashboard className="w-8 h-8 mb-2" />,
+      icon: <LayoutDashboard className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
       title: "CRM",
-      pos: "top-[20%] right-[25%]",
+      pos: "top-[20%] md:right-[20%] lg:right-[25%]",
     },
     {
-      icon: <MessageSquareQuote className="w-8 h-8 mb-2" />,
+      icon: <MessageSquareQuote className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
       title: "Chatbot",
       pos: "bottom-[15%] right-[18%]",
     },
     {
-      icon: <Ticket className="w-8 h-8 mb-2" />,
+      icon: <Ticket className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
       title: "Ticket operator",
-      pos: "bottom-[40%] right-[5%]",
+      pos: "bottom-[40%] md:right-[3%] lg:right-[5%]",
     },
   ];
 
@@ -79,10 +79,12 @@ const LogoAnimation: React.FC = () => {
 
       // Move the logo from top to the center of the lines
       // We use y: 450 (approx) to push it down through the title into the center
+      const yValue = window.innerWidth < 1024 ? 350 : 500;
+
       tl.to(logoRef.current, {
-        y: 500,
+        y: yValue,
         scale: 0.8,
-        ease: "none", // Keeps it strictly proportional to scroll
+        ease: "none",
       });
     }, sectionRef);
 
@@ -97,7 +99,7 @@ const LogoAnimation: React.FC = () => {
       {/* 1. INITIAL LOGO POSITION (TOP) */}
       <div ref={logoRef} className="z-50">
         <Image
-          className="w-[400px] h-auto bg-white rounded-xl"
+          className="md:w-[300px] lg:w-[400px] h-auto bg-white rounded-xl"
           src={echoVerseLogo}
           alt="Logo of Echo Verse"
           priority
@@ -128,10 +130,10 @@ const LogoAnimation: React.FC = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            className={`absolute ${card.pos} z-10 bg-orange-500 rounded-xl shadow-sm p-4 w-36 h-36 flex flex-col items-center justify-center text-center transition-transform hover:scale-110 duration-300`}
+            className={`absolute ${card.pos} z-10 bg-orange-500 rounded-xl shadow-sm p-4 md:w-30 lg:w-36 md:h-30 lg:h-36 flex flex-col items-center justify-center text-center transition-transform hover:scale-110 duration-300`}
           >
             <div className="text-white">{card.icon}</div>
-            <p className="text-white font-clash font-medium text-base leading-4 mt-2">
+            <p className="text-white font-clash font-medium sm:text-sm lg:text-base leading-4 mt-2">
               {card.title}
             </p>
           </motion.div>

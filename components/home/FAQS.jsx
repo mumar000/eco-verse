@@ -5,10 +5,7 @@ import { motion } from 'framer-motion';
 import gsap from 'gsap';
 
 const FAQS = () => {
-    // Array state to allow multiple FAQs to be open at the same time
     const [openItems, setOpenItems] = useState([]);
-
-    // Store references to the answer wrappers for GSAP
     const contentRefs = useRef([]);
 
     const toggleItem = (index) => {
@@ -46,25 +43,21 @@ const FAQS = () => {
         }
     ];
 
-    // GSAP Animation Logic
     useEffect(() => {
         faqs.forEach((_, idx) => {
             const el = contentRefs.current[idx];
             if (!el) return;
-
             const isOpen = openItems.includes(idx);
 
             if (isOpen) {
-                // Smooth GSAP Bounce Open
                 gsap.to(el, {
                     height: "auto",
                     opacity: 1,
                     marginTop: 24,
                     duration: 0.75,
-                    ease: "bounce.out" // Authentic GSAP Bounce
+                    ease: "bounce.out"
                 });
             } else {
-                // Smooth non-bouncy close
                 gsap.to(el, {
                     height: 0,
                     opacity: 0,
@@ -80,78 +73,78 @@ const FAQS = () => {
         <div className="relative min-h-screen bg-[#FFF8F6]">
             <div className="max-w-[1400px] mx-auto px-6 lg:px-8 flex flex-col lg:flex-row items-start justify-between relative">
 
-                {/* --- LEFT SECTION (STICKY) --- */}
-                {/* h-screen and sticky top-0 ensures it stays locked in place while right side scrolls */}
-                <div className="w-full lg:w-[45%] sticky top-0 h-screen flex flex-col justify-center pt-20 lg:pt-0">
+                {/* --- HEADER SECTION --- */}
+                {/* Mobile: Centered at top | Desktop: Sticky on left */}
+                <div className="w-full lg:w-[45%] lg:sticky lg:top-0 lg:h-screen flex flex-col justify-center items-center lg:items-start pt-20 pb-10 lg:py-0 text-center lg:text-left">
 
-                    <h2 className="text-[94px] leading-[0.7] font-beni font-black uppercase relative z-10">
-                        <span className="text-orange-500 block">SMALL</span>
-                        <span className="text-orange-500 block">QUESTIONS,</span>
-                        <span className="text-orange-300 block">BIG</span>
-                        <span className="text-orange-300 block">ANSWERS</span>
-                    </h2>
+                    <div className="relative inline-block">
+                        <h2 className="text-[52px] sm:text-[70px] md:text-[85px] lg:text-[94px] leading-[0.8] lg:leading-[0.7] font-beni font-black uppercase relative z-10">
+                            <span className="text-orange-500 block">SMALL</span>
+                            <span className="text-orange-500 block">QUESTIONS,</span>
+                            <span className="text-orange-300 block">BIG</span>
+                            <span className="text-orange-300 block">ANSWERS</span>
+                        </h2>
 
-                    {/* Floating Emoji Bubble */}
-                    <motion.div
-                        animate={{ y: [-6, 6, -6] }}
-                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                        className="absolute right-[5%] top-[65%] lg:right-[25%] lg:top-[55%] bg-orange-200 rounded-2xl px-4 py-4 flex items-center shadow-sm rotate-[-5deg] z-20"
-                    >
-                        <span className="text-3xl drop-shadow-sm">👷</span>
-                        <span className="text-3xl drop-shadow-sm">👏</span>
-                        <span className="text-3xl drop-shadow-sm">📣</span>
-                    </motion.div>
+                        {/* Floating Emoji Bubble - Repositioned for mobile to match image */}
+                        <motion.div
+                            animate={{ y: [-6, 6, -6] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                            className="absolute -top-14 -right-2 lg:right-[-10%] lg:top-[55%] bg-orange-200 rounded-2xl px-4 py-3 flex items-center shadow-sm rotate-[8deg] lg:rotate-[-5deg] z-20"
+                        >
+                            <span className="text-2xl lg:text-3xl drop-shadow-sm">👷👏📣</span>
+                        </motion.div>
+                    </div>
 
-                    {/* Bottom Left Label */}
-                    <div className="absolute bottom-8 left-0">
+                    {/* FAQ Label - Visible only on Desktop per image flow */}
+                    <div className="hidden lg:block absolute bottom-8 left-0">
                         <span className="text-orange-500 font-clash font-regular uppercase text-sm border-b-2 border-orange-500">
                             FAQ
                         </span>
                     </div>
                 </div>
 
-                {/* --- RIGHT SECTION (SCROLLABLE) --- */}
-                {/* This section naturally scrolls. padding-y gives it scrolling headroom/footroom */}
-                <div className="w-full lg:w-[50%] py-[10vh] lg:py-[20vh] flex flex-col z-10 pl-0 pr-15">
+                {/* --- FAQ LIST SECTION --- */}
+                <div className="w-full lg:w-[50%] lg:py-[20vh] flex flex-col z-10">
                     {faqs.map((faq, idx) => {
                         const isOpen = openItems.includes(idx);
 
                         return (
-                            <div key={idx} className="flex flex-col border-b border-orange-300/40 last:border-0 py-6">
+                            <div key={idx} className="flex flex-col border-b border-orange-300/40 last:border-0 py-8 lg:py-6">
 
-                                {/* QUESTION BUTTON */}
                                 <button
                                     onClick={() => toggleItem(idx)}
-                                    className="flex items-center justify-between w-full text-left group outline-none"
+                                    className="flex items-center justify-between w-full text-left group outline-none gap-6"
                                 >
-                                    <h3 className={`font-clash font-bold text-[22px] leading-none transition-colors duration-300 w-[100%] cursor-pointer pr-20 ${isOpen ? "text-orange-500" : "text-orange-300 group-hover:text-orange-500"}`}>
+                                    {/* Question Text */}
+                                    <h3 className={`font-clash font-bold text-sm md:text-[20px] lg:text-[22px] leading-tight transition-colors duration-300 flex-1 cursor-pointer 
+                                        ${isOpen ? "text-orange-500" : "text-orange-300 group-hover:text-orange-500"}`}>
                                         {faq.question}
                                     </h3>
 
-                                    {/* ROTATING ICON BUTTON */}
+                                    {/* Icon Button */}
                                     <motion.div
                                         animate={{
                                             rotate: isOpen ? 45 : 0,
-                                            backgroundColor: isOpen ? "#EA580C" : "#FDBA74", // Shifts from light orange to deep orange
-                                            color: isOpen ? "#FFFFFF" : "#000000"
+                                            backgroundColor: isOpen ? "#EA580C" : "#FDBA74",
+                                            color: isOpen ? "#FFFFFF" : "#EA580C" // Using your green for the '+' icon contrast
                                         }}
                                         transition={{ duration: 0.3 }}
-                                        className="w-10 h-10 lg:w-12 lg:h-12 flex-shrink-0 rounded-full flex items-center justify-center cursor-pointer"
+                                        className="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-full flex items-center justify-center cursor-pointer shadow-sm"
                                     >
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                                             <line x1="12" y1="5" x2="12" y2="19" />
                                             <line x1="5" y1="12" x2="19" y2="12" />
                                         </svg>
                                     </motion.div>
                                 </button>
 
-                                {/* ANSWER CONTENT WITH GSAP BOUNCE ANIMATION */}
+                                {/* Answer Content */}
                                 <div
                                     ref={(el) => (contentRefs.current[idx] = el)}
                                     className="overflow-hidden"
-                                    style={{ height: 0, opacity: 0, marginTop: 0 }} // Starts completely hidden securely 
+                                    style={{ height: 0, opacity: 0, marginTop: 0 }}
                                 >
-                                    <p className="font-clash text-orange-600 font-medium text-[16px] leading-5 w-[75%]">
+                                    <p className="font-clash text-orange-600 font-medium text-[15px] lg:text-[16px] leading-relaxed w-[90%] lg:w-[75%]">
                                         {faq.answer}
                                     </p>
                                 </div>

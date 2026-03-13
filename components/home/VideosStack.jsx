@@ -53,7 +53,7 @@ const videos = [
 const VideosStack = () => {
   return (
     <>
-      <div className="video-gallery py-10 px-8">
+      <div className="flex items-center justify-center md:gap-2 lg:gap-10 py-10 px-4 lg:px-8">
         {videos.map((video) => (
           <div
             className="video-card"

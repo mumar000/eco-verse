@@ -67,39 +67,39 @@ const Hero2 = () => {
     <section ref={sectionRef}>
       <div className="relative flex flex-col items-center justify-center h-screen w-full bg-white text-orange-500 overflow-hidden px-4 pt-10">
         <div className="relative flex flex-col items-center justify-center z-10 w-full max-w-6xl">
-          <h1 className="font-bue text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
+          <h1 className="font-bue sm:text-[80px] md:text-[100px] lg:text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
             Creator <span className="text-orange-300">Marketing</span>
             <br />
             Systemized
           </h1>
 
-          <div className="absolute left-[-5%] sm:left-[13%] bottom-[-5%] sm:bottom-10 -rotate-10 z-30">
+          <div className="absolute left-[-5%] md:left-[17%] lg:left-[13%] bottom-[-5%] md:bottom-6 lg:bottom-10 -rotate-10 z-30">
             <Image
               ref={bulbRef}
               src={bulbImg}
               alt="Bulb"
               width={180}
               height={180}
-              className="w-24 sm:w-28 md:w-30 lg:w-32 h-auto"
+              className="w-24 sm:w-28 md:w-24 lg:w-32 h-auto"
               priority
             />
           </div>
 
-          <div className="absolute right-[-5%] sm:right-[12%] top-[-5%] sm:top-[15%] z-30">
+          <div className="absolute right-[-5%] md:right-[16%] lg:right-[12%] top-[-5%] sm:top-[15%] z-30">
             <Image
               ref={smileRef}
               src={smileImg}
               alt="Smile"
               width={160}
               height={160}
-              className="w-24 sm:w-28 md:w-30 lg:w-32 h-auto"
+              className="w-24 sm:w-28 md:w-24 lg:w-32 h-auto"
               priority
             />
           </div>
         </div>
 
         <div className="z-10 mt-4 text-center max-w-2xl">
-          <p className="text-[22px] leading-6 font-medium font-clash">
+          <p className="md:text-base lg:text-[22px] leading-5 lg:leading-6 font-medium font-clash">
             Powering brands to launch and manage creator campaigns <br /> with
             speed and measurable performance
           </p>

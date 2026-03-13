@@ -25,7 +25,7 @@ const page = async () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <Hero2 />
+      {/* <Hero2 /> */}
       <LogoAnimation />
       {/* <CardsFlipScrollAnimation /> */}
       <Expertise />
