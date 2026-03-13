@@ -109,7 +109,7 @@ const FAQS = () => {
                         const isOpen = openItems.includes(idx);
 
                         return (
-                            <div key={idx} className="flex flex-col border-b border-orange-300/40 last:border-0 py-8 lg:py-6">
+                            <div key={idx} className="flex flex-col border-b border-orange-300/40 last:border-0 py-4 lg:py-6">
 
                                 <button
                                     onClick={() => toggleItem(idx)}
@@ -129,7 +129,7 @@ const FAQS = () => {
                                             color: isOpen ? "#FFFFFF" : "#EA580C" // Using your green for the '+' icon contrast
                                         }}
                                         transition={{ duration: 0.3 }}
-                                        className="w-12 h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-full flex items-center justify-center cursor-pointer shadow-sm"
+                                        className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 flex-shrink-0 rounded-full flex items-center justify-center cursor-pointer shadow-sm"
                                     >
                                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                                             <line x1="12" y1="5" x2="12" y2="19" />
@@ -144,7 +144,7 @@ const FAQS = () => {
                                     className="overflow-hidden"
                                     style={{ height: 0, opacity: 0, marginTop: 0 }}
                                 >
-                                    <p className="font-clash text-orange-600 font-medium text-[15px] lg:text-[16px] leading-relaxed w-[90%] lg:w-[75%]">
+                                    <p className="font-clash text-orange-600 font-medium text-sm sm:text-[15px] lg:text-[16px] leading-5 sm:leading-relaxed w-[90%] lg:w-[75%]">
                                         {faq.answer}
                                     </p>
                                 </div>
