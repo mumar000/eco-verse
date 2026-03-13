@@ -81,7 +81,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
   return (
     <section
       ref={sectionRef}
-      className="relative z-20 w-full min-h-screen py-10 overflow-hidden md:overflow-visible flex justify-center items-center bg-[#154238]"
+      className="relative z-20 w-full min-h-screen py-10 overflow-hidden md:overflow-visible flex justify-center items-center bg-zinc-50"
     >
       {/* Background Subtle Grid */}
       {/* <div 
@@ -93,7 +93,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
       /> */}
 
       {/* Main Dashboard Wrapper */}
-      <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 flex flex-col gap-5 md:gap-6">
+      <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 flex flex-col gap-5 py-4 rounded-4xl md:gap-6 bg-orange-200">
         {/* ROW 1: Reports (Left) & Traffic by Location (Right) */}
         <div className="flex flex-col md:flex-row w-full gap-5 md:gap-6">
           {/* Reports Chart */}
