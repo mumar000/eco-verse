@@ -104,7 +104,7 @@ const Navbar = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center pl-[8%] lg:pl-[10%] pt-20"
+              className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center pl-[4%] sm:pl-[8%] lg:pl-[10%] pt-20"
             >
               <nav className="flex flex-col mb-6">
                 {menuLinks.map((link, idx) => (
@@ -112,7 +112,7 @@ const Navbar = () => {
                     key={idx}
                     href={`#${link.name.toLowerCase()}`}
                     onClick={toggleMenu}
-                    className={`font-beni font-black text-[4rem] lg:text-[5.5rem] leading-[0.8] uppercase transition-colors duration-300 hover:text-orange-400 ${
+                    className={`font-beni font-black text-[3rem] sm:text-[4rem] lg:text-[5.5rem] leading-[0.8] uppercase transition-colors duration-300 hover:text-orange-400 ${
                       link.active ? "text-orange-400" : "text-white"
                     }`}
                   >
@@ -121,7 +121,7 @@ const Navbar = () => {
                 ))}
               </nav>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 {[FaInstagram, FaTiktok, FaPinterestP, FaLinkedinIn].map(
                   (Icon, idx) => (
                     <a
@@ -129,7 +129,7 @@ const Navbar = () => {
                       href="#"
                       className="text-white border-2 border-white rounded-full p-1.5 lg:p-2.5 hover:bg-white hover:text-[#00522D] transition-colors duration-300"
                     >
-                      <Icon size={22} />
+                      <Icon size={20} />
                     </a>
                   ),
                 )}
@@ -143,15 +143,15 @@ const Navbar = () => {
               className="w-1/2 h-full bg-[#00522D] flex flex-col justify-center items-center px-8 pl-[12%] pt-10"
             >
               <Image src={qrImage} alt="QR Image"/>
-              <h2 className="font-beni font-black md:text-[60px] lg:text-[80px] leading-[0.7] text-white text-center uppercase">
+              <h2 className="font-beni font-black text-[40px] md:text-[60px] lg:text-[80px] leading-[0.7] text-white text-center uppercase sm:pt-0 pt-4">
                 <span className="block">SHALL WE</span>
                 <span className="block">CONNECT ON</span>
                 <span className="block">WHATSAPP?</span>
               </h2>
-              <p className="font-clash font-bold text-white text-center md:text-lg lg:text-xl leading-snug w-full max-w-[350px] mt-6">
+              <p className="font-clash font-bold sm:block hidden text-white text-center md:text-lg lg:text-xl leading-snug w-full max-w-[350px] mt-6">
                 Because we prefer genuine, quick, and straightforward exchanges.
               </p>
-              <button className="mt-4 lg:mt-10 bg-orange-500 transition-all duration-300 text-white font-clash font-semibold text-sm px-6 py-4 rounded-lg cursor-pointer hover:scale-95">
+              <button className="mt-4 lg:mt-10 bg-orange-500 transition-all duration-300 text-white font-clash font-semibold text-xs sm:text-sm px-4 sm:px-6 py-3 sm:py-4 rounded-lg cursor-pointer hover:scale-95">
                 Chat With Us
               </button>
             </motion.div>
@@ -160,7 +160,7 @@ const Navbar = () => {
       </AnimatePresence>
 
       {/* COMPACT SOCIAL SLIDING BUBBLES */}
-      <div className="fixed bottom-7 right-7 z-[120] flex items-center justify-center">
+      <div className="fixed bottom-5 sm:bottom-7 right-6 sm:right-7 z-[120] flex items-center justify-center">
         <AnimatePresence>
           {isSocialOpen &&
             socialIcons.map((item) => (
