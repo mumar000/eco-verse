@@ -65,42 +65,42 @@ const Hero2 = () => {
 
   return (
     <section ref={sectionRef}>
-      <div className="relative flex flex-col items-center justify-center h-screen w-full bg-white text-orange-500 overflow-hidden px-4 pt-10">
+      <div className="relative flex flex-col items-center justify-center min-h-[100svh] md:h-screen w-full bg-white text-orange-500 overflow-hidden px-4 pt-8 sm:pt-10">
         <div className="relative flex flex-col items-center justify-center z-10 w-full max-w-6xl">
-          <h1 className="font-bue sm:text-[80px] md:text-[100px] lg:text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
+          <h1 className="font-bue text-[44px] sm:text-[80px] md:text-[100px] lg:text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
             Creator <span className="text-orange-300">Marketing</span>
             <br />
             Systemized
           </h1>
 
-          <div className="absolute left-[-5%] md:left-[17%] lg:left-[13%] bottom-[-5%] md:bottom-6 lg:bottom-10 -rotate-10 z-30">
+          <div className="absolute left-2 md:left-[17%] lg:left-[13%] bottom-2 md:bottom-6 lg:bottom-10 -rotate-10 z-30">
             <Image
               ref={bulbRef}
               src={bulbImg}
               alt="Bulb"
               width={180}
               height={180}
-              className="w-24 sm:w-28 md:w-24 lg:w-32 h-auto"
+              className="w-16 sm:w-28 md:w-24 lg:w-32 h-auto"
               priority
             />
           </div>
 
-          <div className="absolute right-[-5%] md:right-[16%] lg:right-[12%] top-[-5%] sm:top-[15%] z-30">
+          <div className="absolute right-2 md:right-[16%] lg:right-[12%] top-3 sm:top-[15%] z-30">
             <Image
               ref={smileRef}
               src={smileImg}
               alt="Smile"
               width={160}
               height={160}
-              className="w-24 sm:w-28 md:w-24 lg:w-32 h-auto"
+              className="w-16 sm:w-28 md:w-24 lg:w-32 h-auto"
               priority
             />
           </div>
         </div>
 
-        <div className="z-10 mt-4 text-center max-w-2xl">
-          <p className="md:text-base lg:text-[22px] leading-5 lg:leading-6 font-medium font-clash">
-            Powering brands to launch and manage creator campaigns <br /> with
+        <div className="z-10 mt-4 text-center max-w-2xl px-2 sm:px-0">
+          <p className="text-sm sm:text-base lg:text-[22px] leading-5 lg:leading-6 font-medium font-clash">
+            Powering brands to launch and manage creator campaigns <br className="hidden sm:block" /> with
             speed and measurable performance
           </p>
         </div>
@@ -108,12 +108,12 @@ const Hero2 = () => {
         {/* Updated Dividing Ticket Button */}
         <button className="group z-10 mt-10 flex items-center bg-transparent cursor-pointer overflow-visible transition-all">
           {/* Left Half: Text */}
-          <div className="bg-orange-500 group-hover:bg-[#154238] text-white px-6 py-4 rounded-l-md font-medium font-clash uppercase text-base transition-all duration-500 ease-out group-hover:-translate-x-4 group-hover:-translate-y-3 group-hover:-rotate-6">
+          <div className="bg-orange-500 group-hover:bg-[#154238] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-l-md font-medium font-clash uppercase text-sm sm:text-base transition-all duration-500 ease-out group-hover:-translate-x-4 group-hover:-translate-y-3 group-hover:-rotate-6">
             Book Tickets
           </div>
 
           {/* Right Half: Icon */}
-          <div className="bg-orange-500 group-hover:bg-[#154238] border-l-2 border-dashed border-orange-300 group-hover:border-transparent px-4 py-4 rounded-r-md transition-all duration-500 ease-out group-hover:translate-x-4 group-hover:-translate-y-3.5 group-hover:rotate-6 relative flex items-center justify-center w-[54px] h-[56px]">
+          <div className="bg-orange-500 group-hover:bg-[#154238] border-l-2 border-dashed border-orange-300 group-hover:border-transparent px-3 sm:px-4 py-3 sm:py-4 rounded-r-md transition-all duration-500 ease-out group-hover:translate-x-4 group-hover:-translate-y-3.5 group-hover:rotate-6 relative flex items-center justify-center w-[46px] h-[48px] sm:w-[54px] sm:h-[56px]">
             {/* Black Tag (Visible by default) */}
             <div className="absolute transition-opacity duration-300 group-hover:opacity-0">
               <Image

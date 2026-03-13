@@ -62,8 +62,8 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
   },[]);
 
   return (
-    <section 
-      ref={sectionRef} 
+    <section
+      ref={sectionRef}
       className="relative z-20 w-full min-h-screen py-10 overflow-visible flex justify-center items-center bg-[#154238]"
     >
       {/* Background Subtle Grid */}
