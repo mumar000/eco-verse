@@ -73,7 +73,7 @@ const Hero2 = () => {
             Systemized
           </h1>
 
-          <div className="absolute left-2 md:left-[17%] lg:left-[13%] bottom-2 md:bottom-6 lg:bottom-10 -rotate-10 z-30">
+          <div className="absolute  left-2 md:left-[17%] lg:left-[13%] bottom-2 md:bottom-6 lg:bottom-10 -rotate-10 z-30">
             <Image
               ref={bulbRef}
               src={bulbImg}
@@ -100,8 +100,9 @@ const Hero2 = () => {
 
         <div className="z-10 mt-4 text-center max-w-2xl px-2 sm:px-0">
           <p className="text-sm sm:text-base lg:text-[22px] leading-5 lg:leading-6 font-medium font-clash">
-            Powering brands to launch and manage creator campaigns <br className="hidden sm:block" /> with
-            speed and measurable performance
+            Powering brands to launch and manage creator campaigns{" "}
+            <br className="hidden sm:block" /> with speed and measurable
+            performance
           </p>
         </div>
 
@@ -115,7 +116,7 @@ const Hero2 = () => {
           {/* Right Half: Icon */}
           <div className="bg-orange-500 group-hover:bg-[#154238] border-l-2 border-dashed border-orange-300 group-hover:border-transparent px-3 sm:px-4 py-3 sm:py-4 rounded-r-md transition-all duration-500 ease-out group-hover:translate-x-4 group-hover:-translate-y-3.5 group-hover:rotate-6 relative flex items-center justify-center w-[46px] h-[48px] sm:w-[54px] sm:h-[56px]">
             {/* Black Tag (Visible by default) */}
-            <div className="absolute transition-opacity duration-300 group-hover:opacity-0">
+            <div className=" absolute transition-opacity duration-300 group-hover:opacity-0">
               <Image
                 src={whiteTag}
                 alt="Ticket Icon"
