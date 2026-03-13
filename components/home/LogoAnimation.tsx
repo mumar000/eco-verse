@@ -31,32 +31,32 @@ const LogoAnimation: React.FC = () => {
 
   const cards: IntegrationCard[] = [
     {
-      icon: <Mail className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
+      icon: <Mail className="w-5 md:w-6 lg:w-8 h-5 md:h-6 lg:h-8 mb-1.5 md:mb-2" />,
       title: "Email newsletter",
-      pos: "top-[12%] left-[4%] md:left-[5%] lg:left-[10%]",
+      pos: "top-[16%] md:top-[12%] left-[4%] md:left-[5%] lg:left-[10%]",
     },
     {
-      icon: <Megaphone className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
+      icon: <Megaphone className="w-5 md:w-6 lg:w-8 h-5 md:h-6 lg:h-8 mb-1.5 md:mb-2" />,
       title: "Advertising",
-      pos: "bottom-[10%] left-[5%]",
+      pos: "bottom-[15%] md:bottom-[10%] left-[18%] md:left-[5%]",
     },
     {
-      icon: <User className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
+      icon: <User className="w-5 md:w-6 lg:w-8 h-5 md:h-6 lg:h-8 mb-1.5 md:mb-2" />,
       title: "Social networks",
-      pos: "bottom-[22%] left-[2%] md:left-[20%] lg:left-[25%]",
+      pos: "bottom-[38%] md:bottom-[22%] left-[2%] md:left-[20%] lg:left-[25%]",
     },
     {
-      icon: <LayoutDashboard className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
+      icon: <LayoutDashboard className="w-5 md:w-6 lg:w-8 h-5 md:h-6 lg:h-8 mb-1.5 md:mb-2" />,
       title: "CRM",
       pos: "top-[16%] right-[4%] md:right-[20%] lg:right-[25%]",
     },
     {
-      icon: <MessageSquareQuote className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
+      icon: <MessageSquareQuote className="w-5 md:w-6 lg:w-8 h-5 md:h-6 lg:h-8 mb-1.5 md:mb-2" />,
       title: "Chatbot",
       pos: "bottom-[15%] right-[18%]",
     },
     {
-      icon: <Ticket className="w-6 lg:w-8 h-6 lg:h-8 mb-2" />,
+      icon: <Ticket className="w-5 md:w-6 lg:w-8 h-5 md:h-6 lg:h-8 mb-1.5 md:mb-2" />,
       title: "Ticket operator",
       pos: "bottom-[38%] right-[2%] md:right-[3%] lg:right-[5%]",
     },
@@ -78,9 +78,19 @@ const LogoAnimation: React.FC = () => {
       });
 
       // Move the logo from top to the center of the lines
-      // We use y: 450 (approx) to push it down through the title into the center
-      const yValue =
-        window.innerWidth < 768 ? 220 : window.innerWidth < 1024 ? 350 : 500;
+      // On mobile, calculate a true center target from live element positions.
+      const isMobile = window.innerWidth < 768;
+
+      let yValue = window.innerWidth < 1024 ? 350 : 500;
+
+      if (isMobile && logoRef.current && containerRef.current) {
+        const logoRect = logoRef.current.getBoundingClientRect();
+        const containerRect = containerRef.current.getBoundingClientRect();
+
+        const logoCenterY = logoRect.top + logoRect.height / 2;
+        const containerCenterY = containerRect.top + containerRect.height / 2;
+        yValue = containerCenterY - logoCenterY;
+      }
 
       tl.to(logoRef.current, {
         y: yValue,
@@ -131,10 +141,10 @@ const LogoAnimation: React.FC = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1, duration: 0.5 }}
-            className={`absolute ${card.pos} z-10 bg-orange-500 rounded-xl shadow-sm p-3 md:p-4 w-24 h-24 md:w-30 lg:w-36 md:h-30 lg:h-36 flex flex-col items-center justify-center text-center transition-transform hover:scale-110 duration-300`}
+            className={`absolute ${card.pos} z-10 bg-orange-500 rounded-xl shadow-sm p-2.5 md:p-4 w-[84px] h-[84px] md:w-30 lg:w-36 md:h-30 lg:h-36 flex flex-col items-center justify-center text-center transition-transform hover:scale-110 duration-300`}
           >
             <div className="text-white">{card.icon}</div>
-            <p className="text-white font-clash font-medium text-[10px] sm:text-sm lg:text-base leading-4 mt-2">
+            <p className="text-white font-clash font-medium text-[9px] sm:text-sm lg:text-base leading-3 md:leading-4 mt-1.5 md:mt-2">
               {card.title}
             </p>
           </motion.div>
