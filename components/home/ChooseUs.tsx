@@ -117,7 +117,7 @@ const ChooseUs = () => {
                                 zIndex: idx, // Ensures later cards stack on top of earlier ones
                                 willChange: "transform" 
                             }}
-                            className="absolute w-full max-w-[320px] bg-[#00522D] rounded-3xl pt-15 px-2 flex flex-col items-center text-white min-h-[380px]"
+                            className="absolute w-full max-w-[300px] sm:max-w-[320px] bg-[#00522D] rounded-3xl pt-15 px-2 flex flex-col items-center text-white min-h-[380px]"
                         >
                             <div className="flex justify-center w-full mb-4 mt-4">{card.icon}</div>
                             <h3 className="font-beni font-black text-[36px] text-center uppercase leading-[0.8] mb-4 w-full">{card.title}</h3>

@@ -66,12 +66,12 @@ const Navbar = () => {
   return (
     <>
       {/* HEADER LOGO & MENU BUTTON */}
-      <div className="absolute left-0 top-0 z-[100] w-full bg-transparent pointer-events-none -mt-20">
+      <div className="absolute left-0 top-0 z-[100] w-full bg-transparent pointer-events-none -mt-18 sm:-mt-20">
         <div className="flex items-center justify-between pointer-events-auto mt-5">
           <div>
             <Link href={"/"}>
               <Image
-                className="w-60 h-full"
+                className="w-50 sm:w-60 h-full"
                 src={echoLogo}
                 alt="Echo Verse Logo"
               />
@@ -79,7 +79,7 @@ const Navbar = () => {
           </div>
           <button
             onClick={toggleMenu}
-            className={`rounded-full p-6 transition-all duration-300 mr-7 cursor-pointer hover:scale-110 ${
+            className={`rounded-full p-5 sm:p-6 transition-all duration-300 mr-7 cursor-pointer hover:scale-110 ${
               isOpen
                 ? "bg-orange-400 text-[#00522D]"
                 : "bg-orange-300 text-black"
@@ -189,7 +189,7 @@ const Navbar = () => {
         {/* MAIN BUTTON */}
         <button
           onClick={() => setIsSocialOpen(!isSocialOpen)}
-          className="relative z-[130] p-6 rounded-full bg-orange-300 text-[#00522D] flex items-center justify-center transition-transform duration-300 cursor-pointer hover:scale-105 active:scale-95"
+          className="relative z-[130] p-5 sm:p-6 rounded-full bg-orange-300 text-[#00522D] flex items-center justify-center transition-transform duration-300 cursor-pointer hover:scale-105 active:scale-95"
         >
           <motion.div
             key={isSocialOpen ? "close" : "whatsapp"}

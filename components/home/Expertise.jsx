@@ -197,7 +197,7 @@ const Expertise = () => {
             <div className="block lg:hidden relative w-full bg-orange-500 py-10 px-4 overflow-hidden">
 
                 {/* TOP TEXT */}
-                <div className="w-full relative z-20 mb-10">
+                <div className="w-full relative z-20 lg:mb-10">
                     <h1 className="text-[3.5rem] sm:text-[5rem] leading-[0.7] font-beni font-black uppercase relative z-10">
                         <span className="text-[#00522D] block">REASONING</span>
                         <span className="text-[#00522D] block">TO BETTER:</span>
@@ -229,7 +229,7 @@ const Expertise = () => {
                         <div
                             key={i}
                             // 75vw forces it to take up 75% of the screen, leaving 25% for the next image to peek out (giving the 1.5 effect)
-                            className="min-w-[70vw] sm:min-w-[60vw] snap-center shrink-0 h-[300px] sm:h-[400px]"
+                            className="min-w-[70vw] sm:min-w-[60vw] snap-center shrink-0 h-[250px] sm:h-[400px]"
                         >
                             <img
                                 loading='lazy'
@@ -247,7 +247,7 @@ const Expertise = () => {
                         <div key={i} className="flex flex-col border-b border-white/50 last:border-0 py-4">
                             <h3
                                 onClick={() => scrollToMobileImage(i)}
-                                className={`cursor-pointer font-beni font-black tracking-wide text-[32px] sm:text-[40px] uppercase leading-[0.9] transition-colors duration-500 ${mobileActiveIndex === i ? "text-orange-500" : "text-white"}`}
+                                className={`cursor-pointer font-beni font-black tracking-wide text-[32px] sm:text-[40px] uppercase leading-[0.9] transition-colors duration-500 ${mobileActiveIndex === i ? "text-[#00522D]" : "text-white"}`}
                             >
                                 {item.title}
                             </h3>
@@ -266,7 +266,7 @@ const Expertise = () => {
                                     {item.pills.map((pill, idx) => (
                                         <span
                                             key={idx}
-                                            className="bg-orange-500 text-white rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-[13px] font-clash font-medium tracking-wide shadow-sm"
+                                            className="bg-[#00522D] text-white rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-[13px] font-clash font-medium tracking-wide shadow-sm"
                                         >
                                             {pill}
                                         </span>

@@ -27,7 +27,7 @@ const Footer = () => {
     const logos = [logo1, logo2, logo3, logo4, logo5, logo6];
 
     return (
-        <div className="relative w-full overflow-hidden bg-[#FFEDD5] pt-20">
+        <div className="relative w-full overflow-hidden bg-[#FFEDD5] pt-10 sm:pt-20">
 
             {/* --- TOP SECTION: IMAGE & CONTACT BOX --- */}
             <motion.div
@@ -56,7 +56,7 @@ const Footer = () => {
                 >
                     <span className="font-clash font-medium text-base mb-2">Contact</span>
 
-                    <h2 className="font-beni font-black md:text-[60px] lg:text-[70px] leading-14 mb-6 uppercase">
+                    <h2 className="font-beni font-black text-[40px] md:text-[60px] lg:text-[70px] leading-14 mb-6 uppercase">
                         TELL US ABOUT IT.
                     </h2>
 
@@ -79,7 +79,7 @@ const Footer = () => {
                     hidden: {},
                     visible: { transition: { staggerChildren: 0.1 } } // Staggers the letters popping up
                 }}
-                className="w-full flex -space-x-1 items-center justify-center px-4 -mt-40 z-50"
+                className="w-full flex -space-x-1 items-center justify-center px-4 mb-10 sm:mb-0 sm:-mt-40 z-50"
             >
                 {/* {logos.map((logo, index) => (
                     <motion.img
@@ -97,7 +97,7 @@ const Footer = () => {
             <div className="flex flex-col lg:flex-row items-center justify-between px-4 lg:px-8 pb-8 text-[#00522D] font-clash font-medium text-[11px] lg:text-xs uppercase -mt-12">
 
                 {/* Left: Copyright & Socials */}
-                <div className="flex flex-col lg:flex-row items-center gap-4">
+                <div className="flex flex-col lg:flex-row items-center gap-2 sm:gap-4">
                     <span>© 2026 ECHO VERSE, all rights reserved.</span>
 
                     <div className="flex items-center gap-2">
@@ -133,7 +133,7 @@ const Footer = () => {
                 </div>
 
                 {/* Right: Legal Links */}
-                <div className="flex flex-wrap items-center justify-center gap-4 mt-6 lg:mt-0">
+                <div className="flex flex-wrap items-center justify-center gap-4 mt-2 lg:mt-0">
                     <a href="#" className="hover:opacity-70 transition-opacity">Terms & Conditions</a>
                     <a href="#" className="hover:opacity-70 transition-opacity">Privacy Policy</a>
                 </div>
