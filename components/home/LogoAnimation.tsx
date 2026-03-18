@@ -112,6 +112,18 @@ const LogoAnimation: React.FC = () => {
         ease: "none",
       });
 
+      tl.to(
+        ".logo-side-card",
+        {
+          opacity: 0,
+          y: -20,
+          duration: 0.25,
+          ease: "power1.out",
+          pointerEvents: "none",
+        },
+        0,
+      );
+
       tl.to(logoImageRef.current, {
         boxShadow:
           "0 0 18px rgba(249, 115, 22, 0.8), 0 0 38px rgba(249, 115, 22, 0.55)",
@@ -151,14 +163,38 @@ const LogoAnimation: React.FC = () => {
       />
 
       {/* 1. INITIAL LOGO POSITION (TOP) */}
-      <div ref={logoRef} className="z-50">
-        <Image
-          ref={logoImageRef}
-          className="w-[190px] md:w-[300px] lg:w-[400px] h-auto border bg-white border-orange-500 rounded-xl"
-          src={echoVerseLogo}
-          alt="Logo of Echo Verse"
-          priority
-        />
+      <div ref={logoRef} className="z-50 relative">
+        <div className="hidden md:flex items-center justify-center gap-5 lg:gap-8">
+          <div className="logo-side-card w-[170px] lg:w-[220px] h-[100px] lg:h-[130px] rounded-2xl border border-orange-200 bg-white/95 shadow-[0_10px_30px_rgba(249,115,22,0.18)] flex items-center justify-center">
+            <span className="font-clash text-xs lg:text-sm font-medium text-orange-500">
+              Add Left Dashboard Image
+            </span>
+          </div>
+
+          <Image
+            ref={logoImageRef}
+            className="w-[190px] md:w-[300px] lg:w-[400px] h-auto border bg-white border-orange-500 rounded-xl"
+            src={echoVerseLogo}
+            alt="Logo of Echo Verse"
+            priority
+          />
+
+          <div className="logo-side-card w-[170px] lg:w-[220px] h-[100px] lg:h-[130px] rounded-2xl border border-orange-200 bg-white/95 shadow-[0_10px_30px_rgba(249,115,22,0.18)] flex items-center justify-center">
+            <span className="font-clash text-xs lg:text-sm font-medium text-orange-500">
+              Add Right Dashboard Image
+            </span>
+          </div>
+        </div>
+
+        <div className="md:hidden">
+          <Image
+            ref={logoImageRef}
+            className="w-[190px] h-auto border bg-white border-orange-500 rounded-xl"
+            src={echoVerseLogo}
+            alt="Logo of Echo Verse"
+            priority
+          />
+        </div>
       </div>
 
       {/* 3. ANIMATION ARENA */}

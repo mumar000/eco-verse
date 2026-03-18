@@ -51,11 +51,15 @@ const AudienceMockCard = () => {
       <div className="mt-3 grid grid-cols-2 gap-2">
         <div className="rounded-lg border border-orange-100 bg-white px-2 py-1.5">
           <p className="font-clash text-[9px] text-zinc-500">Female</p>
-          <p className="font-clash text-sm font-semibold text-orange-500">42.69%</p>
+          <p className="font-clash text-sm font-semibold text-orange-500">
+            42.69%
+          </p>
         </div>
         <div className="rounded-lg border border-orange-100 bg-white px-2 py-1.5">
           <p className="font-clash text-[9px] text-zinc-500">Male</p>
-          <p className="font-clash text-sm font-semibold text-orange-700">57.31%</p>
+          <p className="font-clash text-sm font-semibold text-orange-700">
+            57.31%
+          </p>
         </div>
       </div>
 
@@ -93,14 +97,18 @@ const AudienceMockCard = () => {
       </div>
 
       <div className="mt-2.5 rounded-lg border border-orange-100 bg-white p-2.5">
-        <p className="font-clash text-[10px] text-zinc-500 font-medium mb-2">Age</p>
+        <p className="font-clash text-[10px] text-zinc-500 font-medium mb-2">
+          Age
+        </p>
         <div className="space-y-1.5">
           {ageData.map((item) => (
             <div
               key={item.label}
               className="grid grid-cols-[32px_1fr] items-center gap-1.5"
             >
-              <span className="font-clash text-[9px] text-zinc-500">{item.label}</span>
+              <span className="font-clash text-[9px] text-zinc-500">
+                {item.label}
+              </span>
               <div className="h-1.5 rounded-full bg-zinc-100 overflow-hidden flex">
                 <div
                   className="h-full bg-orange-500"
@@ -262,8 +270,12 @@ const CampaignPulseCard = () => {
 
       <div className="relative z-10 flex items-center justify-between">
         <div>
-          <p className="font-clash text-[10px] text-orange-200/80">Campaign Pulse</p>
-          <h3 className="font-clash text-base font-semibold text-white">Performance Core</h3>
+          <p className="font-clash text-[10px] text-orange-200/80">
+            Campaign Pulse
+          </p>
+          <h3 className="font-clash text-base font-semibold text-white">
+            Performance Core
+          </h3>
         </div>
         <span className="rounded-full border border-orange-300/30 bg-orange-400/15 px-2 py-0.5 font-clash text-[9px] text-orange-100">
           LIVE +24%
@@ -273,24 +285,36 @@ const CampaignPulseCard = () => {
       <div className="relative z-10 mt-3 grid grid-cols-2 gap-2">
         <div className="rounded-lg border border-orange-300/20 bg-white/5 px-2 py-1.5">
           <p className="font-clash text-[9px] text-orange-100/70">ROI</p>
-          <p className="font-clash text-lg font-semibold text-white leading-none mt-1">3.8x</p>
+          <p className="font-clash text-lg font-semibold text-white leading-none mt-1">
+            3.8x
+          </p>
         </div>
         <div className="rounded-lg border border-orange-300/20 bg-white/5 px-2 py-1.5">
-          <p className="font-clash text-[9px] text-orange-100/70">Conversions</p>
-          <p className="font-clash text-lg font-semibold text-white leading-none mt-1">1,284</p>
+          <p className="font-clash text-[9px] text-orange-100/70">
+            Conversions
+          </p>
+          <p className="font-clash text-lg font-semibold text-white leading-none mt-1">
+            1,284
+          </p>
         </div>
       </div>
 
       <div className="relative z-10 mt-3 rounded-xl border border-orange-300/20 bg-white/5 p-2.5">
         <div className="flex items-center justify-between">
-          <p className="font-clash text-[10px] text-orange-100/80">Optimization Score</p>
-          <p className="font-clash text-[10px] font-medium text-orange-100">87/100</p>
+          <p className="font-clash text-[10px] text-orange-100/80">
+            Optimization Score
+          </p>
+          <p className="font-clash text-[10px] font-medium text-orange-100">
+            87/100
+          </p>
         </div>
 
         <div className="mt-2 flex items-center gap-3">
           <div className="relative h-[72px] w-[72px] rounded-full bg-[conic-gradient(#fb923c_0_313deg,rgba(251,146,60,0.18)_313deg_360deg)]">
             <div className="absolute inset-[8px] flex items-center justify-center rounded-full bg-[#1b110a]">
-              <span className="font-clash text-xs font-semibold text-orange-100">87%</span>
+              <span className="font-clash text-xs font-semibold text-orange-100">
+                87%
+              </span>
             </div>
           </div>
 
@@ -343,19 +367,19 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
 
       const card1From = isMobile
         ? { x: "20vw", y: "-115vh", rotation: -15, scale: 1, ease: "none" }
-        : { x: "90vw", y: "-190vh", rotation: -15, scale: 1, ease: "none" };
+        : { x: "90vw", y: "-220vh", rotation: -15, scale: 1, ease: "none" };
 
       const card2From = isMobile
         ? { x: "-4vw", y: "-108vh", rotation: -10, scale: 1, ease: "none" }
-        : { x: "-25vw", y: "-185vh", rotation: -10, scale: 1, ease: "none" };
+        : { x: "-25vw", y: "-205vh", rotation: -10, scale: 1, ease: "none" };
 
       const card3From = isMobile
         ? { x: "2vw", y: "-112vh", rotation: 0, scale: 1, ease: "none" }
-        : { x: "15vw", y: "-195vh", rotation: 0, scale: 1, ease: "none" };
+        : { x: "15vw", y: "-205vh", rotation: 0, scale: 1, ease: "none" };
 
       const card4From = isMobile
         ? { x: "8vw", y: "-110vh", rotation: 15, scale: 1, ease: "none" }
-        : { x: "55vw", y: "-195vh", rotation: 15, scale: 1, ease: "none" };
+        : { x: "55vw", y: "-225vh", rotation: 15, scale: 1, ease: "none" };
 
       const tl = gsap.timeline({
         scrollTrigger: {
