@@ -42,7 +42,7 @@ export default function ProjectDetailView({ projectId }: Props) {
 
   if (editor.isEditing) {
     return (
-      <div className="bg-[#efefef] px-3 py-4 md:px-6 xl:px-8 2xl:px-16">
+      <div className="bg-[#FFEDD5] px-3 py-4 md:px-6 xl:px-8 2xl:px-16">
         <section className="grid grid-cols-1 rounded-2xl border border-zinc-200 bg-white 2xl:grid-cols-[24rem_minmax(0,1fr)]">
           <StudioEditorPanel
             projectForm={editor.projectForm}
@@ -84,7 +84,7 @@ export default function ProjectDetailView({ projectId }: Props) {
 
           <div>
             <ProjectCaseStudy
-              className="bg-[#efefef]"
+              className="bg-[#FFEDD5]"
               title={editor.projectForm.title}
               coverImage={editor.projectForm.coverImage}
               shortDescription={editor.projectForm.shortDescription}
@@ -118,9 +118,9 @@ export default function ProjectDetailView({ projectId }: Props) {
   }
 
   return (
-    <div className="mx-6 my-6 bg-[#efefef] pb-10">
+    <div className="bg-[#FFEDD5] pb-10">
       <ProjectCaseStudy
-        className="bg-[#efefef]"
+        className="bg-[#FFEDD5]"
         title={editor.projectForm.title}
         coverImage={editor.projectForm.coverImage}
         shortDescription={editor.projectForm.shortDescription}

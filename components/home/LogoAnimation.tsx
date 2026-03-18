@@ -116,6 +116,7 @@ const LogoAnimation: React.FC = () => {
         boxShadow:
           "0 0 18px rgba(249, 115, 22, 0.8), 0 0 38px rgba(249, 115, 22, 0.55)",
         borderColor: "#fb923c",
+        backgroundColor: "#ffffff",
         duration: 0.35,
         ease: "power1.out",
       });
@@ -128,7 +129,7 @@ const LogoAnimation: React.FC = () => {
           duration: 0.35,
           ease: "power1.out",
         },
-        "<"
+        "<",
       );
     }, sectionRef);
 
@@ -153,7 +154,7 @@ const LogoAnimation: React.FC = () => {
       <div ref={logoRef} className="z-50">
         <Image
           ref={logoImageRef}
-          className="w-[190px] md:w-[300px] lg:w-[400px] h-auto border border-orange-500 rounded-xl"
+          className="w-[190px] md:w-[300px] lg:w-[400px] h-auto border bg-white border-orange-500 rounded-xl"
           src={echoVerseLogo}
           alt="Logo of Echo Verse"
           priority
