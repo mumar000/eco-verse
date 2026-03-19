@@ -371,15 +371,15 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
 
       const card2From = isMobile
         ? { x: "-4vw", y: "-108vh", rotation: -10, scale: 1, ease: "none" }
-        : { x: "-25vw", y: "-205vh", rotation: -10, scale: 1, ease: "none" };
+        : { x: "-25vw", y: "-215vh", rotation: -10, scale: 1, ease: "none" };
 
       const card3From = isMobile
         ? { x: "2vw", y: "-112vh", rotation: 0, scale: 1, ease: "none" }
-        : { x: "15vw", y: "-205vh", rotation: 0, scale: 1, ease: "none" };
+        : { x: "15vw", y: "-223vh", rotation: 0, scale: 1, ease: "none" };
 
       const card4From = isMobile
-        ? { x: "8vw", y: "-110vh", rotation: 15, scale: 1, ease: "none" }
-        : { x: "55vw", y: "-225vh", rotation: 15, scale: 1, ease: "none" };
+        ? { x: "8vw", y: "-110vh", rotation: 13, scale: 1, ease: "none" }
+        : { x: "55vw", y: "-225vh", rotation: 13, scale: 1, ease: "none" };
 
       const tl = gsap.timeline({
         scrollTrigger: {
