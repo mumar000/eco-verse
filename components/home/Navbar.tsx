@@ -17,6 +17,8 @@ import echoLogo from "@/public/assets/echoverse-logo.png";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+const HOME_SECTION_KEY = "echoverse-home-section";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSocialOpen, setIsSocialOpen] = useState(false);
@@ -84,7 +86,7 @@ const Navbar = () => {
       active: false,
     },
     { name: "FAQ'S", type: "section", target: "faqs", active: false },
-    { name: "BLOGS", type: "route", target: "/blog", active: false },
+    { name: "BLOGS", type: "section", target: "blogs-preview", active: false },
     {
       name: "CONTACT US",
       type: "section",
@@ -93,24 +95,61 @@ const Navbar = () => {
     },
   ];
 
+  const scrollToSection = (target: string) => {
+    const section = document.getElementById(target);
+
+    if (!section) {
+      return false;
+    }
+
+    const performScroll = (behavior: ScrollBehavior) => {
+      const updatedSection = document.getElementById(target);
+
+      if (!updatedSection) {
+        return;
+      }
+
+      const sectionTop =
+        updatedSection.getBoundingClientRect().top + window.scrollY;
+
+      window.scrollTo({
+        top: Math.max(0, sectionTop),
+        behavior,
+      });
+    };
+
+    performScroll("smooth");
+
+    // Re-align after layout settles for long/sticky sections lower on the page.
+    window.setTimeout(() => performScroll("auto"), 250);
+    window.setTimeout(() => performScroll("auto"), 700);
+    window.setTimeout(() => performScroll("auto"), 1200);
+
+    window.history.replaceState(null, "", `/#${target}`);
+
+    return true;
+  };
+
   useEffect(() => {
     if (pathname !== "/") {
       return;
     }
 
-    const hash = window.location.hash.replace("#", "");
+    const pendingTarget =
+      window.sessionStorage.getItem(HOME_SECTION_KEY) ??
+      window.location.hash.replace("#", "");
 
-    if (!hash) {
+    if (!pendingTarget) {
       return;
     }
 
     let attemptCount = 0;
 
     const scrollToHashSection = () => {
-      const section = document.getElementById(hash);
+      const didScroll = scrollToSection(pendingTarget);
 
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (didScroll) {
+        window.sessionStorage.removeItem(HOME_SECTION_KEY);
         return;
       }
 
@@ -136,17 +175,18 @@ const Navbar = () => {
     }
 
     if (pathname === "/") {
-      const section = document.getElementById(target);
+      const didScroll = scrollToSection(target);
 
-      if (section) {
-        window.history.replaceState(null, "", `/#${target}`);
-        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (!didScroll) {
+        window.sessionStorage.setItem(HOME_SECTION_KEY, target);
+        router.push("/");
       }
 
       return;
     }
 
-    router.push(`/#${target}`);
+    window.sessionStorage.setItem(HOME_SECTION_KEY, target);
+    router.push("/");
   };
 
   return (
@@ -203,7 +243,7 @@ const Navbar = () => {
                         link.type as "section" | "route",
                       )
                     }
-                    className={`font-beni font-black text-[2rem] sm:text-[3rem] lg:text-[4rem] leading-[0.8] uppercase transition-colors duration-300 hover:text-orange-400 ${
+                    className={`font-beni font-black text-[2rem] sm:text-[3rem] lg:text-[4rem] leading-[0.8] cursor-pointer uppercase transition-colors duration-300 hover:text-orange-400 ${
                       link.active ? "text-orange-400" : "text-white"
                     } text-left`}
                   >

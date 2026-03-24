@@ -21,37 +21,37 @@ const page = async () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <section id="home" className="scroll-mt-24">
+      <section id="home">
         <Hero2 />
       </section>
 
-      <section id="our-services" className="scroll-mt-24">
+      <section id="our-expertise">
         <LogoAnimation />
       </section>
 
       {/* <HowToOrder /> */}
       {/* <CardsFlipScrollAnimation /> */}
-      <section id="our-expertise" className="scroll-mt-24">
+      <section id="our-services">
         <Expertise />
       </section>
 
-      <section className="scroll-mt-24">
+      <section>
         <VideosStack />
       </section>
 
-      <section id="method-process" className="scroll-mt-24">
+      <section id="method-process">
         <CardsStack />
       </section>
 
-      <section id="why-choose-us" className="scroll-mt-24">
+      <section id="why-choose-us">
         <ChooseUs />
       </section>
 
-      <section id="faqs" className="scroll-mt-24">
+      <section id="faqs">
         <FAQS />
       </section>
 
-      <section id="blogs-preview" className="scroll-mt-24">
+      <section id="blogs-preview">
         <Social blogs={socialBlogs} />
       </section>
     </div>

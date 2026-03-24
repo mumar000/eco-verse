@@ -11,7 +11,7 @@ const videos = [
   {
     id: 1,
     thumbnail: "https://www.sunnystateagency.com/images/Matty.jpg",
-    videoUrl: "/assets/video1.mp4",
+    videoUrl: "/assets/video6.mp4",
     caption: "DO I LOOK LIKE",
     width: "450px",
     height: "400px",
@@ -19,7 +19,7 @@ const videos = [
   {
     id: 2,
     thumbnail: "https://www.sunnystateagency.com/images/nigel.jpg",
-    videoUrl: "/assets/video2.mp4",
+    videoUrl: "/assets/video7.mp4",
     caption: "THIS ONE IS",
     width: "400px",
     height: "350px",
@@ -35,7 +35,7 @@ const videos = [
   {
     id: 4,
     thumbnail: "https://www.sunnystateagency.com/images/nikki.jpg",
-    videoUrl: "/assets/video4.mp4",
+    videoUrl: "/assets/video9.mp4",
     caption: "HE'S MOST KNOWN FOR",
     width: "400px",
     height: "350px",
@@ -43,7 +43,7 @@ const videos = [
   {
     id: 5,
     thumbnail: "https://www.sunnystateagency.com/images/andrew.jpg",
-    videoUrl: "/assets/video5.mp4",
+    videoUrl: "/assets/video8.mp4",
     caption: "",
     width: "450px",
     height: "400px",

@@ -20,7 +20,7 @@ const Footer = () => {
   return (
     <div
       id="contact-us"
-      className="relative w-full overflow-hidden bg-[#FFEDD5] pt-10 sm:pt-20 scroll-mt-24"
+      className="relative w-full overflow-hidden bg-[#FFEDD5] pt-10 sm:pt-20"
     >
       {/* --- TOP SECTION: IMAGE & CONTACT BOX --- */}
       <motion.div
