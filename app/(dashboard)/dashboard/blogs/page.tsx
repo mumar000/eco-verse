@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import BlogsManager from "@/components/dashboard/BlogsManager";
 import { blogKeys } from "@/lib/hooks/useBlogs";

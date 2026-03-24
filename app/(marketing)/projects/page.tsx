@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Awards from "@/components/home/Awards";
 import { getProjects } from "@/lib/services/projectService";
 

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { HydrationBoundary, QueryClient, dehydrate } from "@tanstack/react-query";
 import ProjectsManager from "@/components/dashboard/ProjectsManager";
 import { projectKeys } from "@/lib/hooks/useProjects";

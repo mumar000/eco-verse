@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Home from "@/app/Home/Home";
 
 const page = () => {
