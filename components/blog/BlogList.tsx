@@ -61,7 +61,7 @@ export default function BlogList({ blogs }: BlogListProps) {
           hidden: {},
           visible: { transition: { staggerChildren: 0.15 } },
         }}
-        className="mx-auto mb-16 max-w-6xl md:mb-20"
+        className="mx-auto mb-10 max-w-6xl pt-14"
       >
         <motion.div
           variants={slideUp}

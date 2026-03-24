@@ -84,7 +84,7 @@ export default function BlogArticle({
           }}
           className="absolute inset-0 flex items-end"
         >
-          <div className="w-full px-6 pb-8 md:px-10 md:pb-12">
+          <div className="w-full px-6 md:px-10">
             <div className="mx-auto max-w-6xl">
               {meta && (
                 <motion.div variants={slideUp} className="mb-3">
@@ -106,7 +106,7 @@ export default function BlogArticle({
               {description && (
                 <motion.p
                   variants={slideUp}
-                  className="mt-4 max-w-3xl font-clash text-sm font-medium text-white/95 drop-shadow-md md:text-base lg:text-lg"
+                  className="mt-4 max-w-3xl font-clash text-sm font-medium text-black drop-shadow-md md:text-base lg:text-lg"
                 >
                   {description}
                 </motion.p>
