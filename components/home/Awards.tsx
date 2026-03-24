@@ -16,7 +16,7 @@ const Awards = ({ projects = [] }: AwardsProps) => {
   return (
     <section className="relative bg-[#FFEDD5] py-20 md:py-24">
       <div className="mb-20 text-center md:mb-28">
-        <h2 className="font-beni text-6xl uppercase leading-none text-[#00522D] md:text-[10rem] lg:text-[12rem]">
+        <h2 className="font-beni font-black text-6xl uppercase leading-none text-[#00522D] md:text-[10rem] lg:text-[8rem]">
           Projects
         </h2>
       </div>
@@ -56,12 +56,13 @@ const Awards = ({ projects = [] }: AwardsProps) => {
                 project.align === "left" ? "md:justify-start" : "md:justify-end"
               }`}
             >
-              <div
+              <Link
+                href={`/projects/${project.slug}`}
                 className={`award-scroll group ${
                   project.align === "left"
-                    ? "award-left md:ml-10"
-                    : "award-right md:mr-10"
-                } relative w-full max-w-[300px] overflow-hidden rounded-md bg-white shadow-xl transition-all duration-500 hover:shadow-md md:max-w-[350px]`}
+                    ? "award-left md:ml-28"
+                    : "award-right md:mr-28"
+                } relative w-full max-w-[260px] overflow-hidden rounded-md bg-white transition-all duration-500 hover:shadow-md md:max-w-[280px] lg:max-w-[260px] 2xl:max-w-[300px]`}
                 style={{
                   transform: project.align === "left" ? "rotate(-2deg)" : "rotate(2deg)",
                 }}
@@ -71,13 +72,10 @@ const Awards = ({ projects = [] }: AwardsProps) => {
                   <div className={`absolute ${project.align === "left" ? "-right-12 -top-12" : "-left-12 -top-12"} h-24 w-24 rounded-full bg-gradient-to-br from-[#F97316] to-[#ff6b35] opacity-20`}></div>
                 </div>
 
-                {/* Project Number Badge */}
-                <div className="absolute left-6 top-6 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-[#00522D] shadow-lg">
-                  <span className="font-beni text-xl font-black text-white">{String(idx + 1).padStart(2, "0")}</span>
-                </div>
+              
 
                 {/* Project Image with Overlay */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden">
+                <div className="relative aspect-[16/10] w-full overflow-hidden lg:aspect-square">
                   {project.coverImage ? (
                     <>
                       <Image
@@ -108,67 +106,29 @@ const Awards = ({ projects = [] }: AwardsProps) => {
                   )}
 
                   {/* Floating Tags on Image */}
-                  {project.tags && project.tags.length > 0 && (
-                    <div className="absolute bottom-4 left-4 right-4 z-10 flex flex-wrap gap-2">
-                      {project.tags.slice(0, 2).map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-white/30 bg-white/20 px-3 py-1 font-clash text-[10px] font-bold uppercase text-white backdrop-blur-md"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                      {project.tags.length > 2 && (
-                        <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/30 bg-white/20 font-clash text-[10px] font-bold text-white backdrop-blur-md">
-                          +{project.tags.length - 2}
-                        </span>
-                      )}
-                    </div>
-                  )}
+                  
                 </div>
 
                 {/* Project Content with Tilted Effect */}
-                <div className="relative space-y-5 p-8">
+                <div className="relative space-y-3 p-5 md:p-6 lg:p-5 2xl:p-6">
                   {/* Decorative Line */}
-                  <div className="h-1 w-16 rounded-full bg-gradient-to-r from-[#F97316] to-[#15803d]"></div>
+                  <div className="h-px w-10 rounded-full bg-gradient-to-r from-[#F97316] to-[#15803d]"></div>
 
-                  <h3 className="font-beni text-2xl font-black uppercase leading-[1.1] text-[#00522D] transition-colors group-hover:text-[#F97316] md:text-3xl">
+                  <h3 className=" text-lg  font-medium leading-[1.1] text-[#00522D] transition-colors group-hover:text-[#F97316] md:text-xl lg:text-md md 2xl:text-xl">
                     {project.title}
                   </h3>
 
-                  <p className="line-clamp-2 font-clash text-sm leading-relaxed text-zinc-600 md:text-base">
+                  <p className="line-clamp-2 font-clash text-xs leading-relaxed text-zinc-600 md:text-sm lg:text-xs 2xl:text-sm">
                     {project.shortDescription || "Explore this amazing project and discover the creative process behind it."}
                   </p>
 
-                  {/* View Button with Arrow */}
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="group/btn inline-flex items-center gap-3 font-clash text-sm font-bold uppercase tracking-[0.12em] text-[#F97316] transition-all hover:gap-4"
-                  >
-                    View Case Study
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#F97316] to-[#ff6b35] text-white shadow-lg transition-transform group-hover/btn:scale-110">
-                      <svg
-                        className="h-5 w-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2.5}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </span>
-                  </Link>
                 </div>
 
                 {/* Decorative Bottom Corner */}
                 <div className={`absolute bottom-0 ${project.align === "left" ? "left-0" : "right-0"} h-16 w-16 overflow-hidden`}>
                   <div className={`absolute ${project.align === "left" ? "-left-8 -bottom-8" : "-right-8 -bottom-8"} h-16 w-16 rounded-full bg-gradient-to-br from-[#15803d] to-[#00522D] opacity-10`}></div>
                 </div>
-              </div>
+              </Link>
             </div>
           ))
         )}
