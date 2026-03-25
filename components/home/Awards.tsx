@@ -24,7 +24,7 @@ const Awards = ({ projects = [] }: AwardsProps) => {
       <div className="absolute left-1/2 top-[240px] bottom-0 hidden w-px -translate-x-1/2 bg-[#F97316]/20 md:block" />
 
       <div className="container mx-auto space-y-10 px-6 md:space-y-14">
-        {showcaseProjects.length === 0 ? (  
+        {showcaseProjects.length === 0 ? (
           <div className="mx-auto max-w-2xl rounded-3xl border-2 border-dashed border-[#F97316]/30 bg-white/50 px-8 py-16 text-center shadow-lg backdrop-blur-sm">
             <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-[#F97316]/10">
               <svg
@@ -62,17 +62,22 @@ const Awards = ({ projects = [] }: AwardsProps) => {
                   project.align === "left"
                     ? "award-left md:ml-28"
                     : "award-right md:mr-28"
-                } relative w-full max-w-[260px] overflow-hidden rounded-md bg-white transition-all duration-500 hover:shadow-md md:max-w-[280px] lg:max-w-[260px] 2xl:max-w-[300px]`}
+                } relative w-full max-w-[88vw] overflow-hidden rounded-md bg-white transition-all duration-500 hover:shadow-md sm:max-w-[360px] md:max-w-[280px] lg:max-w-[260px] 2xl:max-w-[300px]`}
                 style={{
-                  transform: project.align === "left" ? "rotate(-2deg)" : "rotate(2deg)",
+                  transform:
+                    project.align === "left" ? "rotate(-2deg)" : "rotate(2deg)",
+                  ["--card-rotate" as string]:
+                    project.align === "left" ? "-2deg" : "2deg",
                 }}
               >
                 {/* Decorative Corner */}
-                <div className={`absolute top-0 ${project.align === "left" ? "right-0" : "left-0"} h-24 w-24 overflow-hidden`}>
-                  <div className={`absolute ${project.align === "left" ? "-right-12 -top-12" : "-left-12 -top-12"} h-24 w-24 rounded-full bg-gradient-to-br from-[#F97316] to-[#ff6b35] opacity-20`}></div>
+                <div
+                  className={`absolute top-0 ${project.align === "left" ? "right-0" : "left-0"} h-24 w-24 overflow-hidden`}
+                >
+                  <div
+                    className={`absolute ${project.align === "left" ? "-right-12 -top-12" : "-left-12 -top-12"} h-24 w-24 rounded-full bg-gradient-to-br from-[#F97316] to-[#ff6b35] opacity-20`}
+                  ></div>
                 </div>
-
-              
 
                 {/* Project Image with Overlay */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden lg:aspect-square">
@@ -106,7 +111,6 @@ const Awards = ({ projects = [] }: AwardsProps) => {
                   )}
 
                   {/* Floating Tags on Image */}
-                  
                 </div>
 
                 {/* Project Content with Tilted Effect */}
@@ -119,14 +123,18 @@ const Awards = ({ projects = [] }: AwardsProps) => {
                   </h3>
 
                   <p className="line-clamp-2 font-clash text-xs leading-relaxed text-zinc-600 md:text-sm lg:text-xs 2xl:text-sm">
-                    {project.shortDescription || "Explore this amazing project and discover the creative process behind it."}
+                    {project.shortDescription ||
+                      "Explore this amazing project and discover the creative process behind it."}
                   </p>
-
                 </div>
 
                 {/* Decorative Bottom Corner */}
-                <div className={`absolute bottom-0 ${project.align === "left" ? "left-0" : "right-0"} h-16 w-16 overflow-hidden`}>
-                  <div className={`absolute ${project.align === "left" ? "-left-8 -bottom-8" : "-right-8 -bottom-8"} h-16 w-16 rounded-full bg-gradient-to-br from-[#15803d] to-[#00522D] opacity-10`}></div>
+                <div
+                  className={`absolute bottom-0 ${project.align === "left" ? "left-0" : "right-0"} h-16 w-16 overflow-hidden`}
+                >
+                  <div
+                    className={`absolute ${project.align === "left" ? "-left-8 -bottom-8" : "-right-8 -bottom-8"} h-16 w-16 rounded-full bg-gradient-to-br from-[#15803d] to-[#00522D] opacity-10`}
+                  ></div>
                 </div>
               </Link>
             </div>
