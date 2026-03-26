@@ -374,10 +374,6 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
       src: "/assets/image-4.jpeg",
       alt: "Dashboard preview two",
     },
-    {
-      src: "/assets/image-5.jpeg",
-      alt: "Dashboard preview two",
-    },
   ] as const;
 
   const goToPreviousSlide = () => {
