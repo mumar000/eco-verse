@@ -1,12 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 import logo from "@/public/assets/charLogo.svg";
 import Image from "next/image";
+import QuizModal from "@/components/home/QuizModal";
 
 const Footer = () => {
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
+
   // Smooth spring animation for sliding up from the bottom
   const slideUp = {
     hidden: { y: 250, opacity: 0 },
@@ -45,7 +48,7 @@ const Footer = () => {
         {/* Right Contact Box (Tilted Right) */}
         <motion.div
           variants={slideUp}
-          className="w-full md:w-[50%] lg:w-[45%] bg-[#F97316] rounded-3xl px-4 py-10 flex flex-col items-center text-center text-white rotate-[6deg] z-10"
+          className="w-full  md:w-[50%] lg:w-[45%] bg-[#F97316] rounded-3xl px-4 py-10 flex flex-col items-center text-center text-white rotate-[6deg] z-"
         >
           <span className="font-clash font-medium text-base mb-2">Contact</span>
 
@@ -58,7 +61,11 @@ const Footer = () => {
             answers and get back to you quickly.
           </p>
 
-          <button className="bg-white/30 hover:bg-white/40 transition-colors duration-300 px-4 py-3 rounded-lg font-clash font-semibold text-white text-xs">
+          <button
+            type="button"
+            onClick={() => setIsQuizOpen(true)}
+            className="bg-white/30 hover:bg-white/40 transition-colors duration-300 px-4 py-3 rounded-lg font-clash cursor-pointer z-60 font-semibold text-white text-xs"
+          >
             Start the quiz
           </button>
         </motion.div>
@@ -73,7 +80,7 @@ const Footer = () => {
           hidden: {},
           visible: { transition: { staggerChildren: 0.1 } }, // Staggers the letters popping up
         }}
-        className="w-full flex -space-x-1 items-center justify-center px-4 mb-10 sm:mb-0 sm:-mt-40 z-50"
+        className="pointer-events-none relative w-full flex -space-x-1 items-center justify-center px-4 mb-10 sm:mb-0 sm:-mt-40 z-20"
       >
         {/* {logos.map((logo, index) => (
                     <motion.img
@@ -89,7 +96,7 @@ const Footer = () => {
           alt="Logo"
           width={500}
           height={500}
-          className="w-[500px] md:w-[600px] lg:w-[800px] z-50"
+          className="w-[500px] md:w-[600px] lg:w-[800px] select-none"
         />
       </motion.div>
 
@@ -177,6 +184,15 @@ const Footer = () => {
           </a>
         </div>
       </div>
+
+      <QuizModal
+        open={isQuizOpen}
+        onClose={() => setIsQuizOpen(false)}
+        onSubmit={async (values) => {
+          // Replace this with an API route or CRM integration when backend wiring is ready.
+          console.info("Footer quiz submission", values);
+        }}
+      />
     </div>
   );
 };
