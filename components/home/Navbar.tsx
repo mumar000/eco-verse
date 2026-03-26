@@ -61,30 +61,14 @@ const Navbar = () => {
 
   const menuLinks = [
     { name: "HOME", type: "section", target: "home", active: false },
-    {
-      name: "OUR EXPERTISE",
-      type: "section",
-      target: "our-expertise",
-      active: false,
-    },
+
     {
       name: "OUR SERVICES",
       type: "section",
       target: "our-services",
       active: true,
     },
-    {
-      name: "METHOD & PROCESS",
-      type: "section",
-      target: "method-process",
-      active: false,
-    },
-    {
-      name: "WHY CHOOSE US",
-      type: "section",
-      target: "why-choose-us",
-      active: false,
-    },
+
     { name: "FAQ'S", type: "section", target: "faqs", active: false },
     { name: "BLOGS", type: "section", target: "blogs-preview", active: false },
     { name: "PROJECTS", type: "route", target: "/projects", active: false },
@@ -164,10 +148,7 @@ const Navbar = () => {
     scrollToHashSection();
   }, [pathname]);
 
-  const handleMenuNavigation = (
-    target: string,
-    type: "section" | "route",
-  ) => {
+  const handleMenuNavigation = (target: string, type: "section" | "route") => {
     setIsOpen(false);
 
     if (type === "route") {
