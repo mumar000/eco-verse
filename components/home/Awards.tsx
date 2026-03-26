@@ -122,7 +122,7 @@ const Awards = ({ projects = [] }: AwardsProps) => {
 
                 <div className="space-y-4 px-1 pb-1 pt-5 md:space-y-3 md:pt-4 lg:space-y-3 lg:pt-4 2xl:space-y-5 2xl:pt-6">
                   <h3
-                    className={`font-clash text-[1.85rem] font-semibold leading-[1.02] tracking-[-0.03em] transition-colors md:text-[1.4rem] lg:text-[0.9rem] 2xl:text-[1.85rem] ${
+                    className={`font-clash text-[1.85rem] font-semibold leading-[1.02] tracking-[-0.03em] transition-colors md:text-[1.4rem] lg:text-[1.2rem] 2xl:text-[1.85rem] ${
                       project.index % 2 === 0
                         ? "text-[#141414] group-hover:text-[#00522D]"
                         : "text-[#17351f] group-hover:text-[#0f5c2f]"
