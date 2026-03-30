@@ -118,15 +118,8 @@ export default function TeamPartners() {
       className="relative bg-background py-24 md:py-36 overflow-hidden"
     >
       <div className="mx-auto w-full container px-6 lg:px-8">
-
         {/* Section header */}
         <div className="mb-16 md:mb-24">
-          <p
-            ref={labelRef}
-            className="font-clash text-xs font-bold uppercase tracking-[0.3em] text-green mb-5"
-          >
-            Meet The Team
-          </p>
           <h2
             ref={headlineRef}
             className="font-beni font-black uppercase leading-[0.9] overflow-hidden"
@@ -141,7 +134,10 @@ export default function TeamPartners() {
         </div>
 
         {/* Desktop: 3-column card grid */}
-        <div ref={cardsRef} className="hidden md:grid grid-cols-3 gap-6 lg:gap-10">
+        <div
+          ref={cardsRef}
+          className="hidden md:grid grid-cols-3 gap-6 lg:gap-10"
+        >
           {teamMembers.map((member) => (
             <motion.div
               key={member.slug}
@@ -168,8 +164,20 @@ export default function TeamPartners() {
                   <div className="absolute bottom-5 left-1/2 -translate-x-1/2 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
                     <span className="inline-flex items-center gap-2 rounded-full bg-white/92 px-5 py-2 font-clash text-xs font-semibold uppercase tracking-[0.15em] text-foreground shadow-lg backdrop-blur-sm whitespace-nowrap">
                       View profile
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                        <path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 12 12"
+                        fill="none"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M2 6h8M6.5 2.5L10 6l-3.5 3.5"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </span>
                   </div>
@@ -183,7 +191,10 @@ export default function TeamPartners() {
                   <h3 className="mt-2 font-beni text-[2rem] md:text-[2.5rem] font-black uppercase leading-[1.0] text-foreground">
                     {member.name}
                   </h3>
-                  <p className="mt-2.5 font-clash text-sm font-semibold text-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
+                  <p
+                    className="mt-2.5 font-clash text-sm font-semibold text-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    aria-hidden="true"
+                  >
                     View profile &rarr;
                   </p>
                 </div>
@@ -196,7 +207,10 @@ export default function TeamPartners() {
         <div className="md:hidden -mx-6 flex snap-x snap-mandatory overflow-x-auto gap-4 px-6 pb-4">
           {teamMembers.map((member) => (
             <div key={member.slug} className="min-w-[78vw] snap-start">
-              <Link href={`/team/${member.slug}`} className="block group focus:outline-none">
+              <Link
+                href={`/team/${member.slug}`}
+                className="block group focus:outline-none"
+              >
                 <div className="relative overflow-hidden rounded-2xl aspect-[3/4] w-full">
                   <Image
                     src={member.image}
@@ -222,7 +236,6 @@ export default function TeamPartners() {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );
