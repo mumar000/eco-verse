@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { AnimatePresence, motion, useScroll, useTransform, useSpring, useMotionValueEvent } from 'framer-motion';
 
 const CardsStack = () => {
     const containerRef = useRef(null);
+    const [activeCardIndex, setActiveCardIndex] = useState(0);
 
     // Track scroll over a larger container (600vh) to slow down the overall animation (DESKTOP ONLY)
     const { scrollYProgress } = useScroll({
@@ -26,44 +27,75 @@ const CardsStack = () => {
 
     const yTransforms = [0, y1, y2, y3, y4];
 
+    useMotionValueEvent(smoothProgress, "change", (latest) => {
+        if (latest < 0.20) {
+            setActiveCardIndex(0);
+            return;
+        }
+
+        if (latest < 0.40) {
+            setActiveCardIndex(1);
+            return;
+        }
+
+        if (latest < 0.60) {
+            setActiveCardIndex(2);
+            return;
+        }
+
+        if (latest < 0.80) {
+            setActiveCardIndex(3);
+            return;
+        }
+
+        setActiveCardIndex(4);
+    });
+
     // Data for the 5 cards
     const cards = [
         {
             id: "01",
-            title: "STRATEGY",
-            desc: "Analysis and definition of the pillars of communication.",
+            title: "LISTEN FIRST",
+            desc: "Every strong partnership starts with understanding",
+            details: "We begin by learning about your brand, your ambition, and the real challenge behind the brief — so the work starts from insight, not assumption.",
             color: "bg-[#F97316]", // orange-400
             rotation: 0 // straight
         },
         {
             id: "02",
-            title: "ART DIRECTION",
-            desc: "Reveal your brand's DNA with every post.",
+            title: "SHAPE TOGETHER",
+            desc: "Clarity before execution",
+            details: "We align on goals, priorities, and direction early, creating a shared understanding of what success looks like and how we’ll get there.",
             color: "bg-[#00522D]", // orange-600 (green as per your code)
             rotation: -5 // tilt left
         },
         {
             id: "03",
-            title: "CONTENT CREATION",
-            desc: "Photo and video production for your social media.",
+            title: "BUILD WITH PURPOSE",
+            desc: "Every move should have meaning",
+            details: "From strategy to creators to content flow, we design an approach that fits your brand naturally and moves with intention.",
             color: "bg-[#F97316]", // orange-500
             rotation: 0 // straight
         },
         {
             id: "04",
-            title: "COMMUNITY MANAGEMENT",
-            desc: "From account management to post scheduling.",
+            title: "STAY CONNECTED",
+            desc: "A process that keeps you close, not confused",
+            details: "You stay informed throughout the journey with clear visibility, open communication, and a team that works with you — not around you.",
             color: "bg-[#00522D]", // orange-700 (green as per your code)
             rotation: 5 // tilt right
         },
         {
             id: "05",
-            title: "REPORTING & LEARNINGS",
-            desc: "Detailed reports and strategic adjustments.",
+            title: "MOVE FORWARD",
+            desc: "Progress doesn’t stop at launch",
+            details: "We review, refine, and keep building on what works, turning each step into stronger momentum and a longer-term relationship.",
             color: "bg-[#F97316]", // orange-500
             rotation: 0 // straight
         }
     ];
+
+    const activeCard = cards[activeCardIndex];
 
     return (
         <>
@@ -135,11 +167,24 @@ const CardsStack = () => {
                         <div className="w-1/3 flex justify-start pl-14 z-40">
                             <div className="w-full max-w-[340px]">
                                 <h4 className="font-clash font-bold text-orange-600 text-[16px] mb-4 leading-5">
-                                    At Echo Verse, each project follows <br /> a clear and structured process.
+                                    More than a service <br /> a working partnership
                                 </h4>
-                                <p className="font-clash font-medium text-orange-500 text-[16px] leading-5">
-                                    Because effective communication cannot be improvised, we have created a method that combines strategy, creativity and rigor, to guarantee concrete results.
-                                </p>
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={activeCard.id}
+                                        initial={{ opacity: 0, y: 18 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -18 }}
+                                        transition={{ duration: 0.35, ease: "easeOut" }}
+                                    >
+                                        <h5 className="font-clash font-bold text-orange-600 text-[16px] mb-3 leading-5">
+                                            {activeCard.desc}
+                                        </h5>
+                                        <p className="font-clash font-medium text-orange-500 text-[16px] leading-5">
+                                            {activeCard.details}
+                                        </p>
+                                    </motion.div>
+                                </AnimatePresence>
                             </div>
                         </div>
 
@@ -182,11 +227,8 @@ const CardsStack = () => {
 
                     <div className="mt-8 flex flex-col gap-4">
                         <h4 className="font-clash font-bold text-orange-600 text-[15px] sm:text-[16px] leading-tight px-4">
-                            At Echo Verse, each project follows a clear and structured process.
+                            More than a service a working partnership
                         </h4>
-                        <p className="font-clash font-medium text-orange-500 text-[14px] sm:text-[15px] leading-snug">
-                            Because effective communication cannot be improvised, we have created a method that combines strategy, creativity and rigor, to guarantee concrete results.
-                        </p>
                     </div>
                 </div>
 
