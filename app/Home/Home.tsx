@@ -45,6 +45,9 @@ const page = async () => {
       <section id="why-choose-us" className="scroll-mt-24">
         <ChooseUs />
       </section>
+      <section id="team-partners" className="scroll-mt-24">
+        <TeamPartners />
+      </section>
 
       <section id="faqs" className="scroll-mt-24">
         <FAQS />
@@ -52,10 +55,6 @@ const page = async () => {
 
       <section id="blogs-preview" className="scroll-mt-24">
         <Social blogs={socialBlogs} />
-      </section>
-
-      <section id="team-partners" className="scroll-mt-24">
-        <TeamPartners />
       </section>
     </div>
   );

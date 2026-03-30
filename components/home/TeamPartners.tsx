@@ -1,176 +1,229 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-type TeamMember = {
+/* ── Types ──────────────────────────────────────────────────────────────── */
+interface TeamMember {
   name: string;
+  slug: string;
   role: string;
   image: string;
   bio: string;
-};
+  expertise: string[];
+  experience: string;
+  location: string;
+}
 
+/* ── Team data ──────────────────────────────────────────────────────────── */
 const teamMembers: TeamMember[] = [
   {
     name: "Fahad Bashir",
+    slug: "fahad-bashir",
     role: "Co-Founder & CEO",
     image: "/team-2.jpeg",
     bio: "After leading commercial strategy across WPP and GroupM in Pakistan, Indonesia, and Australia - working with brands like Unilever, Gillette, and GSK - Fahad saw exactly where creator marketing breaks down at the execution level. EchoVerse is built from that experience: a system where influence stops being an activity and starts being a measurable business outcome.",
+    expertise: ["Commercial Strategy", "Creator Marketing", "Brand Growth"],
+    experience: "15+ years",
+    location: "Pakistan / Australia",
   },
   {
     name: "Shoaib Hussain",
+    slug: "shoaib-hussain",
     role: "Director & Head of Operations",
     image: "/team.webp",
     bio: "With 10 years of media experience across HUM TV, GEO, and ARY, Shoaib has worked at the center of how audience attention is built, monetized, and scaled. He now applies that operational depth to build creator-led systems that deliver measurable outcomes across clients in Pakistan.",
+    expertise: ["Media Operations", "Audience Strategy", "Creator Systems"],
+    experience: "10+ years",
+    location: "Pakistan",
   },
   {
     name: "Ovais Ilyas",
+    slug: "ovais-ilyas",
     role: "Country Lead",
     image: "/team-4.png",
     bio: "Two decades across WPP Media, Spark Foundry, and Carat managing portfolios for Unilever, Coca-Cola, and Jazz gave Ovais a rare view of what great strategy looks like - and where most agencies lose it in execution. He's now bringing that discipline and accountability back to how Pakistani brands grow through creators.",
+    expertise: ["Portfolio Management", "Brand Strategy", "Market Leadership"],
+    experience: "20+ years",
+    location: "Pakistan",
   },
 ];
 
-const TeamPartners = () => {
-  const [active, setActive] = useState(0);
-  const member = teamMembers[active];
+/* ── Section ────────────────────────────────────────────────────────────── */
+export default function TeamPartners() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const labelRef = useRef<HTMLParagraphElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      // Label: fade + slide up
+      gsap.from(labelRef.current, {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 78%",
+        },
+      });
+
+      // Headline lines: stagger slide up
+      const lines = headlineRef.current?.querySelectorAll("span");
+      if (lines) {
+        gsap.from(lines, {
+          y: 60,
+          opacity: 0,
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: headlineRef.current,
+            start: "top 80%",
+          },
+        });
+      }
+
+      // Cards: stagger up from below
+      const cards = cardsRef.current?.children;
+      if (cards) {
+        gsap.from(cards, {
+          y: 90,
+          opacity: 0,
+          duration: 1,
+          stagger: 0.14,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: cardsRef.current,
+            start: "top 82%",
+          },
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="relative bg-background py-16 md:py-24">
+    <section
+      ref={sectionRef}
+      className="relative bg-background py-24 md:py-36 overflow-hidden"
+    >
       <div className="mx-auto w-full container px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-10 flex items-end justify-between">
-          <div>
-            <h2 className="font-beni text-[1.9rem] leading-[0.9] font-black uppercase  md:text-4xl lg:text-[4rem]">
-              <span className="block text-foreground">Built by people who&apos;ve</span>
-              <span className="block text-orange text-8xl">
-                run the system
-              </span>
-            </h2>
-            <p className="font-clash text-sm md:text-base text-foreground/50 mt-4 max-w-md leading-relaxed">
-              Now rebuilding it with intent - combining global experience with a focused vision for Pakistan&apos;s creator economy.
-            </p>
-          </div>
+
+        {/* Section header */}
+        <div className="mb-16 md:mb-24">
+          <p
+            ref={labelRef}
+            className="font-clash text-xs font-bold uppercase tracking-[0.3em] text-green mb-5"
+          >
+            Meet The Team
+          </p>
+          <h2
+            ref={headlineRef}
+            className="font-beni font-black uppercase leading-[0.9] overflow-hidden"
+          >
+            <span className="block text-foreground text-[3rem] md:text-[4.8rem] lg:text-[6.5rem]">
+              Built by people who&apos;ve
+            </span>
+            <span className="block text-orange text-[3.5rem] md:text-[5.8rem] lg:text-[8rem]">
+              run the system
+            </span>
+          </h2>
         </div>
 
-        {/* Mobile: horizontal snap-scroll cards */}
-        <div className="md:hidden -mx-6 flex snap-x snap-mandatory overflow-x-auto gap-4 px-6 pb-2">
-          {teamMembers.map((m) => (
-            <div
-              key={m.name}
-              className="min-w-[78vw] snap-start overflow-hidden rounded-2xl bg-foreground/[0.04] ring-1 ring-foreground/8"
+        {/* Desktop: 3-column card grid */}
+        <div ref={cardsRef} className="hidden md:grid grid-cols-3 gap-6 lg:gap-10">
+          {teamMembers.map((member) => (
+            <motion.div
+              key={member.slug}
+              whileHover={{ y: -8 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="group"
             >
-              <div className="relative aspect-[3/4] w-full">
-                <Image
-                  src={m.image}
-                  alt={m.name}
-                  fill
-                  className="object-cover object-top"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
-                <div className="absolute bottom-0 left-0 p-4">
-                  <p className="font-clash text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-green/90">
-                    {m.role}
-                  </p>
-                  <h3 className="mt-0.5 font-clash text-lg font-bold leading-tight text-white">
-                    {m.name}
-                  </h3>
+              <Link
+                href={`/team/${member.slug}`}
+                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl"
+              >
+                {/* Portrait */}
+                <div className="relative overflow-hidden rounded-2xl aspect-[3/4] w-full">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 768px) 78vw, 33vw"
+                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none" />
+
+                  {/* Hover pill */}
+                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+                    <span className="inline-flex items-center gap-2 rounded-full bg-white/92 px-5 py-2 font-clash text-xs font-semibold uppercase tracking-[0.15em] text-foreground shadow-lg backdrop-blur-sm whitespace-nowrap">
+                      View profile
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                        <path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
-              </div>
-              <div className="p-4">
-                <p className="font-clash text-[0.78rem] leading-relaxed text-foreground/50 line-clamp-3">
-                  {m.bio}
-                </p>
-              </div>
+
+                {/* Text */}
+                <div className="pt-6 pb-1">
+                  <p className="font-clash text-xs font-semibold uppercase tracking-[0.22em] text-green">
+                    {member.role}
+                  </p>
+                  <h3 className="mt-2 font-beni text-[2rem] md:text-[2.5rem] font-black uppercase leading-[1.0] text-foreground">
+                    {member.name}
+                  </h3>
+                  <p className="mt-2.5 font-clash text-sm font-semibold text-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
+                    View profile &rarr;
+                  </p>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Mobile: horizontal snap-scroll */}
+        <div className="md:hidden -mx-6 flex snap-x snap-mandatory overflow-x-auto gap-4 px-6 pb-4">
+          {teamMembers.map((member) => (
+            <div key={member.slug} className="min-w-[78vw] snap-start">
+              <Link href={`/team/${member.slug}`} className="block group focus:outline-none">
+                <div className="relative overflow-hidden rounded-2xl aspect-[3/4] w-full">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="78vw"
+                    className="object-cover object-top"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+                </div>
+                <div className="pt-5">
+                  <p className="font-clash text-xs font-semibold uppercase tracking-[0.22em] text-green">
+                    {member.role}
+                  </p>
+                  <h3 className="mt-2 font-beni text-[2rem] font-black uppercase leading-tight text-foreground">
+                    {member.name}
+                  </h3>
+                  <p className="mt-2 font-clash text-sm font-semibold text-orange">
+                    View profile &rarr;
+                  </p>
+                </div>
+              </Link>
             </div>
           ))}
         </div>
 
-        {/* Desktop: interactive spotlight grid */}
-        <div className="hidden md:grid grid-cols-1 gap-4 lg:grid-cols-[1fr_260px] lg:gap-4">
-          {/* Featured card */}
-          <div className="overflow-hidden rounded-2xl bg-foreground/[0.04] ring-1 ring-foreground/8">
-            <div className="flex flex-col md:flex-row md:h-full">
-              {/* Portrait */}
-              <div className="relative h-full w-full flex-shrink-0 md:h-auto md:w-[220px] lg:w-[280px]">
-                <Image
-                  key={active}
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  className="object-cover object-top"
-                />
-                {/* subtle side fade on desktop */}
-                <div className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-foreground/[0.04] hidden md:block" />
-              </div>
-
-              {/* Content */}
-              <div className="relative flex flex-col justify-between gap-6 p-7 md:p-9 md:overflow-hidden">
-                {/* Big decorative index */}
-                <span className="pointer-events-none absolute right-6 top-4 font-beni text-[7rem] leading-none font-black text-orange/20 select-none">
-                  {String(active + 1).padStart(2, "0")}
-                </span>
-
-                <div className="relative z-10">
-                  <p className="font-clash text-[1rem] font-semibold uppercase  text-green">
-                    {member.role}
-                  </p>
-                  <h3 className="mt-1.5 font-clash text-2xl font-bold text-foreground md:text-[3.5rem]">
-                    {member.name}
-                  </h3>
-                </div>
-
-                {/* Bio - scrollable */}
-                <div className="relative z-10 flex-1 overflow-y-auto pr-1  [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-green/40 [&::-webkit-scrollbar-track]:bg-transparent">
-                  <p className="font-clash text-[1.1rem] leading-[2] text-foreground/50">
-                    {member.bio}
-                  </p>
-                </div>
-
-                {/* Progress dots */}
-              </div>
-            </div>
-          </div>
-
-          {/* Selector - stacked on desktop only */}
-          <div className="flex flex-row gap-3 lg:flex-col lg:gap-4">
-            {teamMembers.map((m, i) => (
-              <button
-                key={m.name}
-                onClick={() => setActive(i)}
-                className={`group relative flex-1 overflow-hidden rounded-2xl transition-all duration-300 lg:flex-auto lg:min-h-0 ${
-                  active === i
-                    ? "ring-2 ring-green ring-offset-2 ring-offset-background"
-                    : "opacity-60 hover:opacity-85"
-                }`}
-              >
-                <div className="relative aspect-[3/2] lg:aspect-[4/3]">
-                  <Image
-                    src={m.image}
-                    alt={m.name}
-                    fill
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 p-3 text-left">
-                    <p className="font-clash text-[0.6rem] font-semibold uppercase tracking-[0.15em] text-green/90">
-                      {m.role}
-                    </p>
-                    <p className="font-clash text-xs font-bold text-white leading-tight">
-                      {m.name.split(" ")[0]}
-                    </p>
-                  </div>
-                  {active === i && (
-                    <div className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-green shadow-[0_0_6px_2px_rgba(21,128,61,0.6)]" />
-                  )}
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
-};
-
-export default TeamPartners;
+}
