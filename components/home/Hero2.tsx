@@ -70,10 +70,11 @@ const Hero2 = () => {
           <p className="font-clash text-sm sm:text-base font-semibold text-orange-300 uppercase tracking-widest mb-4 z-20 pointer-events-none">
             For brands ready to grow beyond noise
           </p>
-          <h1 className="font-bue text-[44px] sm:text-[80px] md:text-[100px] lg:text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
-            Turn Creator <span className="text-orange-300">Marketing</span>
-            <br />
-            Into Real Growth
+          <h1 className="font-bue text-[40px] sm:text-[68px] md:text-[84px] lg:text-[128px] leading-[0.82] text-center uppercase font-bold m-0 z-20 pointer-events-none">
+            <span className="block">
+              Turn Creator <span className="text-orange-300">Marketing</span>
+            </span>
+            <span className="block">Into Real Growth</span>
           </h1>
 
           <div className="absolute  left-2 md:left-[17%] lg:left-[13%] bottom-2 md:bottom-6 lg:bottom-10 -rotate-10 z-30">

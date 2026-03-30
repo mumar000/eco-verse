@@ -394,7 +394,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
 
       const card1From = isMobile
         ? { x: "20vw", y: "-115vh", rotation: -15, scale: 1, ease: "none" }
-        : { x: "90vw", y: "-210vh", rotation: -15, scale: 1, ease: "none" };
+        : { x: "80vw", y: "-210vh", rotation: -15, scale: 1, ease: "none" };
 
       const card2From = isMobile
         ? { x: "-4vw", y: "-108vh", rotation: -10, scale: 1, ease: "none" }
