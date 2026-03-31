@@ -105,9 +105,9 @@ const Hero2 = () => {
 
   return (
     <section ref={sectionRef}>
-      <div className="relative flex flex-col items-center justify-center min-h-[100svh] md:h-screen w-full bg-white text-orange-500 overflow-hidden px-4 pt-8 sm:pt-10">
+      <div className="relative flex flex-col -translate-y-22 items-center justify-center min-h-[100svh] md:h-screen w-full bg-white text-orange-500 overflow-hidden px-4 pt-8 sm:pt-10">
         <div className="relative flex flex-col items-center justify-center z-10 w-full max-w-6xl">
-          <h1 className="font-bue text-[44px] sm:text-[80px] md:text-[100px] lg:text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
+          <h1 className="font-bue text-[48px]  sm:text-[80px] md:text-[100px] lg:text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
             Creator <span className="text-orange-300">Marketing</span>
             <br />
             Systemized
@@ -150,7 +150,7 @@ const Hero2 = () => {
         <button className="group z-10 mt-10 flex items-center bg-transparent cursor-pointer overflow-visible transition-all">
           {/* Left Half: Text */}
           <div className="bg-orange-500 group-hover:bg-[#154238] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-l-md font-medium font-clash uppercase text-sm sm:text-base transition-all duration-500 ease-out group-hover:-translate-x-4 group-hover:-translate-y-3 group-hover:-rotate-6">
-            Join Now
+            Partner Now
           </div>
 
           {/* Right Half: Icon */}
