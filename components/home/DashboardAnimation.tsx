@@ -295,7 +295,7 @@ const CampaignPulseCard = () => {
             Conversions
           </p>
           <p className="font-clash text-lg font-semibold text-white leading-none mt-1">
-            1,284
+            ─ 1,284
           </p>
         </div>
       </div>
@@ -397,7 +397,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
       ).matches;
 
       const card1From = isMobile
-        ? { x: "20vw", y: "-120vh", rotation: -15, scale: 1, ease: "none" }
+        ? { x: "48vw", y: "-160vh", rotation: -15, scale: 1, ease: "none" }
         : is2xl
           ? { x: "88vw", y: "-205vh", rotation: -15, scale: 1, ease: "none" }
           : is1080
@@ -405,7 +405,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
             : { x: "95vw", y: "-205vh", rotation: -15, scale: 1, ease: "none" };
 
       const card2From = isMobile
-        ? { x: "-4vw", y: "-108vh", rotation: -10, scale: 1, ease: "none" }
+        ? { x: "-4vw", y: "-145vh", rotation: -10, scale: 1, ease: "none" }
         : is2xl
           ? { x: "-30vw", y: "-212vh", rotation: -10, scale: 1, ease: "none" }
           : is1080
@@ -413,7 +413,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
             : { x: "-25vw", y: "-209vh", rotation: 10, scale: 1, ease: "none" };
 
       const card3From = isMobile
-        ? { x: "2vw", y: "-112vh", rotation: 0, scale: 1, ease: "none" }
+        ? { x: "2vw", y: "-175vh", rotation: 0, scale: 1, ease: "none" }
         : is2xl
           ? { x: "2vw", y: "-190vh", rotation: -13, scale: 1, ease: "none" }
           : is1080
@@ -421,7 +421,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
             : { x: "2vw", y: "-205vh", rotation: -13, scale: 1, ease: "none" };
 
       const card4From = isMobile
-        ? { x: "8vw", y: "-110vh", rotation: 13, scale: 1, ease: "none" }
+        ? { x: "-50vw", y: "-160vh", rotation: 13, scale: 1, ease: "none" }
         : is2xl
           ? { x: "55vw", y: "-190vh", rotation: 13, scale: 1, ease: "none" }
           : is1080
@@ -432,7 +432,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
         scrollTrigger: {
           trigger: scrollSectionRef?.current ?? sectionRef.current,
           start: "top 50%",
-          end: isMobile ? "bottom 100%" : "bottom bottom",
+          end: isMobile ? "bottom 130%" : "bottom bottom",
           scrub: isMobile ? 0.6 : 1,
         },
       });
@@ -457,7 +457,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
   return (
     <section
       ref={sectionRef}
-      className="relative z-20 w-full min-h-screen py-10 overflow-hidden md:overflow-visible flex justify-center items-center bg-zinc-50"
+      className="relative z-20 w-full min-h-screen py-10 overflow- md:overflow-visible flex justify-center items-center bg-zinc-50"
     >
       <div className="relative z-10 w-full max-w-[1280px] mx-auto px-4 flex flex-col gap-5 py-4 rounded-4xl md:gap-6 bg-orange-400">
         <div className="flex flex-col md:flex-row w-full gap-5 md:gap-6">
