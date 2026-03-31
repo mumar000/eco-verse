@@ -113,126 +113,140 @@ export default function TeamPartners() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-background py-10 md:py-10 overflow-hidden"
-    >
-      <div className="mx-auto w-full container px-6 lg:px-8">
-        {/* Section header */}
-        <div className="mb-10">
-          <h2
-            ref={headlineRef}
-            className="font-beni font-black uppercase leading-[0.9] overflow-hidden"
-          >
-            <span className="block text-foreground text-[3rem] md:text-[4.8rem] lg:text-[6.5rem]">
-              Built by people who&apos;ve
-            </span>
-            <span className="block md:-mt-4 text-orange text-[3.5rem] md:text-[5.8rem] lg:text-[8rem]">
-              run the system
-            </span>
-          </h2>
-        </div>
+    <>
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
 
-        {/* Desktop: 3-column card grid */}
-        <div
-          ref={cardsRef}
-          className="hidden md:grid grid-cols-3 gap-6 lg:gap-10"
-        >
-          {teamMembers.map((member) => (
-            <motion.div
-              key={member.slug}
-              whileHover={{ y: -8 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="group"
+      <section
+        ref={sectionRef}
+        className="relative bg-background py-24 md:py-36 overflow-hidden"
+      >
+        <div className="mx-auto w-full container px-6 lg:px-8">
+          {/* Section header */}
+          <div className="mb-12 md:mb-24">
+            <h2
+              ref={headlineRef}
+              className="font-beni font-black uppercase leading-[0.9] overflow-hidden"
             >
-              <Link
-                href={`/team/${member.slug}`}
-                aria-label={`View ${member.name}'s profile`}
-                className="block cursor-pointer rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
-                {/* Portrait */}
-                <div className="relative overflow-hidden rounded-2xl aspect-[3/4] w-full">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    sizes="(max-width: 768px) 78vw, 33vw"
-                    className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none" />
+              <span className="block text-foreground text-[3rem] md:text-[4.8rem] lg:text-[6.5rem]">
+                Built by people who&apos;ve
+              </span>
+              <span className="block text-orange text-[3.5rem] md:text-[5.8rem] lg:text-[8rem]">
+                run the system
+              </span>
+            </h2>
+          </div>
 
-                  {/* Hover pill */}
-                  <div className="absolute bottom-5 left-1/2 -translate-x-1/2 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
-                    <span className="inline-flex items-center gap-2 rounded-full bg-white/92 px-5 py-2 font-clash text-xs font-semibold uppercase tracking-[0.15em] text-foreground shadow-lg backdrop-blur-sm whitespace-nowrap">
-                      View profile
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 12 12"
-                        fill="none"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M2 6h8M6.5 2.5L10 6l-3.5 3.5"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
+          {/* Desktop: 3-column card grid */}
+          <div
+            ref={cardsRef}
+            className="hidden md:grid grid-cols-3 gap-6 lg:gap-10"
+          >
+            {teamMembers.map((member) => (
+              <motion.div
+                key={member.slug}
+                whileHover={{ y: -8 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="group"
+              >
+                <Link
+                  href={`/team/${member.slug}`}
+                  className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl"
+                >
+                  {/* Portrait */}
+                  <div className="relative overflow-hidden rounded-2xl aspect-[3/4] w-full">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      sizes="(max-width: 768px) 78vw, 33vw"
+                      className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 pointer-events-none" />
+
+                    {/* Hover pill */}
+                    <div className="absolute bottom-5 left-1/2 -translate-x-1/2 opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-white/92 px-5 py-2 font-clash text-xs font-semibold uppercase tracking-[0.15em] text-foreground shadow-lg backdrop-blur-sm whitespace-nowrap">
+                        View profile
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M2 6h8M6.5 2.5L10 6l-3.5 3.5"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {/* Text */}
-                <div className="pt-6 pb-1">
-                  <p className="font-clash text-xs font-semibold uppercase tracking-[0.22em] text-green">
-                    {member.role}
-                  </p>
-                  <h3 className="mt-2 font-beni text-[2rem] md:text-[2.5rem] font-black uppercase leading-[1.0] text-foreground">
-                    {member.name}
-                  </h3>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+                  {/* Text */}
+                  <div className="pt-6 pb-1">
+                    <p className="font-clash text-xs font-semibold uppercase tracking-[0.22em] text-green">
+                      {member.role}
+                    </p>
+                    <h3 className="mt-2 font-beni text-[2rem] md:text-[2.5rem] font-black uppercase leading-[1.0] text-foreground">
+                      {member.name}
+                    </h3>
+                    <p
+                      className="mt-2.5 font-clash text-sm font-semibold text-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      aria-hidden="true"
+                    >
+                      View profile &rarr;
+                    </p>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
 
-        {/* Mobile: horizontal snap-scroll */}
-        <div className="md:hidden -mx-6 flex snap-x snap-mandatory overflow-x-auto gap-4 px-6 pb-4">
-          {teamMembers.map((member) => (
-            <div key={member.slug} className="min-w-[78vw] snap-start">
-              <Link
-                href={`/team/${member.slug}`}
-                aria-label={`View ${member.name}'s profile`}
-                className="block cursor-pointer group rounded-2xl focus:outline-none"
+          {/* Mobile: horizontal snap-scroll (COMPACT) */}
+          <div className="md:hidden -mx-6 flex snap-x snap-mandatory overflow-x-auto gap-4 px-6 pb-6 hide-scrollbar">
+            {teamMembers.map((member) => (
+              <div
+                key={member.slug}
+                className="min-w-[65vw] sm:min-w-[50vw] snap-center shrink-0"
               >
-                <div className="relative overflow-hidden rounded-2xl aspect-[3/4] w-full">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    sizes="78vw"
-                    className="object-cover object-top"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                </div>
-                <div className="pt-5">
-                  <p className="font-clash text-xs font-semibold uppercase tracking-[0.22em] text-green">
-                    {member.role}
-                  </p>
-                  <h3 className="mt-2 font-beni text-[2rem] font-black uppercase leading-tight text-foreground">
-                    {member.name}
-                  </h3>
-                  <p className="mt-2 font-clash text-sm font-semibold text-orange">
-                    View profile &rarr;
-                  </p>
-                </div>
-              </Link>
-            </div>
-          ))}
+                <Link
+                  href={`/team/${member.slug}`}
+                  className="block group focus:outline-none"
+                >
+                  <div className="relative overflow-hidden rounded-2xl aspect-[4/5] w-full shadow-sm">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      sizes="65vw"
+                      className="object-cover object-top"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+                  </div>
+                  <div className="pt-4">
+                    <p className="font-clash text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-green">
+                      {member.role}
+                    </p>
+                    <h3 className="mt-1 font-beni text-[1.75rem] font-black uppercase leading-none text-foreground">
+                      {member.name}
+                    </h3>
+                    <p className="mt-1 font-clash text-xs font-semibold text-orange">
+                      View profile &rarr;
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
