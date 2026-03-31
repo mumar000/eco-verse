@@ -61,7 +61,7 @@ export default function LegalPageTemplate({
 
           <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-end">
             <div className="max-w-4xl">
-              <h1 className="mt-5 max-w-4xl font-beni font-bold font-bold text-5xl text-[#00522D] sm:text-6xl lg:text-8xl">
+              <h1 className="mt-5 max-w-4xl font-beni  font-bold text-5xl text-[#00522D] sm:text-6xl lg:text-8xl">
                 {title}
               </h1>
               <p className="mt-6 max-w-3xl font-clash text-base leading-7 text-[#00522D]/75 sm:text-lg sm:leading-8">
