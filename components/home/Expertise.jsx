@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -42,6 +42,7 @@ const MobileExpertiseCard = ({ src, index, progress }) => {
         x,
         scale,
         opacity,
+        willChange: "transform, opacity",
         transformOrigin: "center center",
         WebkitBackfaceVisibility: "hidden", // Helps with flickering on iOS
         transform: "translateZ(0)",
@@ -98,6 +99,7 @@ const Expertise = () => {
   // DESKTOP LOGIC (UNTOUCHED PER REQUEST)
   // ==========================================
   const desktopContainerRef = useRef(null);
+  const desktopActiveIndexRef = useRef(0);
   const { scrollYProgress: desktopProgress } = useScroll({
     target: desktopContainerRef,
     offset: ["start start", "end end"],
@@ -105,9 +107,11 @@ const Expertise = () => {
   const [desktopActiveIndex, setDesktopActiveIndex] = useState(0);
 
   useMotionValueEvent(desktopProgress, "change", (latest) => {
-    if (latest < 0.33) setDesktopActiveIndex(0);
-    else if (latest < 0.66) setDesktopActiveIndex(1);
-    else setDesktopActiveIndex(2);
+    const nextIndex = latest < 0.33 ? 0 : latest < 0.66 ? 1 : 2;
+    if (desktopActiveIndexRef.current !== nextIndex) {
+      desktopActiveIndexRef.current = nextIndex;
+      setDesktopActiveIndex(nextIndex);
+    }
   });
 
   const handleDesktopItemClick = (index) => {
@@ -129,7 +133,11 @@ const Expertise = () => {
   // MOBILE LOGIC (OPTIMIZED FOR SMOOTHNESS)
   // ==========================================
   const mobileSectionRef = useRef(null);
+  const mobileTrackViewportRef = useRef(null);
+  const mobileTrackRef = useRef(null);
+  const mobileActiveIndexRef = useRef(0);
   const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
+  const [mobileTrackDistance, setMobileTrackDistance] = useState(0);
 
   const { scrollYProgress: mobileScrollRaw } = useScroll({
     target: mobileSectionRef,
@@ -137,26 +145,40 @@ const Expertise = () => {
     offset: ["start start", "0.95 end"],
   });
 
-  // Balanced Spring: High stiffness/damping for "weight" without lag
+  useEffect(() => {
+    const updateMobileTrackDistance = () => {
+      const viewportWidth = mobileTrackViewportRef.current?.offsetWidth ?? 0;
+      const trackWidth = mobileTrackRef.current?.scrollWidth ?? 0;
+      setMobileTrackDistance(Math.max(trackWidth - viewportWidth, 0));
+    };
+
+    updateMobileTrackDistance();
+    window.addEventListener("resize", updateMobileTrackDistance);
+
+    return () => window.removeEventListener("resize", updateMobileTrackDistance);
+  }, []);
+
+  // Faster spring with less drag for a quicker response on mobile.
   const mobileSpring = useSpring(mobileScrollRaw, {
-    stiffness: 40, // Reduced from 100 for smoother glide
-    damping: 20, // Balanced to stop bouncing
-    mass: 1,
+    stiffness: 90,
+    damping: 22,
+    mass: 0.7,
     restDelta: 0.001,
   });
 
-  // Optimized track distance
+  // Measured pixel transforms are cheaper to animate than viewport-unit strings.
   const mobileTrackX = useTransform(
     mobileSpring,
-    [0, 0.5, 1],
-    ["10vw", "-75vw", "-165vw"], // Slightly widened to ensure the last card centers perfectly
+    [0, 1],
+    [0, -mobileTrackDistance],
   );
 
   useMotionValueEvent(mobileSpring, "change", (latest) => {
-    // Adjusted thresholds to sync perfectly with the visual card positions
-    if (latest < 0.3) setMobileActiveIndex(0);
-    else if (latest < 0.7) setMobileActiveIndex(1);
-    else setMobileActiveIndex(2);
+    const nextIndex = latest < 0.3 ? 0 : latest < 0.7 ? 1 : 2;
+    if (mobileActiveIndexRef.current !== nextIndex) {
+      mobileActiveIndexRef.current = nextIndex;
+      setMobileActiveIndex(nextIndex);
+    }
   });
 
   const scrollToMobileImage = (index) => {
@@ -245,19 +267,22 @@ const Expertise = () => {
           </div>
 
           <div className="relative w-full overflow-visible my-4 h-[250px] xs:h-[310px]">
-            <motion.div
-              style={{ x: mobileTrackX }}
-              className="flex gap-6 items-center will-change-transform"
-            >
-              {images.map((src, i) => (
-                <MobileExpertiseCard
-                  key={i}
-                  src={src}
-                  index={i}
-                  progress={mobileSpring}
-                />
-              ))}
-            </motion.div>
+            <div ref={mobileTrackViewportRef} className="w-full overflow-hidden">
+              <motion.div
+                ref={mobileTrackRef}
+                style={{ x: mobileTrackX, willChange: "transform" }}
+                className="flex items-center gap-6 [transform:translate3d(0,0,0)]"
+              >
+                {images.map((src, i) => (
+                  <MobileExpertiseCard
+                    key={i}
+                    src={src}
+                    index={i}
+                    progress={mobileSpring}
+                  />
+                ))}
+              </motion.div>
+            </div>
           </div>
 
           <div className="w-full space-y-2 mt-8">
