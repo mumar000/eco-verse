@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -359,10 +359,6 @@ const CampaignPulseCard = () => {
 
 const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
   const sectionRef = useRef<HTMLElement>(null);
-  const animatedCard1Ref = useRef<HTMLImageElement | null>(null);
-  const animatedCard2Ref = useRef<HTMLImageElement | null>(null);
-  const animatedCard3Ref = useRef<HTMLImageElement | null>(null);
-  const animatedCard4Ref = useRef<HTMLImageElement | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
 
   const dashboardSlides = [
@@ -390,111 +386,61 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
     setActiveSlide((current) => (current + 1) % dashboardSlides.length);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const cards = [
-      animatedCard1Ref.current,
-      animatedCard2Ref.current,
-      animatedCard3Ref.current,
-      animatedCard4Ref.current,
-    ].filter(Boolean) as HTMLElement[];
-
-    if (!cards.length) return;
-
     const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      const is2xl = window.matchMedia("(min-width: 1536px)").matches;
+      const is1080 = window.matchMedia(
+        "(min-width: 1280px) and (min-height: 1080px) and (max-width: 1535px)",
+      ).matches;
 
-      gsap.set(cards, {
-        force3D: true,
-        willChange: "transform",
-        backfaceVisibility: "hidden",
-        transformPerspective: 1000,
+      const card1From = isMobile
+        ? { x: "48vw", y: "-165vh", rotation: -15, scale: 1, ease: "none" }
+        : is2xl
+          ? { x: "88vw", y: "-205vh", rotation: -15, scale: 1, ease: "none" }
+          : is1080
+            ? { x: "89vw", y: "-218vh", rotation: -15, scale: 1, ease: "none" }
+            : { x: "95vw", y: "-205vh", rotation: -15, scale: 1, ease: "none" };
+
+      const card2From = isMobile
+        ? { x: "-4vw", y: "-150vh", rotation: -10, scale: 1, ease: "none" }
+        : is2xl
+          ? { x: "-30vw", y: "-212vh", rotation: -10, scale: 1, ease: "none" }
+          : is1080
+            ? { x: "-26vw", y: "-206vh", rotation: -10, scale: 1, ease: "none" }
+            : { x: "-25vw", y: "-209vh", rotation: 10, scale: 1, ease: "none" };
+
+      const card3From = isMobile
+        ? { x: "2vw", y: "-180vh", rotation: 0, scale: 1, ease: "none" }
+        : is2xl
+          ? { x: "2vw", y: "-190vh", rotation: -13, scale: 1, ease: "none" }
+          : is1080
+            ? { x: "2vw", y: "-204vh", rotation: 13, scale: 1, ease: "none" }
+            : { x: "2vw", y: "-205vh", rotation: -13, scale: 1, ease: "none" };
+
+      const card4From = isMobile
+        ? { x: "-50vw", y: "-165vh", rotation: 13, scale: 1, ease: "none" }
+        : is2xl
+          ? { x: "55vw", y: "-190vh", rotation: 13, scale: 1, ease: "none" }
+          : is1080
+            ? { x: "58vw", y: "-204vh", rotation: 13, scale: 1, ease: "none" }
+            : { x: "60vw", y: "-203vh", rotation: 13, scale: 1, ease: "none" };
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: scrollSectionRef?.current ?? sectionRef.current,
+          start: "top 50%",
+          end: isMobile ? "bottom 130%" : "bottom bottom",
+          scrub: isMobile ? 0.6 : 1,
+        },
       });
 
-      mm.add(
-        {
-          mobile: "(max-width: 767px)",
-          desktop2xl: "(min-width: 1536px)",
-          desktop1080:
-            "(min-width: 1280px) and (min-height: 1080px) and (max-width: 1535px)",
-        },
-        (context) => {
-          const { mobile, desktop2xl, desktop1080 } = context.conditions as {
-            mobile: boolean;
-            desktop2xl: boolean;
-            desktop1080: boolean;
-          };
-          const viewportWidth = window.innerWidth;
-          const viewportHeight = window.innerHeight;
-
-          const card1From = mobile
-            ? {
-                x: viewportWidth * 0.48,
-                y: -viewportHeight * 1.25,
-                rotation: -12,
-                scale: 1,
-              }
-            : desktop2xl
-              ? { x: viewportWidth * 0.88, y: -viewportHeight * 2.05, rotation: -15, scale: 1 }
-              : desktop1080
-                ? { x: viewportWidth * 0.89, y: -viewportHeight * 2.18, rotation: -15, scale: 1 }
-                : { x: viewportWidth * 0.95, y: -viewportHeight * 2.05, rotation: -15, scale: 1 };
-
-          const card2From = mobile
-            ? {
-                x: -viewportWidth * 0.04,
-                y: -viewportHeight * 1.15,
-                rotation: -8,
-                scale: 1,
-              }
-            : desktop2xl
-              ? { x: -viewportWidth * 0.3, y: -viewportHeight * 2.12, rotation: -10, scale: 1 }
-              : desktop1080
-                ? { x: -viewportWidth * 0.26, y: -viewportHeight * 2.06, rotation: -10, scale: 1 }
-                : { x: -viewportWidth * 0.25, y: -viewportHeight * 2.09, rotation: 10, scale: 1 };
-
-          const card3From = mobile
-            ? { x: viewportWidth * 0.02, y: -viewportHeight * 1.35, rotation: 0, scale: 1 }
-            : desktop2xl
-              ? { x: viewportWidth * 0.02, y: -viewportHeight * 1.9, rotation: -13, scale: 1 }
-              : desktop1080
-                ? { x: viewportWidth * 0.02, y: -viewportHeight * 2.04, rotation: 13, scale: 1 }
-                : { x: viewportWidth * 0.02, y: -viewportHeight * 2.05, rotation: -13, scale: 1 };
-
-          const card4From = mobile
-            ? {
-                x: -viewportWidth * 0.5,
-                y: -viewportHeight * 1.25,
-                rotation: 10,
-                scale: 1,
-              }
-            : desktop2xl
-              ? { x: viewportWidth * 0.55, y: -viewportHeight * 1.9, rotation: 13, scale: 1 }
-              : desktop1080
-                ? { x: viewportWidth * 0.58, y: -viewportHeight * 2.04, rotation: 13, scale: 1 }
-                : { x: viewportWidth * 0.6, y: -viewportHeight * 2.03, rotation: 13, scale: 1 };
-
-          const tl = gsap.timeline({
-            defaults: { ease: "none" },
-            scrollTrigger: {
-              trigger: scrollSectionRef?.current ?? sectionRef.current,
-              start: "top 50%",
-              end: mobile ? "bottom 115%" : "bottom bottom",
-              scrub: mobile ? 0.18 : 1,
-              invalidateOnRefresh: true,
-              fastScrollEnd: true,
-            },
-          });
-
-          tl.from(animatedCard1Ref.current, card1From, 0)
-            .from(animatedCard2Ref.current, card2From, 0)
-            .from(animatedCard3Ref.current, card3From, 0)
-            .from(animatedCard4Ref.current, card4From, 0);
-        },
-      );
-
-      return () => mm.revert();
+      tl.from(".animated-card-1", card1From, 0)
+        .from(".animated-card-2", card2From, 0)
+        .from(".animated-card-3", card3From, 0)
+        .from(".animated-card-4", card4From, 0);
     }, sectionRef);
 
     return () => ctx.revert();
@@ -584,37 +530,33 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
             <div className="grid grid-cols-2 gap-2 w-full relative">
               <div className="relative aspect-[1.4] bg-[#f8f9fa] rounded-xl flex items-center justify-center">
                 <Image
-                  ref={animatedCard1Ref}
                   src={numbersImage1}
                   alt="Views"
-                  className="animated-card-1 absolute inset-0 h-full w-full origin-center object-contain z-50 will-change-transform [transform:translate3d(0,0,0)]"
+                  className="animated-card-1 absolute inset-0 w-full h-full object-contain z-50 origin-center"
                 />
               </div>
 
               <div className="relative aspect-[1.4] bg-[#f8f9fa] rounded-xl flex items-center justify-center">
                 <Image
-                  ref={animatedCard2Ref}
                   src={numbersImage2}
                   alt="Active Users"
-                  className="animated-card-2 absolute inset-0 h-full w-full origin-center object-contain z-50 will-change-transform [transform:translate3d(0,0,0)]"
+                  className="animated-card-2 absolute inset-0 w-full h-full object-contain z-50 origin-center"
                 />
               </div>
 
               <div className="relative aspect-[1.4] bg-[#f8f9fa] rounded-xl flex items-center justify-center mt-0 md:-mt-8">
                 <Image
-                  ref={animatedCard3Ref}
                   src={numbersImage3}
                   alt="New Users"
-                  className="animated-card-3 absolute inset-0 h-full w-full origin-center object-contain z-50 will-change-transform [transform:translate3d(0,0,0)]"
+                  className="animated-card-3 absolute inset-0 w-full h-full object-contain z-50 origin-center"
                 />
               </div>
 
               <div className="relative aspect-[1.4] bg-[#f8f9fa] rounded-xl flex items-center justify-center mt-0 md:-mt-8">
                 <Image
-                  ref={animatedCard4Ref}
                   src={numbersImage4}
                   alt="Visits"
-                  className="animated-card-4 absolute inset-0 h-full w-full origin-center object-contain z-50 will-change-transform [transform:translate3d(0,0,0)]"
+                  className="animated-card-4 absolute inset-0 w-full h-full object-contain z-50 origin-center"
                 />
               </div>
             </div>
