@@ -179,12 +179,18 @@ const Footer = () => {
 
         {/* Right: Legal Links */}
         <div className="flex flex-wrap items-center justify-center gap-4 mt-2 lg:mt-0">
-          <a href="#" className="hover:opacity-70 transition-opacity">
+          <Link
+            href="/terms-and-conditions"
+            className="hover:opacity-70 transition-opacity"
+          >
             Terms & Conditions
-          </a>
-          <a href="#" className="hover:opacity-70 transition-opacity">
+          </Link>
+          <Link
+            href="/privacy-policy"
+            className="hover:opacity-70 transition-opacity"
+          >
             Privacy Policy
-          </a>
+          </Link>
         </div>
       </div>
 
