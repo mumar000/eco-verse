@@ -105,7 +105,7 @@ const Hero2 = () => {
 
   return (
     <section ref={sectionRef}>
-      <div className="relative flex flex-col -translate-y-22 items-center justify-center min-h-[100svh] md:h-screen w-full bg-white text-orange-500 overflow-hidden px-4 pt-8 sm:pt-10">
+      <div className="relative flex flex-col md:translate-y-0 -translate-y-22 items-center justify-center min-h-[100svh] md:h-screen w-full bg-white text-orange-500 overflow-hidden px-4 pt-8 sm:pt-10">
         <div className="relative flex flex-col items-center justify-center z-10 w-full max-w-6xl">
           <h1 className="font-bue text-[48px]  sm:text-[80px] md:text-[100px] lg:text-[150px] leading-[0.8] text-center uppercase font-bold m-0 z-20 pointer-events-none">
             Creator <span className="text-orange-300">Marketing</span>
