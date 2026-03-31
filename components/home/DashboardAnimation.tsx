@@ -397,7 +397,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
       ).matches;
 
       const card1From = isMobile
-        ? { x: "48vw", y: "-165vh", rotation: -15, scale: 1, ease: "none" }
+        ? { x: "48vw", y: "-170vh", rotation: -15, scale: 1, ease: "none" }
         : is2xl
           ? { x: "88vw", y: "-205vh", rotation: -15, scale: 1, ease: "none" }
           : is1080
@@ -405,7 +405,7 @@ const DashboardAnimation = ({ scrollSectionRef }: DashboardAnimationProps) => {
             : { x: "95vw", y: "-205vh", rotation: -15, scale: 1, ease: "none" };
 
       const card2From = isMobile
-        ? { x: "-4vw", y: "-150vh", rotation: -10, scale: 1, ease: "none" }
+        ? { x: "-4vw", y: "-155vh", rotation: -10, scale: 1, ease: "none" }
         : is2xl
           ? { x: "-30vw", y: "-212vh", rotation: -10, scale: 1, ease: "none" }
           : is1080

@@ -113,14 +113,14 @@ const Hero2 = () => {
             Systemized
           </h1>
 
-          <div className="absolute left-2 md:left-[17%] lg:left-[13%] bottom-2 md:bottom-6 lg:bottom-10 -rotate-10 z-30">
+          <div className="absolute left-8 md:left-[17%] lg:left-[13%] -bottom-6 md:bottom-6 lg:bottom-10 -rotate-10 z-30">
             <Image
               ref={bulbRef}
               src={bulbImg}
               alt="Bulb"
               width={180}
               height={180}
-              className="w-16 sm:w-28 md:w-24 lg:w-32 h-auto"
+              className="w-14 sm:w-28 md:w-24 lg:w-32 h-auto"
               priority
             />
           </div>
@@ -177,18 +177,6 @@ const Hero2 = () => {
             </div>
           </div>
         </button>
-
-        <div
-          ref={scrollCueRef}
-          className="mt-4 flex flex-col items-center gap-2 text-orange-500 md:hidden"
-        >
-          <span className="font-clash text-[11px] font-medium uppercase tracking-[0.28em]">
-            Scroll
-          </span>
-          <div className="flex h-10 w-4 justify-center rounded-full border border-orange-300/80 p-1">
-            <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-orange-500" />
-          </div>
-        </div>
       </div>
 
       <DashboardAnimation scrollSectionRef={sectionRef} />

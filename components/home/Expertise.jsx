@@ -37,7 +37,7 @@ const MobileExpertiseCard = ({ src, index, progress }) => {
 
   return (
     <motion.div
-      className="min-w-[75vw] xs:min-w-[65vw] shrink-0 h-[280px] "
+      className="min-w-[50vw] xs:min-w-[50vw] shrink-0 h-[280px] "
       style={{
         x,
         scale,
