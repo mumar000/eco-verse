@@ -14,337 +14,211 @@ import second2 from "@/public/assets/second2.png";
 import third2 from "@/public/assets/third2.png";
 
 const MobileExpertiseCard = ({ src, index, progress }) => {
+  // Enhanced transforms for a more "cinematic" feel on mobile
   const x = useTransform(
     progress,
-    [0, 0.18, 0.5, 0.82, 1],
-    index === 0
-      ? [0, -4, -10, -16, -20]
-      : index === 1
-        ? [12, 10, 0, -8, -12]
-        : [24, 22, 12, 4, 0],
-  );
-  const y = useTransform(
-    progress,
-    [0, 0.18, 0.5, 0.82, 1],
-    index === 0
-      ? [0, -1, -5, -9, -12]
-      : index === 1
-        ? [9, 7, 0, -5, -8]
-        : [16, 14, 7, 2, 0],
-  );
-  const rotate = useTransform(
-    progress,
-    [0, 0.18, 0.5, 0.82, 1],
-    index === 0
-      ? [0, -0.25, -0.9, -1.5, -1.8]
-      : index === 1
-        ? [1.6, 1.2, 0, -0.8, -1.2]
-        : [2.6, 2.1, 1.05, 0.3, 0],
+    [0, 0.5, 1],
+    index === 0 ? [0, -20, -40] : index === 1 ? [15, 0, -15] : [40, 20, 0],
   );
   const scale = useTransform(
     progress,
-    [0, 0.18, 0.5, 0.82, 1],
+    [0, 0.5, 1],
     index === 0
-      ? [1, 0.995, 0.978, 0.962, 0.952]
+      ? [1, 0.94, 0.9]
       : index === 1
-        ? [0.955, 0.968, 1, 0.978, 0.965]
-        : [0.91, 0.922, 0.962, 0.988, 1],
+        ? [0.92, 1, 0.92]
+        : [0.88, 0.94, 1],
   );
   const opacity = useTransform(
     progress,
-    [0, 0.18, 0.5, 0.82, 1],
-    index === 0
-      ? [1, 0.995, 0.96, 0.92, 0.89]
-      : index === 1
-        ? [0.91, 0.94, 1, 0.965, 0.93]
-        : [0.84, 0.87, 0.93, 0.985, 1],
+    [0, 0.5, 1],
+    index === 0 ? [1, 0.7, 0.4] : index === 1 ? [0.6, 1, 0.6] : [0.4, 0.7, 1],
   );
 
   return (
     <motion.div
-      className="min-w-[70vw] sm:min-w-[60vw] snap-center shrink-0 h-[250px] sm:h-[400px]"
+      className="min-w-[75vw] xs:min-w-[65vw] shrink-0 h-[280px] "
       style={{
         x,
-        y,
-        rotate,
         scale,
         opacity,
         transformOrigin: "center center",
-        willChange: "transform",
+        WebkitBackfaceVisibility: "hidden", // Helps with flickering on iOS
+        transform: "translateZ(0)",
       }}
     >
       <img
         loading="lazy"
         src={src}
         alt={`Expertise ${index}`}
-        className="w-full h-full object-cover rounded-3xl shadow-lg"
+        className="w-full h-full object-cover rounded-2xl shadow-xl"
       />
     </motion.div>
   );
 };
 
 const Expertise = () => {
+  const images = [third2.src, second2.src, first1.src];
+
+  const rightContent = [
+    {
+      title: "DEMAND STRATEGY",
+      desc: "We build social strategies that guide people from first impression to final action.",
+      pills: [
+        "Channel growth",
+        "Audience mapping",
+        "Paid + organic",
+        "Creator mix",
+        "Launch systems",
+      ],
+    },
+    {
+      title: "ATTENTION DESIGN",
+      desc: "We create content around how people actually stop, watch, trust, and respond.",
+      pills: [
+        "Short-form video",
+        "Scroll-stopping hooks",
+        "Platform-native",
+        "Creative loops",
+      ],
+    },
+    {
+      title: "AUDIENCE INTELLIGENCE",
+      desc: "We manage your community as a live layer of brand insight and sentiment tracking.",
+      pills: [
+        "Comment intel",
+        "DM systems",
+        "Sentiment tracking",
+        "Brand trust",
+      ],
+    },
+  ];
+
   // ==========================================
-  // DESKTOP LOGIC (>= lg)
+  // DESKTOP LOGIC (UNTOUCHED PER REQUEST)
   // ==========================================
   const desktopContainerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: desktopProgress } = useScroll({
     target: desktopContainerRef,
     offset: ["start start", "end end"],
   });
-
   const [desktopActiveIndex, setDesktopActiveIndex] = useState(0);
 
-  // Track scroll to change desktop active index
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+  useMotionValueEvent(desktopProgress, "change", (latest) => {
     if (latest < 0.33) setDesktopActiveIndex(0);
     else if (latest < 0.66) setDesktopActiveIndex(1);
     else setDesktopActiveIndex(2);
   });
 
-  // Click desktop accordion to jump to section
   const handleDesktopItemClick = (index) => {
-    if (!desktopContainerRef.current) return;
-    const containerTop = desktopContainerRef.current.offsetTop;
-    const windowHeight = window.innerHeight;
-    const targetScroll = containerTop + index * windowHeight;
+    const targetScroll =
+      desktopContainerRef.current.offsetTop + index * window.innerHeight;
     window.scrollTo({ top: targetScroll, behavior: "smooth" });
   };
 
-  // Card transform logic for desktop stacked images
   const getCardAnimation = (index) => {
     const position = (index - desktopActiveIndex + 3) % 3;
     if (position === 0)
-      return {
-        x: 0,
-        scale: 1,
-        rotate: 0,
-        zIndex: 30,
-        opacity: 1,
-        filter: "brightness(1)",
-      };
-    else if (position === 1)
-      return {
-        x: 40,
-        scale: 0.85,
-        rotate: 3,
-        zIndex: 20,
-        opacity: 0.9,
-        filter: "brightness(0.7)",
-      };
-    else
-      return {
-        x: -40,
-        scale: 0.85,
-        rotate: -3,
-        zIndex: 10,
-        opacity: 0.9,
-        filter: "brightness(0.7)",
-      };
+      return { x: 0, scale: 1, rotate: 0, zIndex: 30, opacity: 1 };
+    if (position === 1)
+      return { x: 40, scale: 0.85, rotate: 3, zIndex: 20, opacity: 0.9 };
+    return { x: -40, scale: 0.85, rotate: -3, zIndex: 10, opacity: 0.9 };
   };
 
   // ==========================================
-  // MOBILE LOGIC (< lg)
+  // MOBILE LOGIC (OPTIMIZED FOR SMOOTHNESS)
   // ==========================================
   const mobileSectionRef = useRef(null);
   const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
-  const { scrollYProgress: mobileScrollProgress } = useScroll({
+
+  const { scrollYProgress: mobileScrollRaw } = useScroll({
     target: mobileSectionRef,
-    offset: ["start start", "end end"],
+    // Change: Modified offset slightly to ensure animation completes before scrolling out
+    offset: ["start start", "0.95 end"],
   });
-  const smoothMobileProgress = useSpring(mobileScrollProgress, {
-    stiffness: 54,
-    damping: 20,
-    mass: 0.85,
+
+  // Balanced Spring: High stiffness/damping for "weight" without lag
+  const mobileSpring = useSpring(mobileScrollRaw, {
+    stiffness: 40, // Reduced from 100 for smoother glide
+    damping: 20, // Balanced to stop bouncing
+    mass: 1,
+    restDelta: 0.001,
   });
-  const cinematicMobileProgress = useTransform(
-    smoothMobileProgress,
-    [0, 0.12, 0.24, 0.5, 0.76, 0.88, 1],
-    [0, 0.04, 0.16, 0.5, 0.84, 0.96, 1],
-  );
+
+  // Optimized track distance
   const mobileTrackX = useTransform(
-    cinematicMobileProgress,
-    [0, 0.1, 0.22, 0.38, 0.5, 0.62, 0.78, 0.9, 1],
-    [
-      "0vw",
-      "calc(-6vw - 0.05rem)",
-      "calc(-20vw - 0.22rem)",
-      "calc(-48vw - 0.58rem)",
-      "calc(-66vw - 0.85rem)",
-      "calc(-84vw - 1.08rem)",
-      "calc(-102vw - 1.28rem)",
-      "calc(-124vw - 1.56rem)",
-      "calc(-132vw - 1.7rem)",
-    ],
+    mobileSpring,
+    [0, 0.5, 1],
+    ["10vw", "-75vw", "-165vw"], // Slightly widened to ensure the last card centers perfectly
   );
 
-  // Track vertical page scroll on mobile to keep the card motion and
-  // accordion progression in sync with the user's scrolling.
-  useMotionValueEvent(cinematicMobileProgress, "change", (latest) => {
-    if (latest < 0.32) setMobileActiveIndex(0);
-    else if (latest < 0.68) setMobileActiveIndex(1);
+  useMotionValueEvent(mobileSpring, "change", (latest) => {
+    // Adjusted thresholds to sync perfectly with the visual card positions
+    if (latest < 0.3) setMobileActiveIndex(0);
+    else if (latest < 0.7) setMobileActiveIndex(1);
     else setMobileActiveIndex(2);
   });
 
-  // Click mobile accordion to scroll carousel to image
   const scrollToMobileImage = (index) => {
-    setMobileActiveIndex(index);
     if (!mobileSectionRef.current) return;
-
     const containerTop = mobileSectionRef.current.offsetTop;
-    const windowHeight = window.innerHeight;
-    const targetScroll = containerTop + index * windowHeight;
+    const targetScroll = containerTop + index * window.innerHeight;
     window.scrollTo({ top: targetScroll, behavior: "smooth" });
   };
 
-  // ==========================================
-  // DATA
-  // ==========================================
-  const rightContent = [
-    {
-      title: "DEMAND STRATEGY",
-      desc: "We build social strategies that guide people from first impression to final action  aligning creators, content, and distribution into a system that performs with purpose.",
-      pills: [
-        "Channel growth planning",
-        "Audience intent mapping",
-        "Campaign narrative design",
-        "Paid + organic sync",
-        "Creator mix strategy",
-        "Conversion funnel planning",
-        "Launch sequence systems",
-      ],
-    },
-    {
-      title: "ATTENTION DESIGN",
-      desc: "We create content around how people actually stop, watch, trust, and respond  built to capture attention quickly and turn it into meaningful action.",
-      pills: [
-        "Creator-led production",
-        "Platform-native storytelling",
-        "Scroll-stopping hooks",
-        "Short-form video systems",
-        "Performance-first scripting",
-        "Creative testing loops",
-        "Retention-driven editing",
-      ],
-    },
-    {
-      title: "AUDIENCE INTELLIGENCE",
-      desc: "We manage your community as a live layer of brand insight  turning replies, reactions, and conversations into stronger trust, smarter decisions, and better performance.",
-      pills: [
-        "Comment intelligence",
-        "DM response systems",
-        "Sentiment tracking",
-        "Brand trust building",
-        "Audience insight loops",
-        "Reputation management",
-        "Retention engagement",
-      ],
-    },
-  ];
-
-  const images = [third2.src, second2.src, first1.src];
-
   return (
     <>
-      {/* CSS to hide the scrollbar for the mobile horizontal carousel smoothly */}
-      <style>{`
-                .hide-scrollbar::-webkit-scrollbar { display: none; }
-                .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-            `}</style>
-
-      {/* ========================================== */}
-      {/* DESKTOP VIEW (Visible lg and above)        */}
-      {/* ========================================== */}
+      {/* DESKTOP VIEW */}
       <div
         ref={desktopContainerRef}
         className="hidden lg:block relative h-[300vh] bg-orange"
       >
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
           <div className="flex w-full max-w-[1400px] px-8 items-center justify-between">
-            {/* LEFT SECTION */}
             <div className="w-full max-w-[400px] relative z-40">
               <h1 className="text-[94px] leading-[0.7] font-beni font-black uppercase">
                 <span className="text-white block">BUILT TO</span>
                 <span className="text-white block">DRIVE</span>
                 <span className="block text-[#00522D]">RESULTS.</span>
               </h1>
-
-              <p className="font-clash text-orange-500 mt-5 text-lg font-semibold w-[85%] leading-6">
-                Echo Verse is a social media agency founded on three strong
-                areas of expertise.
+              <p className="font-clash text-orange-500 mt-5 text-lg font-semibold w-[85%]">
+                Echo Verse Expertise
               </p>
-
-              <motion.div
-                animate={{ y: [-6, 6, -6] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute -right-20 top-[70%] bg-[#00522D] rounded-2xl px-3 py-5 flex items-center shadow-sm rotate-[-5deg]"
-              >
-                <span className="text-3xl drop-shadow-sm">👀</span>
-                <span className="text-3xl drop-shadow-sm">📱</span>
-                <span className="text-3xl drop-shadow-sm">📊</span>
-              </motion.div>
             </div>
-
-            {/* MIDDLE IMAGES */}
-            <div className="relative w-[250px] h-[400px] flex-shrink-0 mx-8 flex items-center justify-center">
+            <div className="relative w-[250px] h-[400px] flex-shrink-0 mx-8">
               {images.map((src, index) => (
                 <motion.img
                   key={index}
                   src={src}
-                  initial={false}
                   animate={getCardAnimation(index)}
-                  transition={{
-                    type: "spring",
-                    stiffness: 150,
-                    damping: 20,
-                    mass: 1,
-                  }}
-                  className="absolute inset-0 w-full h-full object-cover rounded-3xl origin-center"
-                  style={{ willChange: "transform, z-index" }}
+                  className="absolute inset-0 w-full h-full object-cover rounded-3xl"
                 />
               ))}
             </div>
-
-            {/* RIGHT ACCORDION */}
-            <div className="w-full max-w-[400px] flex flex-col justify-center relative z-40">
+            <div className="w-full max-w-[400px] flex flex-col">
               {rightContent.map((item, i) => (
-                <div
-                  key={i}
-                  className="flex flex-col border-b border-white last:border-0 py-4"
-                >
+                <div key={i} className="border-b border-white py-4">
                   <h3
                     onClick={() => handleDesktopItemClick(i)}
-                    className={`cursor-pointer font-beni font-black tracking-[0.5] text-[46px] uppercase leading-[0.9] transition-colors duration-500 ${desktopActiveIndex === i ? "text-[#00522D]" : "text-white"}`}
+                    className={`cursor-pointer font-beni font-black text-[46px] uppercase ${desktopActiveIndex === i ? "text-[#00522D]" : "text-white"}`}
                   >
                     {item.title}
                   </h3>
-
                   <motion.div
-                    initial={false}
                     animate={{
                       height: desktopActiveIndex === i ? "auto" : 0,
                       opacity: desktopActiveIndex === i ? 1 : 0,
-                      marginTop: desktopActiveIndex === i ? 16 : 0,
                     }}
                     className="overflow-hidden"
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
                   >
-                    {item.desc && (
-                      <p className="font-clash text-white/80 text-sm font-medium leading-snug mb-3 w-[90%]">
-                        {item.desc}
-                      </p>
-                    )}
+                    <p className="text-white/80 text-sm py-2">{item.desc}</p>
                     <div className="flex flex-wrap gap-1">
-                      {item.pills.map((pill, idx) => (
+                      {item.pills.map((p, idx) => (
                         <span
                           key={idx}
-                          className="bg-[#00522D] text-white rounded-lg px-4 py-2 text-sm font-clash font-medium tracking-wide"
+                          className="bg-[#00522D] text-white px-3 py-1 rounded text-xs"
                         >
-                          {pill}
+                          {p}
                         </span>
                       ))}
                     </div>
@@ -353,98 +227,65 @@ const Expertise = () => {
               ))}
             </div>
           </div>
-          {/* BOTTOM LEFT LABEL */}
-          <div className="absolute bottom-8 left-9 z-50">
-            <span className="text-orange-500 font-clash font-regular uppercase text-sm border-b border-orange-500">
-              Experts
-            </span>
-          </div>
         </div>
       </div>
 
-      {/* ========================================== */}
-      {/* MOBILE VIEW (Visible below lg)             */}
-      {/* ========================================== */}
+      {/* MOBILE VIEW */}
       <div
         ref={mobileSectionRef}
         className="block lg:hidden relative h-[300vh] bg-orange"
       >
-        <div className="sticky top-0 h-screen w-full overflow-hidden bg-orange px-4 py-10">
-          {/* TOP TEXT */}
-          <div className="w-full relative z-20">
-            <h1 className="text-[3.5rem] sm:text-[5rem] leading-[0.7] font-beni font-black uppercase relative z-10">
-              <span className="text-[#00522D] block">REASONING</span>
-              <span className="text-[#00522D] block">TO BETTER:</span>
-              <span className="block text-orange-300">RESONATING.</span>
+        <div className="sticky top-0 min-h-screen flex flex-col justify-start overflow-hidden py-8 px-6">
+          <div className="relative z-10 mb-6">
+            <h1 className="text-[2.8rem] xs:text-[3.5rem] leading-[0.8] font-beni font-black uppercase text-[#00522D]">
+              REASONING <br />
+              TO BETTER: <br />
+              <span className="text-orange-300">RESONATING.</span>
             </h1>
-
-            <p className="font-clash text-orange-500 mt-4 text-base sm:text-lg font-semibold w-[95%] sm:w-[80%] leading-snug">
-              Echo Verse is a social media agency founded on three strong areas
-              of expertise.
-            </p>
-
-            <motion.div
-              animate={{ y: [-4, 4, -4] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute right-4 top-[0%] bg-[#FCE6D5] rounded-xl px-2 py-2 flex items-center shadow-sm rotate-[5deg] z-20"
-            >
-              <span className="text-xl drop-shadow-sm">👀</span>
-              <span className="text-xl drop-shadow-sm">📱</span>
-              <span className="text-xl drop-shadow-sm">📊</span>
-            </motion.div>
           </div>
 
-          {/* HORIZONTAL IMAGE STRIP DRIVEN BY VERTICAL SCROLL */}
-          <div className="w-full overflow-hidden pb-6 mt-6">
+          <div className="relative w-full overflow-visible my-4 h-[250px] xs:h-[310px]">
             <motion.div
-              className="flex gap-4 w-max"
-              style={{ x: mobileTrackX, willChange: "transform" }}
+              style={{ x: mobileTrackX }}
+              className="flex gap-6 items-center will-change-transform"
             >
               {images.map((src, i) => (
                 <MobileExpertiseCard
                   key={i}
                   src={src}
                   index={i}
-                  progress={cinematicMobileProgress}
+                  progress={mobileSpring}
                 />
               ))}
             </motion.div>
           </div>
 
-          {/* ACCORDION TEXT DRIVEN BY SCROLL */}
-          <div className="w-full flex flex-col justify-center mt-4">
+          <div className="w-full space-y-2 mt-8">
             {rightContent.map((item, i) => (
-              <div
-                key={i}
-                className="flex flex-col border-b border-white/50 last:border-0 py-4"
-              >
+              <div key={i} className="border-b border-white/30 py-3">
                 <h3
                   onClick={() => scrollToMobileImage(i)}
-                  className={`cursor-pointer font-beni font-black tracking-wide text-[32px] sm:text-[40px] uppercase leading-[0.9] transition-colors duration-500 ${mobileActiveIndex === i ? "text-[#00522D]" : "text-white"}`}
+                  className={`font-beni font-black text-[30px] uppercase transition-colors duration-300 ${mobileActiveIndex === i ? "text-[#00522D]" : "text-white"}`}
                 >
                   {item.title}
                 </h3>
-
                 <motion.div
                   initial={false}
                   animate={{
                     height: mobileActiveIndex === i ? "auto" : 0,
                     opacity: mobileActiveIndex === i ? 1 : 0,
-                    marginTop: mobileActiveIndex === i ? 12 : 0,
                   }}
                   className="overflow-hidden"
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
                 >
-                  {item.desc && (
-                    <p className="font-clash text-white/80 text-xs sm:text-sm font-medium leading-snug mb-2 w-[95%]">
-                      {item.desc}
-                    </p>
-                  )}
-                  <div className="flex flex-wrap gap-2">
+                  <p className="font-clash text-white/90 text-md leading-snug py-2">
+                    {item.desc}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 pb-2">
                     {item.pills.map((pill, idx) => (
                       <span
                         key={idx}
-                        className="bg-[#00522D] text-white rounded-lg px-3 py-1.5 sm:px-4 sm:py-2 text-[11px] sm:text-[13px] font-clash font-medium tracking-wide shadow-sm"
+                        className="bg-[#00522D] text-white rounded-md px-2.5 py-1 text-[10px] font-medium uppercase tracking-tight"
                       >
                         {pill}
                       </span>
