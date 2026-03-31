@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -59,24 +59,42 @@ const CardsStack = () => {
   // MOBILE LOGIC
   // ==========================================
   const mobileContainerRef = useRef(null);
+  const mobileViewportRef = useRef<HTMLDivElement | null>(null);
+  const mobileTrackRef = useRef<HTMLDivElement | null>(null);
+  const [mobileTrackDistance, setMobileTrackDistance] = useState(0);
+
   const { scrollYProgress: mobileScrollYProgress } = useScroll({
     target: mobileContainerRef,
     offset: ["start start", "end end"],
   });
 
+  useEffect(() => {
+    const updateMobileTrackDistance = () => {
+      const viewportWidth = mobileViewportRef.current?.offsetWidth ?? 0;
+      const trackWidth = mobileTrackRef.current?.scrollWidth ?? 0;
+      setMobileTrackDistance(Math.max(trackWidth - viewportWidth, 0));
+    };
+
+    updateMobileTrackDistance();
+    window.addEventListener("resize", updateMobileTrackDistance);
+
+    return () => window.removeEventListener("resize", updateMobileTrackDistance);
+  }, []);
+
   // Smooth, fast spring for responsive horizontal scrolling
   const mobileSmoothProgress = useSpring(mobileScrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 70,
+    damping: 24,
+    mass: 0.75,
     restDelta: 0.001,
   });
 
-  // Transform vertical scroll to horizontal movement
-  // Assuming 5 cards, we need to move the track far enough left to show the last card
+  // Transform vertical scroll to horizontal movement using measured pixels to
+  // keep scroll updates cheap on mobile.
   const mobileXTransform = useTransform(
     mobileSmoothProgress,
     [0, 1],
-    ["5vw", "-350vw"],
+    [0, -mobileTrackDistance],
   );
 
   // Data for the 5 cards
@@ -256,34 +274,37 @@ const CardsStack = () => {
           </div>
 
           {/* ANIMATED HORIZONTAL CAROUSEL */}
-          <motion.div
-            style={{ x: mobileXTransform }}
-            className="flex gap-6 px-6 pb-8 w-max will-change-transform"
-          >
-            {cards.map((card) => (
-              <div
-                key={card.id}
-                className="w-[80vw] sm:w-[50vw] md:w-[40vw] shrink-0 flex justify-center py-4"
-              >
-                <motion.div
-                  style={{ rotate: card.rotation }}
-                  className={`relative w-full max-w-[300px] h-[400px] sm:h-[420px] rounded-3xl ${card.color} flex flex-col items-center justify-between p-6 sm:p-8 text-white shadow-xl`}
+          <div ref={mobileViewportRef} className="overflow-hidden px-6">
+            <motion.div
+              ref={mobileTrackRef}
+              style={{ x: mobileXTransform, willChange: "transform" }}
+              className="flex w-max gap-6 pb-8 [transform:translate3d(0,0,0)]"
+            >
+              {cards.map((card) => (
+                <div
+                  key={card.id}
+                  className="w-[80vw] sm:w-[50vw] md:w-[40vw] shrink-0 flex justify-center py-4"
                 >
-                  <h3 className="font-beni font-black text-[40px] sm:text-[38px] text-center uppercase leading-[0.9] pt-2">
-                    {card.title}
-                  </h3>
+                  <motion.div
+                    style={{ rotate: card.rotation, willChange: "transform" }}
+                    className={`relative w-full max-w-[300px] h-[400px] sm:h-[420px] rounded-3xl ${card.color} flex flex-col items-center justify-between p-6 sm:p-8 text-white shadow-xl [transform:translate3d(0,0,0)]`}
+                  >
+                    <h3 className="font-beni font-black text-[40px] sm:text-[38px] text-center uppercase leading-[0.9] pt-2">
+                      {card.title}
+                    </h3>
 
-                  <span className="font-beni font-black text-[150px] sm:text-[180px] leading-none">
-                    {card.id}
-                  </span>
+                    <span className="font-beni font-black text-[150px] sm:text-[180px] leading-none">
+                      {card.id}
+                    </span>
 
-                  <p className="font-clash text-center text-[13px] sm:text-[14px] font-medium leading-snug w-[95%] pb-2">
-                    {card.desc}
-                  </p>
-                </motion.div>
-              </div>
-            ))}
-          </motion.div>
+                    <p className="font-clash text-center text-[13px] sm:text-[14px] font-medium leading-snug w-[95%] pb-2">
+                      {card.desc}
+                    </p>
+                  </motion.div>
+                </div>
+              ))}
+            </motion.div>
+          </div>
 
           {/* BOTTOM LEFT LABEL */}
           <div className="absolute bottom-6 left-6 z-50">

@@ -147,7 +147,8 @@ export default function TeamPartners() {
             >
               <Link
                 href={`/team/${member.slug}`}
-                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-2xl"
+                aria-label={`View ${member.name}'s profile`}
+                className="block cursor-pointer rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 {/* Portrait */}
                 <div className="relative overflow-hidden rounded-2xl aspect-[3/4] w-full">
@@ -191,12 +192,6 @@ export default function TeamPartners() {
                   <h3 className="mt-2 font-beni text-[2rem] md:text-[2.5rem] font-black uppercase leading-[1.0] text-foreground">
                     {member.name}
                   </h3>
-                  <p
-                    className="mt-2.5 font-clash text-sm font-semibold text-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    aria-hidden="true"
-                  >
-                    View profile &rarr;
-                  </p>
                 </div>
               </Link>
             </motion.div>
@@ -209,7 +204,8 @@ export default function TeamPartners() {
             <div key={member.slug} className="min-w-[78vw] snap-start">
               <Link
                 href={`/team/${member.slug}`}
-                className="block group focus:outline-none"
+                aria-label={`View ${member.name}'s profile`}
+                className="block cursor-pointer group rounded-2xl focus:outline-none"
               >
                 <div className="relative overflow-hidden rounded-2xl aspect-[3/4] w-full">
                   <Image
