@@ -197,12 +197,6 @@ export default function TeamPartners() {
                     <h3 className="mt-2 font-beni text-[2rem] md:text-[2.5rem] font-black uppercase leading-[1.0] text-foreground">
                       {member.name}
                     </h3>
-                    <p
-                      className="mt-2.5 font-clash text-sm font-semibold text-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      aria-hidden="true"
-                    >
-                      View profile &rarr;
-                    </p>
                   </div>
                 </Link>
               </motion.div>
